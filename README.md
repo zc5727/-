@@ -254,3 +254,20 @@ python3 fitness-agent/scripts/validate_knowledge.py          # 字段/章节/交
    推理网关的代理层不支持，会把请求体弄丢（上游返回 400 `body=None`）；
 3. 其余后端会忽略 `chat_template_kwargs` 等未知字段，切回 DeepSeek 官方
    API 时无需改代码，只换 `.env` 里的 base-url / model / key 即可。
+
+## 代码托管
+
+仓库已纳入 git 管理，推送到 GitHub：
+
+```bash
+gh auth login --web --git-protocol ssh   # 首次：浏览器完成授权，选 SSH 协议
+bash tools/gh_push.sh                    # 建仓库 + 关联 origin + 推送（默认公开）
+bash tools/gh_push.sh --private          # 或改为私有
+bash tools/gh_push.sh my-repo-name       # 或自定义仓库名
+```
+
+提交前请注意：`.env`（含大模型密钥）、构建产物 `target/`、依赖目录 `node_modules/`
+均已由 `.gitignore` 排除。本地提交身份已设为仓库级 `zc5727`，不影响全局配置。
+
+文档产物：`docs/论文第一版.md` 为源，`.docx` 为交付版，`.html` 为单文件离线版；
+三者由 `tools/` 下脚本生成，改源后重新生成即可。
