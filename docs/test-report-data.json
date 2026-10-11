@@ -1,0 +1,724 @@
+{
+  "meta": {
+    "generatedAt": "2026-10-11 02:12:27",
+    "target": "http://localhost:8088",
+    "knowledge": {
+      "enabled": true,
+      "dir": "/app/knowledge",
+      "total": 63,
+      "byCategory": {
+        "exercise": 30,
+        "nutrition": 8,
+        "plan": 8,
+        "safety": 6,
+        "training": 11
+      },
+      "chars": 26341,
+      "sections": 349,
+      "minScore": 12.0,
+      "loadedAt": 1791655866118,
+      "reloadSeconds": 60
+    },
+    "storage": {
+      "sessions": 52,
+      "available": true,
+      "reason": "",
+      "historyLimit": 200,
+      "retentionDays": 0,
+      "messages": 116
+    },
+    "containers": [
+      "fitness-agent=Up 11 minutes (healthy)",
+      "fitness-web=Up About an hour (healthy)",
+      "gym-backend=Up About an hour",
+      "gym-mysql=Up 4 hours (healthy)"
+    ]
+  },
+  "blackbox": [
+    {
+      "id": "BB-01",
+      "module": "意图路由",
+      "title": "充值记录判定为查询而非发起充值",
+      "pre": "会员已登录（memberId=1）",
+      "steps": "发送「充值记录」",
+      "expect": "返回 LIST 卡（充值记录），不出现 CONFIRM/PAY 卡",
+      "actual": "HTTP 200，卡片=['LIST']",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-02",
+      "module": "意图路由",
+      "title": "口语化余额查询",
+      "pre": "会员已登录",
+      "steps": "发送「我卡里还有多少钱」",
+      "expect": "回复含余额数值，不出现确认卡",
+      "actual": "HTTP 200，reply=你卡里还有 ¥2229。",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-03",
+      "module": "意图路由",
+      "title": "积分查询",
+      "pre": "会员已登录",
+      "steps": "发送「我有多少积分」",
+      "expect": "回复含积分数值或积分说明",
+      "actual": "HTTP 200，reply=你目前有 100 积分。",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-04",
+      "module": "意图路由",
+      "title": "课程报名查询",
+      "pre": "会员已登录",
+      "steps": "发送「我报了哪些课」",
+      "expect": "返回课程相关回复（列表卡或文本）",
+      "actual": "HTTP 200，cards=['LIST']，reply=你已报名 1 门课程：",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-05",
+      "module": "意图路由",
+      "title": "中文数字金额「充两百」解析为 200",
+      "pre": "会员已登录",
+      "steps": "发送「充两百」",
+      "expect": "确认卡金额 = 200",
+      "actual": "HTTP 200，确认卡金额=200",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-06",
+      "module": "意图路由",
+      "title": "未识别语句走兜底且给出能力清单",
+      "pre": "会员已登录",
+      "steps": "发送「今天天气怎么样」",
+      "expect": "返回能力清单卡（NOTICE），不猜测执行业务",
+      "actual": "HTTP 200，cards=['NOTICE']",
+      "ok": true,
+      "seconds": 1.5
+    },
+    {
+      "id": "BB-07",
+      "module": "意图路由",
+      "title": "管理员无会员上下文拒绝代查",
+      "pre": "memberId 置空（管理员场景）",
+      "steps": "发送「我卡里还有多少钱」",
+      "expect": "明确要求用会员账号，不返回任何会员数据",
+      "actual": "HTTP 200，reply=查余额需要知道是哪个会员。请用会员账号登录后再问我。",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-08",
+      "module": "意图路由",
+      "title": "管理员无会员上下文拒绝代充",
+      "pre": "memberId 置空",
+      "steps": "发送「我要充值200」",
+      "expect": "明确拒绝并说明需会员账号，不生成任何订单",
+      "actual": "HTTP 200，cards=[]，reply=充值需要知道是给哪位会员充。请用会员账号登录后再发起，或告诉我会员编",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-09",
+      "module": "意图路由",
+      "title": "未开通能力（签到）给出明确提示",
+      "pre": "会员已登录",
+      "steps": "发送「签到」",
+      "expect": "提示能力未开通，不静默失败",
+      "actual": "HTTP 200，reply=签到打卡这个功能还没开通，目前只做了下面这几件事：",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-10",
+      "module": "意图路由",
+      "title": "能力清单（帮助）",
+      "pre": "会员已登录",
+      "steps": "发送「你能做什么」",
+      "expect": "返回 NOTICE 能力清单卡",
+      "actual": "HTTP 200，cards=['NOTICE']",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-11",
+      "module": "充值闭环",
+      "title": "发起充值需先确认（金额原样展示）",
+      "pre": "会员已登录",
+      "steps": "发送「我要充值300」",
+      "expect": "返回 CONFIRM 卡，amount=300，status=ASK",
+      "actual": "HTTP 200，status=ASK，amount=300",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-12",
+      "module": "充值闭环",
+      "title": "确认后生成订单与支付二维码",
+      "pre": "上一步已拿到 CONFIRM 待办",
+      "steps": "回传 pending 后发送「好」",
+      "expect": "生成订单，返回 PAY 卡且含 orderNo 与二维码",
+      "actual": "HTTP 200，orderNo=21，字段=['amount', 'orderNo', 'qrPath']",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-13",
+      "module": "充值闭环",
+      "title": "订单状态可轮询",
+      "pre": "已存在一个订单号",
+      "steps": "GET /qa/pay/{orderNo}",
+      "expect": "返回 status 与金额、会员编号",
+      "actual": "HTTP 200，orderNo=22，status=PENDING",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-14",
+      "module": "充值闭环",
+      "title": "支付入账使余额真实增加",
+      "pre": "会员余额已知",
+      "steps": "建单 → 支付 → 比对余额",
+      "expect": "支付后余额 = 支付前 + 金额（差值精确等于金额）",
+      "actual": "HTTP 200，余额 2229.0 → 2329.0（Δ=100.0）",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-15",
+      "module": "充值闭环",
+      "title": "重复支付幂等（不重复加钱）",
+      "pre": "已支付订单号",
+      "steps": "对同一订单再次调支付",
+      "expect": "余额不再增加，返回已支付状态",
+      "actual": "订单 24：首付后=2429.0，重复支付后=2429.0",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-16",
+      "module": "充值闭环",
+      "title": "支付页读取已支付订单",
+      "pre": "已支付订单号",
+      "steps": "GET /qa/pay/{orderNo}",
+      "expect": "status=PAID 且返回当前余额",
+      "actual": "HTTP 200，status=PAID，balance=2529",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-17",
+      "module": "充值闭环",
+      "title": "中途取消清空待办",
+      "pre": "已进入充值确认待办",
+      "steps": "发送「算了」",
+      "expect": "待办被清空，不再生成订单",
+      "actual": "HTTP 200，pending=None，cards=[]",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-18",
+      "module": "充值闭环",
+      "title": "超范围金额被拒绝",
+      "pre": "会员已登录",
+      "steps": "通过桥接接口建单，金额 10001 / 0",
+      "expect": "服务端二次校验拒绝，不产生订单",
+      "actual": "10001→HTTP 400；0→HTTP 400",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-19",
+      "module": "计划生成",
+      "title": "会员档案完整时一句话产出计划",
+      "pre": "会员 A 档案含身高体重年龄性别",
+      "steps": "只发送「我想减脂」",
+      "expect": "status=OK 且返回计划对象，不追问",
+      "actual": "HTTP 200，status=OK，plan=有，slots={'性别': '女', '年龄': '18 岁', '身高': '175 cm', '体重': '60 kg', '目标': '减脂'}",
+      "ok": true,
+      "seconds": 9.1
+    },
+    {
+      "id": "BB-20",
+      "module": "计划生成",
+      "title": "档案缺失时追问缺失槽位（不硬编计划）",
+      "pre": "管理员场景无会员档案（memberId 为空）",
+      "steps": "发送「我想减脂」",
+      "expect": "追问身高/体重/年龄/性别，不产出计划",
+      "actual": "HTTP 200，plan=无，追问=True",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-21",
+      "module": "计划生成",
+      "title": "多轮补齐身体数据后续接为计划",
+      "pre": "上文含计划诉求，本轮仅补身体数据",
+      "steps": "「我想减脂」→ 追问 → 「身高175体重80年龄30性别男」",
+      "expect": "本轮直接产出计划（不要求用户重说诉求）",
+      "actual": "HTTP 200，status=OK，plan=有，cards=[]",
+      "ok": true,
+      "seconds": 10.1
+    },
+    {
+      "id": "BB-22",
+      "module": "计划生成",
+      "title": "表单式计划接口",
+      "pre": "绕过对话，直接调用表单接口",
+      "steps": "POST /qa/fitness-plan（枚举用大写取值）",
+      "expect": "返回结构化计划且字段齐全",
+      "actual": "HTTP 200，字段=['elapsedMs', 'message', 'metrics', 'plan', 'promptVersion', 'status']",
+      "ok": true,
+      "seconds": 12.1
+    },
+    {
+      "id": "BB-23",
+      "module": "计划生成",
+      "title": "计划正文引用规则引擎算出的数值（证据链）",
+      "pre": "规则引擎已产出目标热量/蛋白质",
+      "steps": "比对计划正文与 metrics 中的数值",
+      "expect": "正文出现与 metrics 一致的关键数值",
+      "actual": "HTTP 200，指标数值=['2943', '140', '2643']，正文命中=['2943', '140']",
+      "ok": true,
+      "seconds": 9.8
+    },
+    {
+      "id": "BB-24",
+      "module": "知识问答",
+      "title": "命中知识库：回复 + 来源卡",
+      "pre": "知识库已加载",
+      "steps": "发送「深蹲膝盖疼怎么办」",
+      "expect": "回复非空且附 SOURCE 来源卡",
+      "actual": "HTTP 200，cards=['SOURCE']",
+      "ok": true,
+      "seconds": 2.2
+    },
+    {
+      "id": "BB-25",
+      "module": "知识问答",
+      "title": "未命中：兜底而非硬答",
+      "pre": "知识库已加载",
+      "steps": "发送「帮我订一张去北京的机票」",
+      "expect": "返回能力清单兜底，不编造答案",
+      "actual": "HTTP 200，cards=['NOTICE']",
+      "ok": true,
+      "seconds": 0.9
+    },
+    {
+      "id": "BB-26",
+      "module": "知识问答",
+      "title": "回答内标注来源标题（可追溯）",
+      "pre": "知识库已加载",
+      "steps": "发送「蛋白质吃多少合适」",
+      "expect": "回复或来源卡中出现命中文档标题",
+      "actual": "HTTP 200，来源=['营养 · 蛋白质摄入 · 相关', '营养 · 碳水化合物 · 相关', '营养 · 热量与热量缺口 · 相关']",
+      "ok": true,
+      "seconds": 3.0
+    },
+    {
+      "id": "BB-27",
+      "module": "知识问答",
+      "title": "负样本不硬答（阈值生效）",
+      "pre": "知识库已加载",
+      "steps": "发送含「什么时候」但与健身无关的句子",
+      "expect": "不返回 SOURCE 卡",
+      "actual": "HTTP 200，cards=['NOTICE']",
+      "ok": true,
+      "seconds": 0.7
+    },
+    {
+      "id": "BB-28",
+      "module": "会话持久化",
+      "title": "对话返回 sessionKey",
+      "pre": "带访客客户端标识",
+      "steps": "发送一句话",
+      "expect": "响应含非空 sessionKey",
+      "actual": "HTTP 200，sessionKey=有",
+      "ok": true,
+      "seconds": 13.3
+    },
+    {
+      "id": "BB-29",
+      "module": "会话持久化",
+      "title": "列表能查到自己的会话",
+      "pre": "上一步已建会话",
+      "steps": "GET /qa/sessions",
+      "expect": "列表含该 sessionKey",
+      "actual": "HTTP 200，会话数=2，命中=True",
+      "ok": true,
+      "seconds": 11.2
+    },
+    {
+      "id": "BB-30",
+      "module": "会话持久化",
+      "title": "消息回放顺序与内容一致",
+      "pre": "已建会话",
+      "steps": "回放消息",
+      "expect": "消息按 seq 升序，首条为本次提问",
+      "actual": "HTTP 200，消息数=4，seq=[1, 2, 3, 4]",
+      "ok": true,
+      "seconds": 4.8
+    },
+    {
+      "id": "BB-31",
+      "module": "会话持久化",
+      "title": "新建空会话",
+      "pre": "带访客标识",
+      "steps": "POST /qa/sessions",
+      "expect": "返回新 sessionKey 且出现在列表中",
+      "actual": "HTTP 200，sessionKey=有",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-32",
+      "module": "会话持久化",
+      "title": "会话改名",
+      "pre": "已建会话",
+      "steps": "POST /qa/sessions/{key}/rename",
+      "expect": "列表中的标题变为新标题",
+      "actual": "标题='减脂方案讨论'",
+      "ok": true,
+      "seconds": 11.6
+    },
+    {
+      "id": "BB-33",
+      "module": "会话持久化",
+      "title": "删除会话（含消息）",
+      "pre": "已建会话",
+      "steps": "DELETE /qa/sessions/{key}",
+      "expect": "列表中消失，消息接口返回 404",
+      "actual": "删除 HTTP 200，列表已移除=True，回放 HTTP 404",
+      "ok": true,
+      "seconds": 11.2
+    },
+    {
+      "id": "BB-34",
+      "module": "用户隔离",
+      "title": "两位会员的 token 归属不同",
+      "pre": "会员1/会员3 均可登录",
+      "steps": "分别登录并解析 token 归属",
+      "expect": "两次归属互不相同且都能建会话",
+      "actual": "会员1=1 key=有；会员3=3 key=有",
+      "ok": true,
+      "seconds": 20.7
+    },
+    {
+      "id": "BB-35",
+      "module": "用户隔离",
+      "title": "会员3 读不到会员1 的会话（越权读）",
+      "pre": "会员1 已建会话",
+      "steps": "会员3 用会员1 的 sessionKey 取消息",
+      "expect": "返回 404，不泄露内容",
+      "actual": "HTTP 404",
+      "ok": true,
+      "seconds": 2.0
+    },
+    {
+      "id": "BB-36",
+      "module": "用户隔离",
+      "title": "会员3 改不动会员1 的会话标题（越权写）",
+      "pre": "会员1 已建会话",
+      "steps": "会员3 对其 rename",
+      "expect": "标题保持不变",
+      "actual": "越权请求 HTTP 404，会员1 的标题仍为 '我想减脂'",
+      "ok": true,
+      "seconds": 11.6
+    },
+    {
+      "id": "BB-37",
+      "module": "用户隔离",
+      "title": "会员3 删不掉会员1 的会话（越权删）",
+      "pre": "会员1 已建会话",
+      "steps": "会员3 对其 delete",
+      "expect": "会员1 仍能取到该会话",
+      "actual": "越权删除 HTTP 404，会员1 回放 HTTP 200",
+      "ok": true,
+      "seconds": 10.1
+    },
+    {
+      "id": "BB-38",
+      "module": "用户隔离",
+      "title": "访客之间互相隔离",
+      "pre": "两个不同的浏览器标识",
+      "steps": "访客B 读访客A 的会话",
+      "expect": "返回 404",
+      "actual": "HTTP 404",
+      "ok": true,
+      "seconds": 11.2
+    },
+    {
+      "id": "BB-39",
+      "module": "用户隔离",
+      "title": "访客与会员互不可见",
+      "pre": "会员已建会话、访客已建会话",
+      "steps": "互相尝试读取对方会话",
+      "expect": "双方均 404",
+      "actual": "访客读会员=404，会员读访客=404",
+      "ok": true,
+      "seconds": 22.7
+    },
+    {
+      "id": "BB-40",
+      "module": "接口与异常",
+      "title": "能力元数据接口",
+      "pre": "服务已启动",
+      "steps": "GET /qa/metadata",
+      "expect": "返回目标/性别选项与 LLM 配置状态",
+      "actual": "HTTP 200，字段=['activityLevels', 'age', 'bodyFat', 'genders', 'goals', 'height']",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-41",
+      "module": "接口与异常",
+      "title": "不存在的订单返回 404",
+      "pre": "订单号不存在",
+      "steps": "GET /qa/pay/99999999",
+      "expect": "404 且返回结构化错误体",
+      "actual": "HTTP 404，body={\"timestamp\": \"2026-10-11T02:07:18.484983511+08:00\", \"status",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-42",
+      "module": "接口与异常",
+      "title": "空消息不报错（返回问候）",
+      "pre": "会员已登录",
+      "steps": "POST 空 messages",
+      "expect": "200 且返回问候语",
+      "actual": "HTTP 200，reply=你好，我是健身助手。你现在可以直接跟我说话，我能查账、也能帮",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-43",
+      "module": "接口与异常",
+      "title": "四容器健康检查",
+      "pre": "全栈已启动",
+      "steps": "docker compose ps",
+      "expect": "四个容器均为 Up",
+      "actual": "Up 容器 4/4：fitness-agent=Up 6 minutes (healthy); fitness-web=Up 57 minutes (healthy); gym-backend=Up 57 minutes; gym-mysql=Up 4 hours (healthy)",
+      "ok": true,
+      "seconds": 0.2
+    },
+    {
+      "id": "BB-44",
+      "module": "计划生成",
+      "title": "计划只读，不产生任何资金动作",
+      "pre": "会员已登录",
+      "steps": "生成计划前后比对余额",
+      "expect": "余额完全不变",
+      "actual": "余额 2529.0 → 2529.0",
+      "ok": true,
+      "seconds": 20.8
+    }
+  ],
+  "whitebox": [
+    {
+      "id": "WB-01",
+      "module": "数据访问层归属约束（静态）",
+      "title": "ChatStore 面向单归属的方法都带归属条件",
+      "pre": "已取得 ChatStore 源码",
+      "steps": "逐个方法检查 SQL 是否含 owner_type/owner_id 或 owned() 前置校验",
+      "expect": "8 个方法全部满足（无一处裸查）",
+      "actual": "检查 8 个方法，不满足=无",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-02",
+      "module": "建表幂等（静态）",
+      "title": "SchemaInitializer 全部 DDL 带 IF NOT EXISTS",
+      "pre": "已取得 SchemaInitializer 源码",
+      "steps": "统计 DDL 语句与 IF NOT EXISTS 出现次数",
+      "expect": "建库与两张表均为 IF NOT EXISTS，重复执行无副作用",
+      "actual": "CREATE TABLE IF NOT EXISTS × 2，CREATE DATABASE IF NOT EXISTS × 1",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-03",
+      "module": "建表幂等（动态）",
+      "title": "重复执行建表语句无副作用",
+      "pre": "会话表已存在",
+      "steps": "对已存在的库表再执行一次 CREATE TABLE IF NOT EXISTS",
+      "expect": "不报错，表数量与行数不变",
+      "actual": "建表输出=mysql: [Warning] Using a password on the，行数 42\nmysql: [Warning] Using a password on the command line interface can be insecure. → 42\nmysql: [Warning] Using a password on the command line interface can be insecure.",
+      "ok": true,
+      "seconds": 0.2
+    },
+    {
+      "id": "WB-04",
+      "module": "可用性设计（静态）",
+      "title": "连接池启动不快速失败",
+      "pre": "已取得 ChatDbConfig 源码",
+      "steps": "检查 initializationFailTimeout 取值",
+      "expect": "值为 -1（DB 不可用不阻碍应用启动）",
+      "actual": "initializationFailTimeout = -1",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-05",
+      "module": "索引与查询计划（动态）",
+      "title": "会话列表查询命中归属索引",
+      "pre": "idx_owner_updated 已建",
+      "steps": "EXPLAIN 会话列表查询",
+      "expect": "possible_keys/key 使用 idx_owner_updated",
+      "actual": "EXPLAIN key 列命中 idx_owner_updated=True",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-06",
+      "module": "索引与查询计划（动态）",
+      "title": "消息回放命中会话序号唯一索引",
+      "pre": "uk_session_seq 已建",
+      "steps": "EXPLAIN 按 session_key 取消息",
+      "expect": "key 使用 uk_session_seq",
+      "actual": "EXPLAIN 命中会话相关索引=True",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-07",
+      "module": "分词器（动态）",
+      "title": "虚字查询低于阈值（答不上来）",
+      "pre": "分词器已过滤虚字",
+      "steps": "分别查询「什么时候」「的了吗」「然后呢」",
+      "expect": "三者最高分均低于命中阈值，即拒答",
+      "actual": "阈值=12.0；什么时候→0.0分/0篇；的了吗→0.0分/0篇；然后呢→2.91分/0篇",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-08",
+      "module": "字段加权（动态）",
+      "title": "标题命中得分显著高于正文命中",
+      "pre": "语料含标题命中与仅正文命中的文档",
+      "steps": "查询「平板支撑」，比较 plank 与 side_plank 得分",
+      "expect": "标题命中的 plank 得分 > 正文命中的 side_plank 得分 × 2",
+      "actual": "plank=51.82（标题命中） > side_plank=14.3（正文命中）",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-09",
+      "module": "短语加成（动态）",
+      "title": "问句原句命中得分高于裸词命中",
+      "pre": "文档带有示例问法",
+      "steps": "比较「蛋白质吃多少合适」与「蛋白质」对同一文档的得分",
+      "expect": "问句得分 > 裸词得分",
+      "actual": "问句=62.17 > 裸词=58.02",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-10",
+      "module": "阈值标定（静态+动态）",
+      "title": "运行期阈值与配置、标定区间一致",
+      "pre": "yml 与运行时配置一致",
+      "steps": "比对 application.yml 与 /knowledge/stats 的 minScore",
+      "expect": "两者相等且落在实测标定安全区间（8.93, 16.06）内",
+      "actual": "yml=12.0，运行期=12.0，安全区间=(8.93, 16.06)",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-11",
+      "module": "输出校验（静态）",
+      "title": "知识问答后置校验规则齐备",
+      "pre": "已取得 KnowledgeAnswerService 源码",
+      "steps": "检查越界正则与长度上限是否存在",
+      "expect": "存在冒充执行、编造数据、markdown、长度上限四类判据",
+      "actual": "齐备=['冒充已执行', '编造业务数据', 'markdown', '长度上限']，缺失=无",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-12",
+      "module": "输出校验（动态）",
+      "title": "知识回答零越界（后置校验生效）",
+      "pre": "知识库已加载",
+      "steps": "连续取 6 条知识回答，逐条扫冒充执行/编造业务数据",
+      "expect": "0 条命中越界模式",
+      "actual": "检查 6 条回答，越界=无",
+      "ok": true,
+      "seconds": 12.9
+    },
+    {
+      "id": "WB-13",
+      "module": "提示词版本（静态）",
+      "title": "三份提示词版本常量齐备且集中在唯一来源",
+      "pre": "已取得 PromptLibrary 源码",
+      "steps": "检查三个版本常量与集中定义",
+      "expect": "版本常量各一份，且没有散落在其他类中",
+      "actual": "版本={'PLAN_VERSION': 'plan-v2', 'FALLBACK_VERSION': 'fallback-v1', 'KNOWLEDGE_VERSION': 'kb-v1'}；定义处=PLAN_VERSION@PromptLibrary.java；FALLBACK_VERSION@PromptLibrary.java；KNOWLEDGE_VERSION@PromptLibrary.java；定义唯一=True；引用文件数=5",
+      "ok": true,
+      "seconds": 0.1
+    },
+    {
+      "id": "WB-14",
+      "module": "语料规范（动态）",
+      "title": "知识库语料规范校验零错零警",
+      "pre": "corpus 与 knowledge 已就绪",
+      "steps": "运行 validate_knowledge.py",
+      "expect": "退出码 0 且报「校验通过」，无错误/警告字样",
+      "actual": "退出码=0，校验通过=True，存在错误告警=False，摘要= / 校验通过。",
+      "ok": true,
+      "seconds": 0.2
+    },
+    {
+      "id": "WB-15",
+      "module": "越权防护（动态）",
+      "title": "越权写入不改变他人数据行数",
+      "pre": "已有一条他人会话",
+      "steps": "以访客身份对该会话写一轮，比对消息行数",
+      "expect": "目标会话消息行数完全不变",
+      "actual": "目标会话消息数 2\nmysql: [Warning] Using a password on the command line interface can be insecure. → 2\nmysql: [Warning] Using a password on the command line interface can be insecure.",
+      "ok": true,
+      "seconds": 13.6
+    },
+    {
+      "id": "WB-16",
+      "module": "可用性降级（动态）",
+      "title": "存储不可用时容器仍可启动并完成对话",
+      "pre": "构造一个连不上数据库的实例（探针容器）",
+      "steps": "启动探针 → 等就绪 → 提问 → 销毁",
+      "expect": "接口正常响应、对话有回复，且不返回 sessionKey（降级为不落库）",
+      "actual": "5s 就绪=True（health=DOWN，如实报告依赖故障）；对话 HTTP 200 有回复=True，sessionKey 为空=True",
+      "ok": true,
+      "seconds": 8.6
+    },
+    {
+      "id": "WB-17",
+      "module": "知识库热更新（动态）",
+      "title": "新增文档后索引自动重建",
+      "pre": "reload-seconds=60",
+      "steps": "写入一篇临时文档 → 等索引刷新 → 删除 → 再等刷新",
+      "expect": "总数 63 → 64 → 63，且期间无需重启容器",
+      "actual": "总数 63 → 写入后 64（等待 20s）→ 已删除",
+      "ok": true,
+      "seconds": 81.3
+    }
+  ],
+  "summary": {
+    "blackbox": {
+      "total": 44,
+      "pass": 44,
+      "fail": 0
+    },
+    "whitebox": {
+      "total": 17,
+      "pass": 17,
+      "fail": 0
+    }
+  }
+}

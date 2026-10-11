@@ -1,0 +1,28 @@
+# ============================================================
+# 智能体独立部署编排
+#
+# 用途：不依赖业务系统与前端，单独把智能体跑起来（例如单独调试、
+#      独立发布、被其它系统复用）。此时「按会员编号」模式不可用，
+#      「直接录入」模式完全正常。
+#
+#   启动：DEEPSEEK_API_KEY=sk-xxx docker compose up -d --build
+#   验证：curl http://localhost:9091/actuator/health
+# ============================================================
+name: fitness-agent-standalone
+
+services:
+  fitness-agent:
+    build:
+      context: .
+    image: fitness-agent:1.0
+    container_name: fitness-agent-standalone
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      FITNESS_LLM_BASE_URL: ${FITNESS_LLM_BASE_URL:-https://api.deepseek.com}
+      FITNESS_LLM_MODEL: ${FITNESS_LLM_MODEL:-deepseek-flash}
+      # 独立部署时没有业务系统，关掉档案读取即可
+      FITNESS_AGENT_GYM_ENABLED: "false"
+    ports:
+      - "9091:9091"

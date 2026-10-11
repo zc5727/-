@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gym.mapper.AgentBridgeMapper">
+
+    <resultMap id="BridgeRechargeMap" type="com.gym.entity.Recharge">
+        <id column="rechargeNo" property="rechargeNo" jdbcType="INTEGER"/>
+        <result column="rechargeDate" property="rechargeDate" jdbcType="DATE"/>
+        <result column="rechargeMoney" property="rechargeMoney" jdbcType="DOUBLE"/>
+        <result column="rechargeMethod" property="rechargeMethod" jdbcType="VARCHAR"/>
+        <result column="rechargeStatus" property="rechargeStatus" jdbcType="INTEGER"/>
+        <result column="memberNo" property="memberNo" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="countMember" resultType="int">
+        SELECT COUNT(*) FROM member WHERE memberNo = #{memberNo}
+    </select>
+
+    <select id="getMemberChange" resultType="java.lang.Integer">
+        SELECT memberChange FROM member WHERE memberNo = #{memberNo}
+    </select>
+
+    <update id="addMemberChange">
+        UPDATE member SET memberChange = IFNULL(memberChange, 0) + #{delta} WHERE memberNo = #{memberNo}
+    </update>
+
+    <!-- 订单 = 一条待支付流水；自增主键即订单号 -->
+    <insert id="insertPendingRecharge" parameterType="com.gym.entity.Recharge"
+            useGeneratedKeys="true" keyProperty="rechargeNo">
+        INSERT INTO recharge(rechargeDate, rechargeMethod, rechargeMoney, rechargeStatus, memberNo)
+        VALUES (CURDATE(), #{rechargeMethod}, #{rechargeMoney}, 0, #{memberNo})
+    </insert>
+
+    <!-- 带状态条件的更新：重复支付时影响行数为 0，据此做到幂等 -->
+    <update id="markRechargePaid">
+        UPDATE recharge SET rechargeStatus = 1
+        WHERE rechargeNo = #{rechargeNo} AND rechargeStatus = 0
+    </update>
+
+    <select id="getRechargeStatus" resultType="java.lang.Integer">
+        SELECT rechargeStatus FROM recharge WHERE rechargeNo = #{rechargeNo}
+    </select>
+
+    <select id="getRechargeById" resultMap="BridgeRechargeMap">
+        SELECT * FROM recharge WHERE rechargeNo = #{rechargeNo}
+    </select>
+
+</mapper>

@@ -1,0 +1,103 @@
+server:
+  port: 9091
+  shutdown: graceful
+  tomcat:
+    threads:
+      max: 50
+
+spring:
+  application:
+    name: fitness-agent
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
+  jackson:
+    default-property-inclusion: non_null
+    time-zone: Asia/Shanghai
+    serialization:
+      write-dates-as-timestamps: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: never
+  health:
+    defaults:
+      enabled: true
+
+# ============================================================
+# 智能体配置
+# 硬约束：api-key 一律通过环境变量注入，禁止写死在配置文件中
+# ============================================================
+fitness-agent:
+  llm:
+    # OpenAI 兼容协议；默认指向内网 vLLM 平台分配的 deepseek-v4-flash 实例
+    # （该后端必须携带 chat_template_kwargs.enable_thinking=false，见 DeepSeekClient）。
+    # 换 DeepSeek 官方用 https://api.deepseek.com，换通义 compatible-mode / Ollama 只改这一行
+    base-url: ${FITNESS_LLM_BASE_URL:http://10.210.101.188/v2/infer/e8e1e04a-96c6-46be-9bd8-5c5f784a82c0/v1}
+    # 环境变量 DEEPSEEK_API_KEY（见项目根 .env）；留空则自动降级为规则引擎，不报错
+    api-key: ${DEEPSEEK_API_KEY:}
+    # 内网平台分配模型：deepseek-v4-flash
+    model: ${FITNESS_LLM_MODEL:deepseek-v4-flash}
+    # 结构化输出场景，温度压低以保证可复现
+    temperature: 0.3
+    # DeepSeek JSON 模式官方提示：必须设置 max_tokens，否则 JSON 可能被截断
+    max-tokens: 1500
+    connect-timeout: 5s
+    read-timeout: 45s
+    max-retries: 1
+
+  gym:
+    # 业务系统（gym-management-system）地址，仅用于按会员编号读取档案
+    base-url: ${GYM_BASE_URL:http://gym-backend:9090}
+    connect-timeout: 3s
+    read-timeout: 8s
+    enabled: true
+
+  # ============================================================
+  # 知识库（Markdown 语料 + 内存检索）
+  # 目录以卷挂载方式映射到仓库的 fitness-agent/knowledge，
+  # 因此改 Markdown 不需要重建镜像；reload-seconds 内自动重建索引
+  # ============================================================
+  knowledge:
+    enabled: ${FITNESS_KB_ENABLED:true}
+    dir: ${FITNESS_KB_DIR:/app/knowledge}
+    # 单次检索返回篇数
+    max-results: 3
+    # 命中阈值：低于它视为答不上来，走兜底话术而不是硬答
+    # 标定值来自 tools/knowledge_test.py（正样本最低约 16、负样本最高约 9）
+    min-score: ${FITNESS_KB_MIN_SCORE:12.0}
+    # 引用片段字数
+    snippet-chars: 200
+    # 注入提示词的资料总字数上限
+    prompt-chars: 1400
+    # 热更新周期（秒），<=0 关闭
+    reload-seconds: ${FITNESS_KB_RELOAD_SECONDS:60}
+
+  # ============================================================
+  # 会话存储（智能体自有 schema，与业务库 schema 完全分离）
+  # 连不上时自动降级为「不落库」，对话功能不受影响
+  # ============================================================
+  db:
+    enabled: ${FITNESS_DB_ENABLED:true}
+    url: ${FITNESS_DB_URL:jdbc:mysql://mysql:3306/fitness_ai?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true}
+    username: ${FITNESS_DB_USERNAME:root}
+    password: ${FITNESS_DB_PASSWORD:1234}
+    # 会话保留天数，0 表示不清理
+    retention-days: ${FITNESS_CHAT_RETENTION_DAYS:0}
+    # 单会话最多返回的历史消息条数
+    history-limit: 200
+    # 单条消息最大保存字数（超长截断，防止把库写爆）
+    max-message-chars: 4000
+
+  cors:
+    # 前端由 Nginx 同源代理，正常无需 CORS；此处仅供本地开发直连
+    allowed-origins: ${FITNESS_CORS_ORIGINS:http://localhost:8088,http://localhost:8089,http://localhost:5173}
+
+logging:
+  level:
+    root: INFO
+    com.hbjt.fitness.agent: INFO

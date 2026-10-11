@@ -1,0 +1,126 @@
+# ============================================================
+# 健身会员智慧管理系统 —— 全栈一键启动
+#
+#   业务系统（Java 8 / SpringBoot 2.7 / MyBatis）  : gym-backend
+#   智能体    （Java 17 / SpringBoot 3.2）          : fitness-agent   ← 独立工程、独立镜像
+#   统一前端  （Vue 3 + Element Plus + ECharts）   : fitness-web
+#   数据库    （MySQL 8）                          : gym-mysql
+#
+#   两个后端版本差异很大（Java 8 与 Java 17），因此不做代码合并，
+#   而是各自独立构建、独立部署，仅通过 REST 契约与同一网络协作。
+#
+#   启动：DEEPSEEK_API_KEY=sk-xxx docker compose up -d --build
+#   入口：http://localhost:8088
+# ============================================================
+name: fitness-platform
+
+services:
+  # ------------------------------------------------------------
+  mysql:
+    image: mysql:8.0
+    container_name: gym-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: "1234"
+      MYSQL_DATABASE: gym_management
+      TZ: Asia/Shanghai
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+      - --default-authentication-plugin=mysql_native_password
+    ports:
+      - "13306:3306"
+    volumes:
+      - gym-mysql-data:/var/lib/mysql
+      - ./gym-management-system/doc/gym_management.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p1234 --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+      start_period: 30s
+    networks: [fitness-net]
+
+  # ------------------------------------------------------------
+  # 业务后端：原有代码，未做任何业务改动
+  # ------------------------------------------------------------
+  gym-backend:
+    build:
+      context: ./gym-management-system/springboot
+    image: gym-backend:1.0
+    container_name: gym-backend
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      SPRING_DATASOURCE_URL: "jdbc:mysql://mysql:3306/gym_management?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "1234"
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+    ports:
+      - "9090:9090"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks: [fitness-net]
+
+  # ------------------------------------------------------------
+  # 智能体：独立服务，不直连业务库，通过 REST 读取会员档案
+  #       另持有一套自己的会话库（schema=fitness_ai，与业务库完全分离）
+  # ------------------------------------------------------------
+  fitness-agent:
+    build:
+      context: ./fitness-agent
+    image: fitness-agent:1.0
+    container_name: fitness-agent
+    restart: unless-stopped
+    environment:
+      TZ: Asia/Shanghai
+      # 大模型密钥：通过环境变量注入，不写进镜像与配置文件
+      DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
+      FITNESS_LLM_BASE_URL: ${FITNESS_LLM_BASE_URL:-http://10.210.101.188/v2/infer/e8e1e04a-96c6-46be-9bd8-5c5f784a82c0/v1}
+      FITNESS_LLM_MODEL: ${FITNESS_LLM_MODEL:-deepseek-v4-flash}
+      # 业务系统地址（容器网络内的服务名）
+      GYM_BASE_URL: http://gym-backend:9090
+      # 知识库：目录以卷挂载，改 Markdown 不必重建镜像
+      FITNESS_KB_ENABLED: "true"
+      FITNESS_KB_DIR: /app/knowledge
+      # 会话库：智能体自己的 schema，启动时自动建库建表；连不上自动降级为不落库
+      FITNESS_DB_URL: jdbc:mysql://mysql:3306/fitness_ai?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+      FITNESS_DB_USERNAME: root
+      FITNESS_DB_PASSWORD: "1234"
+    volumes:
+      # 只读挂载：知识库是内容资产，不该被运行中的容器改写
+      - ./fitness-agent/knowledge:/app/knowledge:ro
+    ports:
+      - "9091:9091"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      gym-backend:
+        condition: service_started
+    networks: [fitness-net]
+
+  # ------------------------------------------------------------
+  # 统一前端：单入口，同源反代两个后端，前端不涉及跨域
+  # ------------------------------------------------------------
+  fitness-web:
+    build:
+      context: ./fitness-web
+    image: fitness-web:1.0
+    container_name: fitness-web
+    restart: unless-stopped
+    ports:
+      - "8088:80"
+    depends_on:
+      gym-backend:
+        condition: service_started
+      fitness-agent:
+        condition: service_started
+    networks: [fitness-net]
+
+volumes:
+  gym-mysql-data:
+
+networks:
+  fitness-net:
+    driver: bridge
