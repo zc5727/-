@@ -257,11 +257,18 @@ python3 fitness-agent/scripts/validate_knowledge.py          # 字段/章节/交
 
 ## 代码托管
 
-仓库已纳入 git 管理，推送到 GitHub：
+仓库：https://github.com/zc5727/- 　（描述「健身房项目」，公开，默认分支 `main`）
+
+```bash
+git remote -v          # origin = git@github.com:zc5727/-.git（SSH，免 token）
+git push               # 已设置上游，直接推送
+```
+
+换仓库时用 `tools/gh_push.sh`（登录检查 → 建仓库 → 关联 SSH origin → 推送）：
 
 ```bash
 gh auth login --web --git-protocol ssh   # 首次：浏览器完成授权，选 SSH 协议
-bash tools/gh_push.sh                    # 建仓库 + 关联 origin + 推送（默认公开）
+bash tools/gh_push.sh                    # 默认公开仓库 gym-smart-management-system
 bash tools/gh_push.sh --private          # 或改为私有
 bash tools/gh_push.sh my-repo-name       # 或自定义仓库名
 ```
