@@ -230,8 +230,8 @@ python3 fitness-agent/scripts/validate_knowledge.py          # 字段/章节/交
 ```
 
 环境变量（均可选）：`DEEPSEEK_API_KEY`、`FITNESS_LLM_BASE_URL`（默认
-内网平台 `http://10.210.101.188/v2/infer/e8e1e04a-96c6-46be-9bd8-5c5f784a82c0/v1`）、
-`FITNESS_LLM_MODEL`（默认 `deepseek-v4-flash`）。密钥放项目根 `.env`（勿提交仓库）。
+`https://api.deepseek.com`，接内网 vLLM / 通义 / Ollama 时在 `.env` 里覆盖）、
+`FITNESS_LLM_MODEL`（默认 `deepseek-v4-flash`）。密钥与内网地址放项目根 `.env`（勿提交仓库）。
 
 知识库与会话库（均可选，默认开启）：
 

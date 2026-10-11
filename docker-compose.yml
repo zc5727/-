@@ -77,7 +77,7 @@ services:
       TZ: Asia/Shanghai
       # 大模型密钥：通过环境变量注入，不写进镜像与配置文件
       DEEPSEEK_API_KEY: ${DEEPSEEK_API_KEY:-}
-      FITNESS_LLM_BASE_URL: ${FITNESS_LLM_BASE_URL:-http://10.210.101.188/v2/infer/e8e1e04a-96c6-46be-9bd8-5c5f784a82c0/v1}
+      FITNESS_LLM_BASE_URL: ${FITNESS_LLM_BASE_URL:-https://api.deepseek.com}
       FITNESS_LLM_MODEL: ${FITNESS_LLM_MODEL:-deepseek-v4-flash}
       # 业务系统地址（容器网络内的服务名）
       GYM_BASE_URL: http://gym-backend:9090

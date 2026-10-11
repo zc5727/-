@@ -34,10 +34,10 @@ management:
 # ============================================================
 fitness-agent:
   llm:
-    # OpenAI 兼容协议；默认指向内网 vLLM 平台分配的 deepseek-v4-flash 实例
-    # （该后端必须携带 chat_template_kwargs.enable_thinking=false，见 DeepSeekClient）。
-    # 换 DeepSeek 官方用 https://api.deepseek.com，换通义 compatible-mode / Ollama 只改这一行
-    base-url: ${FITNESS_LLM_BASE_URL:http://10.210.101.188/v2/infer/e8e1e04a-96c6-46be-9bd8-5c5f784a82c0/v1}
+    # OpenAI 兼容协议；默认走 DeepSeek 官方，内网 vLLM / 通义 compatible-mode / Ollama
+    # 只改这一行（或用 .env 里的 FITNESS_LLM_BASE_URL 覆盖，勿把内网地址写进仓库）。
+    # 注意：内网 vLLM 后端必须携带 chat_template_kwargs.enable_thinking=false，见 DeepSeekClient。
+    base-url: ${FITNESS_LLM_BASE_URL:https://api.deepseek.com}
     # 环境变量 DEEPSEEK_API_KEY（见项目根 .env）；留空则自动降级为规则引擎，不报错
     api-key: ${DEEPSEEK_API_KEY:}
     # 内网平台分配模型：deepseek-v4-flash
