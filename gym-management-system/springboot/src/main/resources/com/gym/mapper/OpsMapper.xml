@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gym.mapper.OpsMapper">
+
+    <!-- ==================== 会员分层 ==================== -->
+
+    <!--
+      一次 SQL 算出全体会员的 R / F / M。
+      用 LEFT JOIN 而不是「先取会员再逐个查签到」：后者是典型的 N+1，
+      六千多会员会变成六千多次往返，一次统计要跑几十秒。
+    -->
+    <select id="rfmRaw" resultType="java.util.LinkedHashMap">
+        SELECT m.memberNo                                   AS memberNo,
+               DATEDIFF(CURDATE(), MAX(c.checkDate))        AS recencyDays,
+               COUNT(c.checkNo)                             AS frequency,
+               (SELECT IFNULL(SUM(r.rechargeMoney), 0)
+                  FROM recharge r
+                 WHERE r.memberNo = m.memberNo
+                   AND r.rechargeStatus = 1
+                   AND r.rechargeDate &gt;= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)) AS monetary
+          FROM member m
+          LEFT JOIN checkin c
+                 ON c.memberNo = m.memberNo
+                AND c.checkDate &gt;= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+         GROUP BY m.memberNo
+    </select>
+
+    <insert id="upsertSegment" parameterType="com.gym.entity.MemberSegment">
+        INSERT INTO member_segment
+            (member_no, recency_days, frequency, monetary, segment, score, computed_at)
+        VALUES
+            (#{memberNo}, #{recencyDays}, #{frequency}, #{monetary}, #{segment}, #{score}, #{computedAt})
+        ON DUPLICATE KEY UPDATE
+            recency_days = VALUES(recency_days),
+            frequency    = VALUES(frequency),
+            monetary     = VALUES(monetary),
+            segment      = VALUES(segment),
+            score        = VALUES(score),
+            computed_at  = VALUES(computed_at)
+    </insert>
+
+    <select id="listSegment" resultType="java.util.LinkedHashMap">
+        SELECT s.member_no    AS memberNo,
+               s.segment      AS segment,
+               s.score        AS score,
+               s.recency_days AS recencyDays,
+               s.frequency    AS frequency,
+               s.monetary     AS monetary,
+               s.computed_at  AS computedAt,
+               m.memberName   AS memberName,
+               m.memberPhone  AS memberPhone
+          FROM member_segment s
+          LEFT JOIN member m ON m.memberNo = s.member_no
+         WHERE (#{segment} IS NULL OR s.segment = #{segment})
+         ORDER BY s.score DESC
+         LIMIT 500
+    </select>
+
+    <!-- ==================== 流失预警信号 ==================== -->
+
+    <delete id="deleteSignalsBefore">
+        DELETE FROM member_churn_signal WHERE detected_at &lt;= #{time}
+    </delete>
+
+    <insert id="insertSignal" parameterType="com.gym.entity.MemberChurnSignal">
+        INSERT INTO member_churn_signal
+            (member_no, signal_type, weight, detail, detected_at)
+        VALUES
+            (#{memberNo}, #{signalType}, #{weight}, #{detail}, #{detectedAt})
+    </insert>
+
+    <select id="churnRanking" resultType="java.util.LinkedHashMap">
+        SELECT member_no               AS memberNo,
+               COUNT(*)                AS signalCount,
+               ROUND(SUM(weight), 2)   AS riskScore
+          FROM member_churn_signal
+         GROUP BY member_no
+         ORDER BY riskScore DESC, signalCount DESC
+         LIMIT #{limit}
+    </select>
+
+    <!-- ==================== 运营日快照 ==================== -->
+
+    <insert id="upsertSnapshot" parameterType="com.gym.entity.OpsDailySnapshot">
+        INSERT INTO ops_daily_snapshot
+            (snapshot_date, new_members, checkin_count, recharge_amount, course_seat_rate, created_at)
+        VALUES
+            (#{snapshotDate}, #{newMembers}, #{checkinCount}, #{rechargeAmount}, #{courseSeatRate}, #{createdAt})
+        ON DUPLICATE KEY UPDATE
+            new_members      = VALUES(new_members),
+            checkin_count    = VALUES(checkin_count),
+            recharge_amount  = VALUES(recharge_amount),
+            course_seat_rate = VALUES(course_seat_rate),
+            created_at       = VALUES(created_at)
+    </insert>
+
+    <select id="recentSnapshots" resultType="com.gym.entity.OpsDailySnapshot">
+        SELECT id, snapshot_date AS snapshotDate, new_members AS newMembers,
+               checkin_count AS checkinCount, recharge_amount AS rechargeAmount,
+               course_seat_rate AS courseSeatRate, created_at AS createdAt
+          FROM ops_daily_snapshot
+         WHERE snapshot_date &gt;= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+         ORDER BY snapshot_date
+    </select>
+
+    <!-- ==================== 器材维护工单 ==================== -->
+
+    <insert id="insertOrder" parameterType="com.gym.entity.EquipmentMaintenance"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO equipment_maintenance
+            (equipment_no, plan_type, title, status, assignee, cost, planned_date, created_at)
+        VALUES
+            (#{equipmentNo}, #{planType}, #{title}, #{status}, #{assignee}, #{cost}, #{plannedDate}, #{createdAt})
+    </insert>
+
+    <!--
+      带前置状态的更新：只有当前状态等于 from 才推进。
+      重复点击「完成」时第二次影响行数为 0，既不跳状态也不重复计成本。
+    -->
+    <update id="advanceOrder">
+        UPDATE equipment_maintenance
+           SET status      = #{to},
+               assignee    = IFNULL(#{assignee}, assignee),
+               cost        = IFNULL(#{cost}, cost),
+               finished_at = IFNULL(#{finishedAt}, finished_at)
+         WHERE id = #{id} AND status = #{from}
+    </update>
+
+    <select id="listOrders" resultType="java.util.LinkedHashMap">
+        SELECT o.id, o.equipment_no AS equipmentNo, e.equipmentName, o.plan_type AS planType,
+               o.title, o.status, o.assignee, o.cost,
+               o.planned_date AS plannedDate, o.finished_at AS finishedAt, o.created_at AS createdAt
+          FROM equipment_maintenance o
+          LEFT JOIN equipment e ON e.equipmentNo = o.equipment_no
+         WHERE (#{status} IS NULL OR o.status = #{status})
+         ORDER BY o.id DESC
+         LIMIT 200
+    </select>
+
+    <insert id="insertOrderLog" parameterType="com.gym.entity.EquipmentMaintenanceLog">
+        INSERT INTO equipment_maintenance_log (order_id, action, operator, note, created_at)
+        VALUES (#{orderId}, #{action}, #{operator}, #{note}, #{createdAt})
+    </insert>
+
+    <select id="orderLogs" resultType="java.util.LinkedHashMap">
+        SELECT id, order_id AS orderId, action, operator, note, created_at AS createdAt
+          FROM equipment_maintenance_log
+         WHERE order_id = #{orderId}
+         ORDER BY created_at, id
+    </select>
+
+    <!-- ==================== 运营日快照的原子指标 ==================== -->
+
+    <select id="listAllSegments" resultType="com.gym.entity.MemberSegment">
+        SELECT id, member_no AS memberNo, recency_days AS recencyDays,
+               frequency, monetary, segment, score, computed_at AS computedAt
+          FROM member_segment
+    </select>
+
+    <select id="countBySegment" resultType="java.util.LinkedHashMap">
+        SELECT segment AS segment, COUNT(*) AS cnt
+          FROM member_segment
+         GROUP BY segment
+         ORDER BY cnt DESC
+    </select>
+
+    <select id="countNewMembers" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM member WHERE DATE(cardTime) = #{d}
+    </select>
+
+    <select id="countCheckins" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM checkin WHERE DATE(checkDate) = #{d}
+    </select>
+
+    <select id="sumRecharge" resultType="java.lang.Double">
+        SELECT IFNULL(SUM(rechargeMoney), 0)
+          FROM recharge
+         WHERE DATE(rechargeDate) = #{d} AND rechargeStatus = 1
+    </select>
+
+    <select id="countCourses" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM course
+    </select>
+
+    <select id="countRegisters" resultType="java.lang.Long">
+        SELECT COUNT(*) FROM register
+    </select>
+
+</mapper>
