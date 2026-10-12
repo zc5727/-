@@ -137,8 +137,17 @@ def sh(cmd, timeout=120):
     return p.returncode, (p.stdout or "") + (p.stderr or "")
 
 
-def mysql(sql, timeout=60):
-    return sh(f'docker exec gym-mysql mysql -uroot -p1234 -N -B -e "{sql}"', timeout)
+def mysql(sql, timeout=60, db="gym_management"):
+    """在指定库上执行 SQL，默认业务库。
+
+    多数调用已写全 `库.表`；未写全的（如 `FROM member`）靠这里的默认库兜底，
+    否则 MySQL 会直接报 "No database selected"。
+
+    末尾 `2>/dev/null` 不能省：命令行带密码会往 stderr 打一行 Warning，
+    而 sh() 会把 stderr 合并进返回值，带回去就会让 int(...) 之类的解析直接炸掉。
+    """
+    return sh(f'docker exec gym-mysql mysql -uroot -p1234 -D {db} -N -B -e "{sql}" 2>/dev/null',
+              timeout)
 
 
 def now_iso():
@@ -652,10 +661,15 @@ def _():
     "建库与两张表均为 IF NOT EXISTS，重复执行无副作用")
 def _():
     src = read(AGENT_SRC / "db" / "SchemaInitializer.java")
-    ddl_if = len(re.findall(r"CREATE TABLE IF NOT EXISTS", src))
-    db_if = len(re.findall(r"CREATE DATABASE IF NOT EXISTS", src))
-    return f"CREATE TABLE IF NOT EXISTS × {ddl_if}，CREATE DATABASE IF NOT EXISTS × {db_if}", \
-        ddl_if == 2 and db_if == 1
+    # 断言写"裸 CREATE TABLE 一条都没有"，而不是写死表数量：
+    # 表从 2 张涨到 12 张，写死数字只会让这条用例在每次扩表时假失败。
+    ddl_bare = len(re.findall(r"CREATE\s+TABLE\s+(?!IF\s+NOT\s+EXISTS)", src, re.I))
+    ddl_if = len(re.findall(r"CREATE\s+TABLE\s+IF\s+NOT\s+EXISTS", src, re.I))
+    db_bare = len(re.findall(r"CREATE\s+DATABASE\s+(?!IF\s+NOT\s+EXISTS)", src, re.I))
+    db_if = len(re.findall(r"CREATE\s+DATABASE\s+IF\s+NOT\s+EXISTS", src, re.I))
+    ok = ddl_bare == 0 and ddl_if >= 12 and db_bare == 0 and db_if == 1
+    return (f"CREATE TABLE IF NOT EXISTS × {ddl_if}（裸 × {ddl_bare}），"
+            f"CREATE DATABASE IF NOT EXISTS × {db_if}（裸 × {db_bare}）"), ok
 
 
 @wb("WB-03", "建表幂等（动态）", "重复执行建表语句无副作用",
@@ -903,8 +917,237 @@ def _():
 
 
 # ============================================================
-# 执行
+# 运行观测（黑盒）
 # ============================================================
+
+@bb("BB-45", "运行观测", "概览返回聚合指标",
+    "已产生至少一次对话", "GET /observability/overview?days=7",
+    "available=true 且含 calls/errors/degraded/tokens/p95 等字段")
+def _():
+    st, d = req("GET", f"{AGENT}/observability/overview?days=7")
+    d = d or {}
+    need = {"calls", "errors", "degraded", "errorRate", "degradedRate",
+            "tokens", "p50", "p95", "p99", "byIntent", "byDay"}
+    has = need.issubset(d.keys())
+    ok = st == 200 and d.get("available") is True and has
+    return f"HTTP {st}，字段齐全={has}，calls={d.get('calls')}, p95={d.get('p95')}", ok
+
+
+@bb("BB-46", "运行观测", "调用流水含阶段耗时",
+    "已有链路记录", "GET /observability/traces?limit=20",
+    "每条含 spans 且 span 有 start_ms / duration_ms")
+
+def _():
+    st, d = req("GET", f"{AGENT}/observability/traces?limit=20")
+    items = (d or {}).get("items") or []
+    if not items:
+        return "无调用记录（请先发起一次对话）", False
+    t0 = items[0]
+    spans = t0.get("spans") or []
+    ok = bool(spans) and all(
+        s.get("start_ms") is not None and s.get("duration_ms") is not None for s in spans)
+    names = ",".join(s.get("span_name") for s in spans)
+    return f"HTTP {st}，记录数={len(items)}，首条阶段=[{names}]", ok
+
+
+@bb("BB-47", "运行观测", "意图过滤生效",
+    "已有链路记录", "GET /observability/traces?intent=FITNESS_PLAN",
+    "返回结果的 intent 全为 FITNESS_PLAN")
+def _():
+    st, d = req("GET", f"{AGENT}/observability/traces?limit=20&intent=FITNESS_PLAN")
+    items = (d or {}).get("items") or []
+    ok = bool(items) and all(i.get("intent") == "FITNESS_PLAN" for i in items)
+    return f"HTTP {st}，命中 {len(items)} 条，全部匹配={ok}", ok
+
+
+# ============================================================
+# 知识反馈闭环（黑盒）
+# ============================================================
+
+@bb("BB-48", "知识反馈", "好评提升文档权重",
+    "feedback 表可用", "POST /knowledge/feedback vote=UP（连续 1 次）",
+    "weight 高于 1.0")
+def _():
+    doc = "chronic_disease"
+    _, d0 = req("POST", f"{AGENT}/knowledge/feedback",
+                {"query": "权重探针-好评", "docId": doc, "docTitle": "慢性病人群训练注意",
+                 "vote": "UP", "traceId": "probe-up"},
+                headers={"X-Client-Id": "probe-weight-up"})
+    w = (d0 or {}).get("weight")
+    ok = w is not None and float(w) > 1.0
+    return f"权重={w}（应 > 1.0）", ok
+
+
+@bb("BB-49", "知识反馈", "差评降低文档权重",
+    "feedback 表可用", "POST /knowledge/feedback vote=DOWN",
+    "weight 低于 1.0")
+def _():
+    doc = "running_knee"
+    _, d0 = req("POST", f"{AGENT}/knowledge/feedback",
+                {"query": "权重探针-差评", "docId": doc, "docTitle": "跑步与膝关节保护",
+                 "vote": "DOWN", "traceId": "probe-down"},
+                headers={"X-Client-Id": "probe-weight-down"})
+    w = (d0 or {}).get("weight")
+    ok = w is not None and float(w) < 1.0
+    return f"权重={w}（应 < 1.0）", ok
+
+
+@bb("BB-50", "知识反馈", "缺少 docId 被拒",
+    "接口可用", "POST /knowledge/feedback（不带 docId）",
+    "ok=false 且给出原因")
+def _():
+    st, d = req("POST", f"{AGENT}/knowledge/feedback",
+                {"query": "缺少文档标识", "vote": "UP"},
+                headers={"X-Client-Id": "probe-nodoc"})
+    d = d or {}
+    ok = d.get("ok") is False and bool(d.get("reason"))
+    return f"HTTP {st}，ok={d.get('ok')}，reason={d.get('reason')}", ok
+
+
+# ============================================================
+# 计划执行闭环（黑盒）
+# ============================================================
+
+@bb("BB-51", "计划执行", "计划自动展开为每日任务",
+    "已生成过一份计划", "GET /plan/tasks",
+    "返回 7 条任务，day_index 1..7")
+def _():
+    st, d = req("GET", f"{AGENT}/plan/tasks", headers={"X-Client-Id": "verify-obs-1"})
+    items = (d or {}).get("items") or []
+    days = sorted(i.get("day_index") for i in items)
+    ok = len(items) == 7 and days == [1, 2, 3, 4, 5, 6, 7]
+    return f"HTTP {st}，任务数={len(items)}，天序号={days}", ok
+
+
+@bb("BB-52", "计划执行", "打卡成功并计入依从率",
+    "存在待完成任务", "POST /plan/tasks/{id}/checkin?action=DONE",
+    "affected=1 且依从率统计中 done 增加")
+def _():
+    st0, d0 = req("GET", f"{AGENT}/plan/tasks", headers={"X-Client-Id": "verify-obs-1"})
+    todo = [i for i in ((d0 or {}).get("items") or []) if i.get("status") == "TODO"]
+    if not todo:
+        return "没有待完成任务（可能已全部打卡）", False
+    tid = todo[0].get("id")
+    st, d = req("POST", f"{AGENT}/plan/tasks/{tid}/checkin?action=DONE",
+                {}, headers={"X-Client-Id": "verify-obs-1"})
+    d = d or {}
+    ok = st == 200 and d.get("ok") is True and d.get("affected") == 1
+    return f"HTTP {st}，affected={d.get('affected')}，已打卡任务 {tid}", ok
+
+
+@bb("BB-53", "计划执行", "越权打卡不生效",
+    "存在他人任务", "用另一个 clientId 打卡同一任务",
+    "affected=0 且 ok=false")
+def _():
+    st0, d0 = req("GET", f"{AGENT}/plan/tasks", headers={"X-Client-Id": "verify-obs-1"})
+    items = ((d0 or {}).get("items") or [])
+    if not items:
+        return "没有任务可供越权验证", False
+    tid = items[0].get("id")
+    st, d = req("POST", f"{AGENT}/plan/tasks/{tid}/checkin?action=DONE",
+                {}, headers={"X-Client-Id": "attacker-xyz"})
+    d = d or {}
+    ok = st == 200 and d.get("ok") is False and d.get("affected") == 0
+    return f"HTTP {st}，越权 affected={d.get('affected')}（应为 0）", ok
+
+
+# ============================================================
+# 运营中枢（黑盒）
+# ============================================================
+
+@bb("BB-54", "运营中枢", "概览返回分层分布",
+    "已执行过 refresh", "GET /api/ops/overview?days=30",
+    "available=true 且 segmentCounts 非空")
+def _():
+    st, d = req("GET", f"{GYM}/ops/overview?days=30")
+    d = d or {}
+    segs = d.get("segmentCounts") or []
+    ok = st == 200 and d.get("available") is True and len(segs) > 0
+    return f"HTTP {st}，层级 {len(segs)} 类，合计 {sum(s.get('cnt', 0) for s in segs)} 人", ok
+
+
+@bb("BB-55", "运营中枢", "器材工单建单与推进",
+    "equipment 表有数据", "POST 建单 → 推进为 ASSIGNED",
+    "建单返回 orderId，推进 affected=1")
+
+def _():
+    st1, d1 = req("POST", f"{GYM}/ops/equipment/orders",
+                  {"equipmentNo": 1, "planType": "REPAIR",
+                   "title": "回归探针-例行检修", "operator": "probe"})
+    oid = (d1 or {}).get("orderId")
+    if not oid:
+        return f"建单失败 HTTP {st1}，返回={d1}", False
+    st2, d2 = req("POST", f"{GYM}/ops/equipment/orders/{oid}/advance",
+                  {"to": "ASSIGNED", "assignee": "probe-coach", "operator": "probe"})
+    d2 = d2 or {}
+    ok = st2 == 200 and d2.get("ok") is True and d2.get("affected") == 1
+    return f"工单 #{oid} 建单 HTTP {st1}，推进 affected={d2.get('affected')}", ok
+
+
+@bb("BB-56", "运营中枢", "工单流转日志可追溯",
+    "工单已有推进记录", "GET /api/ops/equipment/orders/{id}/logs",
+    "含 CREATE 与 ASSIGNED 两条记录")
+def _():
+    st1, d1 = req("POST", f"{GYM}/ops/equipment/orders",
+                  {"equipmentNo": 1, "planType": "ROUTINE",
+                   "title": "回归探针-日志验证", "operator": "probe"})
+    oid = (d1 or {}).get("orderId")
+    if not oid:
+        return "建单失败，无法验证日志", False
+    req("POST", f"{GYM}/ops/equipment/orders/{oid}/advance",
+        {"to": "ASSIGNED", "assignee": "probe-coach", "operator": "probe"})
+    st, d = req("GET", f"{GYM}/ops/equipment/orders/{oid}/logs")
+    items = (d or {}).get("items") or []
+    acts = [i.get("action") for i in items]
+    ok = st == 200 and "CREATE" in acts and "ASSIGNED" in acts
+    return f"HTTP {st}，日志动作={acts}", ok
+
+
+# ============================================================
+# 新增白盒：观测链路与运营中枢
+# ============================================================
+
+@wb("WB-18", "可观测性（静态）", "链路埋点覆盖三类调用",
+    "源码可读", "统计 TraceContext.span 的埋点位置",
+    "至少覆盖 llm / retrieve / db 三种 kind")
+def _():
+    src = REPO / "fitness-agent" / "src" / "main" / "java" / "com" / "hbjt" / "fitness" / "agent"
+    text = ""
+    for p in src.rglob("*.java"):
+        text += p.read_text(encoding="utf-8")
+    kinds = set()
+    for m in re.finditer(r'TraceContext\.span\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*\)', text):
+        kinds.add(m.group(2))
+    ok = {"llm", "retrieve", "db"}.issubset(kinds)
+    return f"埋点 kind 集合={sorted(kinds)}", ok
+
+
+@wb("WB-19", "离线评测（动态）", "同一评测集重复执行结果一致",
+    "eval_case 已初始化", "连续跑两次评测，比较通过数",
+    "两次 total 与 passed 完全相同")
+def _():
+    _, r1 = req("POST", f"{AGENT}/eval/run?withLlm=false", {})
+    _, r2 = req("POST", f"{AGENT}/eval/run?withLlm=false", {})
+    r1, r2 = r1 or {}, r2 or {}
+    t1, p1 = r1.get("total"), r1.get("passed")
+    t2, p2 = r2.get("total"), r2.get("passed")
+    ok = t1 is not None and t1 == t2 and p1 == p2
+    return f"第一次 total={t1}/passed={p1}，第二次 total={t2}/passed={p2}", ok
+
+
+@wb("WB-20", "运营中枢（动态）", "原始业务表未被写入",
+    "refresh 已执行过", "记录 member 表条数 → 再跑一次 refresh → 再次记录",
+    "两次条数一致（运算只写结果表，不改原始流水）")
+def _():
+    def n():
+        return int(str(mysql("SELECT COUNT(*) FROM member")[1]).strip())
+    before = n()
+    req("POST", f"{GYM}/ops/refresh?days=90", {})
+    after = n()
+    ok = before == after
+    return f"refresh 前 {before} 人 → refresh 后 {after} 人", ok
+
+
 def run_all(cases, label):
     print("=" * 100)
     print(f"{label}（{len(cases)} 条）")

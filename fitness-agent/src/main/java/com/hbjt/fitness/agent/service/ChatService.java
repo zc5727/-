@@ -26,6 +26,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.hbjt.fitness.agent.observability.TraceContext;
+import com.hbjt.fitness.agent.observability.TraceRecorder;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -75,6 +78,8 @@ public class ChatService {
     private final KnowledgeService knowledge;
     private final KnowledgeAnswerService knowledgeAnswer;
     private final SessionService session;
+    private final TraceRecorder recorder;
+    private final PlanTaskService planTasks;
 
     public ChatService(ChatSlotExtractor extractor,
                        IntentRouter router,
@@ -84,7 +89,9 @@ public class ChatService {
                        FallbackReplyService fallback,
                        KnowledgeService knowledge,
                        KnowledgeAnswerService knowledgeAnswer,
-                       SessionService session) {
+                       SessionService session,
+                       TraceRecorder recorder,
+                       PlanTaskService planTasks) {
         this.extractor = extractor;
         this.router = router;
         this.planService = planService;
@@ -94,6 +101,8 @@ public class ChatService {
         this.knowledge = knowledge;
         this.knowledgeAnswer = knowledgeAnswer;
         this.session = session;
+        this.recorder = recorder;
+        this.planTasks = planTasks;
     }
 
     /* ==================== 主入口 ==================== */
@@ -103,6 +112,27 @@ public class ChatService {
      * @param clientId 浏览器本地标识，未登录时用它区分归属（可为空）
      */
     public ChatResponse chat(ChatRequest req, LlmConfig cfg, String token, String clientId) {
+        // 一次对话 = 一条 trace，内部各阶段耗时自动挂到它上面。
+        // finally 里两件事都不能漏：落库 + clear()。
+        // 漏掉 clear 会让复用的 Tomcat 线程把上一次的 trace 带给下一次请求，指标全串味。
+        TraceContext.Trace trace = TraceContext.start("chat");
+        // 根阶段：无论走大模型还是规则路径，trace 至少有一个阶段。
+        // 否则澄清/欢迎这类不调模型的请求会留下一条 spans 为空的记录，
+        // 瀑布图上一片空白，延迟分位还会被这些 0ms 样本拉偏。
+        try (TraceContext.Span ignored = TraceContext.span("chat.total", "total")) {
+            return doChat(req, cfg, token, clientId, trace);
+        } finally {
+            try {
+                recorder.record(trace);
+            } catch (RuntimeException ignore) {
+                // 观测写入失败绝不影响对话
+            }
+            TraceContext.clear();
+        }
+    }
+
+    private ChatResponse doChat(ChatRequest req, LlmConfig cfg, String token, String clientId,
+                                TraceContext.Trace trace) {
         boolean llmReady = cfg.isConfigured();
         boolean memberMode = req.memberId() != null;
 
@@ -115,6 +145,7 @@ public class ChatService {
 
         if (userTexts.stream().allMatch(String::isBlank)) {
             // 没有用户发言就不开会话：否则会话列表里会多出一堆只有问候语的空壳
+            trace.discard = true;   // 也没进路由，不算一次调用，不该计入调用量与延迟分位
             return welcome(memberMode, llmReady);
         }
 
@@ -129,6 +160,9 @@ public class ChatService {
 
         IntentRouter.Decision decision = router.route(lastUser, req.pending());
         Intent intent = decision.intent();
+
+        trace.intent = intent == null ? "UNKNOWN" : intent.name();
+        trace.userText = clip(lastUser, 500);
 
         // 多轮续接：上一句在聊计划、这一句只是在补身体数据（"175/80/30/男"），
         // 单看最后一句永远看不懂。这类情况按健身计划处理，否则用户得把"我想减脂"重说一遍。
@@ -157,9 +191,53 @@ public class ChatService {
             default -> unknown(cfg, lastUser, memberMode, llmReady);
         };
 
+        // 结果状态回填：降级必须可见，否则"今天没人用"和"记不下来"会混为一谈
+        if (resp != null && resp.status() != null) {
+            trace.status = resp.status().name();
+            if (resp.status() == com.hbjt.fitness.agent.dto.ChatStatus.DEGRADED) {
+                trace.degraded = true;
+            }
+        }
+        if (!llmReady) {
+            trace.degraded("LLM_NOT_CONFIGURED");
+        }
+
         // 记住这一轮：归属由令牌/浏览器标识解析得到，会话标识缺失就新开一个
         Optional<OwnerContext> owner = session.owner(token, clientId);
+        owner.ifPresent(c -> {
+            trace.ownerType = c.type();
+            trace.ownerId = c.id();
+        });
+        trace.sessionKey = req.sessionKey();
+        if (resp != null && resp.plan() != null && !resp.plan().isEmpty()) {
+            materializePlan(req, owner, resp.plan());
+        }
         return session.attach(req, owner, resp);
+    }
+
+    /**
+     * 把生成的计划展开成一周的每日任务。
+     *
+     * <p>这里刻意不抛异常：任务展开是增值能力，落库失败不该让已经生成好的计划
+     * 连同一起丢掉。失败只记日志，计划照常返回。
+     */
+    private void materializePlan(ChatRequest req, Optional<OwnerContext> owner,
+                                 com.hbjt.fitness.agent.dto.FitnessPlan plan) {
+        try {
+            String type = owner.map(OwnerContext::type).orElse("anonymous");
+            String id = owner.map(OwnerContext::id).orElse("-");
+            String planKey = "P" + System.currentTimeMillis();
+            planTasks.materialize(planKey, req.sessionKey(), type, id, plan, LocalDate.now());
+        } catch (RuntimeException e) {
+            log.warn("计划任务展开失败（不影响计划返回）：{}", e.getMessage());
+        }
+    }
+
+    private static String clip(String s, int max) {
+        if (s == null) {
+            return null;
+        }
+        return s.length() <= max ? s : s.substring(0, max);
     }
 
     /* ==================== 等待态：确认 / 取消 ==================== */

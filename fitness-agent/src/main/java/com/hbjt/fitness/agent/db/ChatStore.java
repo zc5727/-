@@ -275,7 +275,8 @@ public class ChatStore {
         if (!ready() || turns == null || turns.isEmpty()) {
             return 0;
         }
-        try {
+        try (com.hbjt.fitness.agent.observability.TraceContext.Span ignored =
+                     com.hbjt.fitness.agent.observability.TraceContext.span("db.append", "db")) {
             Integer written = tx.execute(status -> {
                 Integer count = jdbc.queryForObject("""
                                 SELECT message_count FROM chat_session

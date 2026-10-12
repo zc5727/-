@@ -1,5 +1,6 @@
 package com.hbjt.fitness.agent.knowledge;
 
+import com.hbjt.fitness.agent.observability.TraceContext;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,15 +36,18 @@ public class KnowledgeService {
 
     private final KnowledgeProperties props;
     private final KnowledgeLoader loader;
+    private final KnowledgeFeedbackService feedback;
 
     private volatile KnowledgeIndex index = new KnowledgeIndex(List.of());
     private volatile String dirSignature = "";
     private volatile long loadedAt = 0;
     private volatile long lastCheck = 0;
 
-    public KnowledgeService(KnowledgeProperties props, KnowledgeLoader loader) {
+    public KnowledgeService(KnowledgeProperties props, KnowledgeLoader loader,
+                            KnowledgeFeedbackService feedback) {
         this.props = props;
         this.loader = loader;
+        this.feedback = feedback;
     }
 
     @PostConstruct
@@ -85,7 +89,42 @@ public class KnowledgeService {
     }
 
     public List<KnowledgeHit> search(String query, int topK, Set<String> categories) {
-        return index.search(query, topK, categories, props.getMinScore(), props.getSnippetChars());
+        TraceContext.Trace trace = TraceContext.current();
+        try (TraceContext.Span ignored = TraceContext.span("knowledge.search", "retrieve")) {
+            List<KnowledgeHit> hits = index.search(query, topK, categories,
+                    props.getMinScore(), props.getSnippetChars());
+            List<KnowledgeHit> ranked = rerankByFeedback(hits);
+            if (trace != null) {
+                // 记录命中情况：结合阈值就能判断"拒答"到底是词表没覆盖还是差一点点
+                trace.hitCount = ranked.size();
+                trace.topScore = ranked.isEmpty() ? 0.0 : ranked.get(0).score();
+            }
+            return ranked;
+        }
+    }
+
+    /**
+     * 用反馈权重重排。
+     *
+     * <p>只改排序，不做二次过滤——相关度阈值已经在 {@code index.search} 里判过了。
+     * 这里再按权重砍一刀的话，连点几次「没用」就能让一篇文档彻底消失，
+     * 等于把下架权交给了误触，风险远大于收益。
+     */
+    private List<KnowledgeHit> rerankByFeedback(List<KnowledgeHit> hits) {
+        if (hits.size() <= 1) {
+            return hits;
+        }
+        Map<String, Double> weights = feedback.weights();
+        if (weights.isEmpty()) {
+            return hits;
+        }
+        List<KnowledgeHit> out = new ArrayList<>(hits.size());
+        for (KnowledgeHit h : hits) {
+            double m = weights.getOrDefault(h.doc().id(), 1.0);
+            out.add(new KnowledgeHit(h.doc(), h.score() * m, h.snippet(), h.anchor()));
+        }
+        out.sort(Comparator.comparingDouble(KnowledgeHit::score).reversed());
+        return out;
     }
 
     /** 是否"答得上来"——决定未知意图走知识库还是走兜底话术 */

@@ -3,7 +3,7 @@
 > 本文件由 `scripts/validate_knowledge.py` 自动生成，请勿手工编辑。
 > 权威内容是各分类目录下的 Markdown 文件本身，本文件只是目录。
 
-共 63 篇。
+共 64 篇。
 
 ## 训练计划模板（plan，8 篇）
 
@@ -82,7 +82,7 @@
 | [蛋白质摄入](nutrition/protein.md) | `protein` | low | 蛋白质吃多少、每天要吃多少蛋白、增肌蛋白质摄入、减脂期间蛋白质 |
 | [关于补剂与药物](nutrition/supplements_position.md) | `supplements_position` | low | 要吃蛋白粉吗、增肌粉有用吗、要不要买补剂、健身要吃肌酸吗 |
 
-## 安全（safety，6 篇）
+## 安全（safety，7 篇）
 
 | 文档 | 主题 | 风险级别 | 常见问法 |
 |---|---|---|---|
@@ -91,4 +91,5 @@
 | [危险信号与紧急就医](safety/emergency_signs.md) | `emergency_signs` | high | 运动时胸痛怎么办、训练中头晕、什么情况要马上去医院、运动猝死征兆 |
 | [训练中出现疼痛怎么办](safety/pain.md) | `pain` | low | 练的时候疼怎么办、肌肉酸痛和关节痛的区别、训练中膝盖疼、腰疼能继续练吗、练完腰酸背痛正常吗、第二天的酸痛要不要处理 |
 | [孕期与产后](safety/pregnancy_postpartum.md) | `pregnancy_postpartum` | high | 怀孕能运动吗、孕期怎么锻炼、产后多久能健身、怀孕能练力量吗 |
+| [跑步与膝关节保护](safety/running_knee.md) | `running_knee` | medium | 跑步伤膝盖吗、跑步膝盖疼怎么办、怎么跑步不伤膝盖、跑步膝盖疼还能跑吗、跑步要怎么安排量 |
 | [风险分级与自我筛查](safety/screening_risk_levels.md) | `screening_risk_levels` | low | 我能开始健身吗、什么情况不能运动、运动前要做什么检查、高风险人群 |

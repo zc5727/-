@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hbjt.fitness.agent.config.LlmConfig;
 import com.hbjt.fitness.agent.config.LlmProperties;
+import com.hbjt.fitness.agent.observability.TraceContext;
 import com.hbjt.fitness.agent.support.LlmUnavailableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,7 +75,29 @@ public class DeepSeekClient {
         return chat(cfg, systemPrompt, userPrompt, false);
     }
 
+    /**
+     * 埋点入口：把每一次大模型调用记为一个 {@code llm.chat} 阶段。
+     *
+     * <p>失败时把异常类型写入 trace 后原样抛出——观测只做记录，不改变行为，
+     * 上游该怎么失败还怎么失败。这里刻意不吞异常：吞了就等于把故障藏起来，
+     * 那比没有观测更糟。
+     */
     private String chat(LlmConfig cfg, String systemPrompt, String userPrompt, boolean jsonMode) {
+        TraceContext.Trace trace = TraceContext.current();
+        if (trace != null) {
+            trace.model = cfg.model();
+        }
+        try (TraceContext.Span ignored = TraceContext.span("llm.chat", "llm")) {
+            return doChat(cfg, systemPrompt, userPrompt, jsonMode);
+        } catch (RuntimeException e) {
+            if (trace != null) {
+                trace.failed(e.getClass().getSimpleName());
+            }
+            throw e;
+        }
+    }
+
+    private String doChat(LlmConfig cfg, String systemPrompt, String userPrompt, boolean jsonMode) {
         if (!cfg.isConfigured()) {
             throw new LlmUnavailableException("未配置大模型密钥",
                     "请求未携带 key，服务端 DEEPSEEK_API_KEY 也为空");
@@ -105,6 +128,7 @@ public class DeepSeekClient {
                 int code = response.statusCode();
 
                 if (code == 200) {
+                    captureUsage(response.body());
                     String content = extractContent(response.body());
                     if (content == null || content.isBlank()) {
                         // DeepSeek JSON 模式已知会出现空返回，重试一次仍有希望
@@ -170,6 +194,41 @@ public class DeepSeekClient {
             return om.writeValueAsString(body);
         } catch (Exception e) {
             throw new LlmUnavailableException("构造大模型请求失败", e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 从响应体里取 token 用量，写进当前 trace。
+     *
+     * <p>为什么单独解析而不是塞进 extractContent：usage 与 content 是平级字段，
+     * extractContent 只关心正文。更现实的原因是各家 OpenAI 兼容实现返回的 usage
+     * 并不一致（有的只有 total_tokens，有的字段名为 input_tokens）。因此这里
+     * 逐字段判空——缺失就留空，而不是补 0 制造"已经统计到了"的假象。
+     */
+    private void captureUsage(String responseBody) {
+        TraceContext.Trace trace = TraceContext.current();
+        if (trace == null) {
+            return;
+        }
+        try {
+            JsonNode usage = om.readTree(responseBody).path("usage");
+            if (!usage.isObject()) {
+                return;
+            }
+            if (usage.hasNonNull("prompt_tokens")) {
+                trace.promptTokens = usage.get("prompt_tokens").asInt();
+            }
+            if (usage.hasNonNull("completion_tokens")) {
+                trace.completionTokens = usage.get("completion_tokens").asInt();
+            }
+            if (usage.hasNonNull("total_tokens")) {
+                trace.totalTokens = usage.get("total_tokens").asInt();
+            } else if (trace.promptTokens != null && trace.completionTokens != null) {
+                trace.totalTokens = trace.promptTokens + trace.completionTokens;
+            }
+        } catch (Exception e) {
+            // token 统计失败无所谓，绝不影响调用结果
+            log.debug("解析 token 用量失败：{}", e.getMessage());
         }
     }
 
