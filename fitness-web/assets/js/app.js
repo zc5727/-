@@ -15,6 +15,9 @@ import RechargePage from './views/recharge.js';
 import MemberPortalPage from './views/member.js';
 import KnowledgePage from './views/knowledge.js';
 import { MemberPage, CoursePage, EquipmentPage, EmployeePage, RegisterPage } from './views/resources.js';
+import ObservabilityPage from './views/observability.js';
+import OpsPage from './views/ops.js';
+import TrainingPage from './views/training.js';
 
 const { createApp, computed } = Vue;
 const { createRouter, createWebHistory } = VueRouter;
@@ -27,7 +30,9 @@ const ADMIN_MENU = [
   { path: '/dashboard', label: '数据看板', icon: 'dashboard' },
   { path: '/agent', label: '智能问答', icon: 'sparkles', badge: 'AI' },
   { path: '/knowledge', label: '知识库', icon: 'course' },
+  { path: '/observability', label: '运行观测', icon: 'activity' },
   { group: '会员运营' },
+  { path: '/ops', label: '智能运营中枢', icon: 'target' },
   { path: '/members', label: '会员管理', icon: 'users' },
   { path: '/registers', label: '课程报名', icon: 'clipboard' },
   { path: '/recharge', label: '充值管理', icon: 'wallet' },
@@ -40,6 +45,7 @@ const ADMIN_MENU = [
 const MEMBER_MENU = [
   { group: '我的' },
   { path: '/me/agent', label: '智能助手', icon: 'sparkles', badge: 'AI' },
+  { path: '/training', label: '我的训练', icon: 'target' },
   { path: '/me', label: '会员中心', icon: 'user' },
 ];
 
@@ -158,6 +164,8 @@ const routes = [
   { path: '/dashboard', component: DashboardPage, meta: { role: 'admin' } },
   { path: '/agent', component: AgentPage, meta: { role: 'admin' } },
   { path: '/knowledge', component: KnowledgePage, meta: { role: 'admin' } },
+  { path: '/observability', component: ObservabilityPage, meta: { role: 'admin' } },
+  { path: '/ops', component: OpsPage, meta: { role: 'admin' } },
   { path: '/members', component: MemberPage, meta: { role: 'admin' } },
   { path: '/courses', component: CoursePage, meta: { role: 'admin' } },
   { path: '/equipment', component: EquipmentPage, meta: { role: 'admin' } },
@@ -165,6 +173,7 @@ const routes = [
   { path: '/registers', component: RegisterPage, meta: { role: 'admin' } },
   { path: '/recharge', component: RechargePage, meta: { role: 'admin' } },
   { path: '/me/agent', component: MemberAgentPage, meta: { role: 'member' } },
+  { path: '/training', component: TrainingPage, meta: { role: 'member' } },
   { path: '/me', component: MemberPortalPage, meta: { role: 'member' } },
   { path: '/:pathMatch(.*)*', redirect: '/' },
 ];

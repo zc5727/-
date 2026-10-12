@@ -722,3 +722,90 @@ a { color: var(--brand-600); text-decoration: none; }
   .pay-body { flex-direction: column; align-items: flex-start; }
   .qrcode-holder, .qr-holder { align-self: center; }
 }
+
+/* ============================================================
+   运行观测 / 智能运营中枢 / 训练计划 —— 共用轻量卡片语言
+   这几个页引用了下方词汇，此前未在设计系统中定义，导致布局错位。
+   此处统一补齐，沿用全局设计令牌，与 .card / .stat 视觉一致。
+   ============================================================ */
+
+/* 页面容器：与 .content 衔接，作为语义包裹层 */
+.page-wrap { width: 100%; }
+
+/* 页头里的控制条：剥离 .toolbar 默认的"分隔条"外观，仅作右对齐控件簇 */
+.page-head .toolbar { padding: 0; border: 0; margin-left: auto; }
+
+/* KPI 迷你卡（纯数字，无图标，比 .stat 更轻） */
+.kpi-row {
+  display: grid; gap: 14px; margin-bottom: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+.kpi {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius-sm); padding: 15px 17px;
+  box-shadow: var(--shadow-1);
+  display: flex; flex-direction: column; gap: 5px;
+}
+.kpi-v {
+  font-size: 23px; font-weight: 700; letter-spacing: -.4px; line-height: 1.15; color: var(--ink);
+}
+.kpi-v .unit { font-size: 12px; font-weight: 600; color: var(--muted); margin-left: 3px; }
+.kpi-l { font-size: 12px; color: var(--muted); }
+
+/* 卡片内小标题：视觉对齐 .card-head，但作为轻量标题使用 */
+.card-h {
+  padding: 14px 18px; border-bottom: 1px solid var(--line);
+  font-size: 14px; font-weight: 700; color: var(--ink);
+  display: flex; align-items: center; gap: 10px;
+}
+/* 卡片内的筛选条：去掉底部分隔线，紧贴标题下方，作为过滤行 */
+.card .toolbar { border-bottom: 0; }
+
+/* 图表左右两栏 */
+.chart-2col {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 18px;
+}
+.chart-2col .card { margin-top: 0; }
+.chart-2col .card + .card { margin-top: 0; }
+.chart-box { padding: 8px 14px 14px; }
+@media (max-width: 900px) { .chart-2col { grid-template-columns: 1fr; } }
+
+/* 卡片内空态 */
+.empty-box { padding: 42px 20px; text-align: center; color: var(--muted); font-size: 13px; }
+
+/* 调用流水 + 阶段瀑布图（运行观测最有价值的一块） */
+.trace-item { padding: 14px 18px; border-bottom: 1px solid var(--line); }
+.trace-item:last-child { border-bottom: 0; }
+.trace-top { display: flex; align-items: center; gap: 8px; }
+.trace-top .spacer { flex: 1; }
+.trace-q {
+  margin: 7px 0 11px; font-size: 13px; color: var(--ink-2);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.wf { display: grid; gap: 6px; }
+.wf-row { display: grid; grid-template-columns: 112px 1fr 76px; align-items: center; gap: 10px; }
+.wf-name { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wf-track { position: relative; height: 14px; background: #f1f5f9; border-radius: 7px; overflow: hidden; }
+.wf-bar { position: absolute; top: 0; bottom: 0; border-radius: 7px; min-width: 2px; }
+.wf-dur { font-size: 12px; color: var(--ink-2); text-align: right; }
+
+/* 行内小标签 */
+.tag {
+  display: inline-flex; align-items: center; padding: 1px 9px;
+  border-radius: 20px; font-size: 11.5px; font-weight: 600;
+  background: var(--brand-50); color: var(--brand-700);
+}
+.tag.ghost { background: #f1f5f9; color: var(--muted); }
+
+/* 训练计划：依从率高亮条 */
+.adh-box {
+  display: flex; align-items: center; gap: 18px;
+  background: linear-gradient(160deg, #eef2ff, #f8faff);
+  border: 1px solid var(--brand-100);
+  border-radius: var(--radius); padding: 18px 22px; margin-bottom: 18px;
+}
+.adh-rate { font-size: 34px; font-weight: 800; letter-spacing: -.5px; color: var(--brand-600); line-height: 1; }
+.adh-rate.low { color: var(--danger); }
+.adh-meta { display: flex; flex-direction: column; gap: 2px; }
+.adh-title { font-size: 14px; font-weight: 700; color: var(--ink); }
+.adh-tip { font-size: 12.5px; color: #b45309; margin-top: 4px; }

@@ -290,6 +290,18 @@ export const gymApi = {
   /* ---------- 统计 ---------- */
   memberBySeason: (year) => http.get(`${GYM}/echarts/getMemberBySeason${qs({ year })}`),
   memberSexByYear: (year) => http.get(`${GYM}/echarts/getMemberSexByYear${qs({ year })}`),
+
+  /* ---------- 会员智能运营中枢 ---------- */
+  opsOverview: (days) => http.get(`${GYM}/ops/overview${qs({ days })}`),
+  opsRefresh: (days) => http.postJson(`${GYM}/ops/refresh${qs({ days })}`, {}),
+  opsSegments: (segment) => http.get(`${GYM}/ops/segments${qs({ segment })}`),
+
+  /* ---------- 器材维护工单闭环 ---------- */
+  equipmentOrders: (status) => http.get(`${GYM}/ops/equipment/orders${qs({ status })}`),
+  equipmentOrderCreate: (payload) => http.postJson(`${GYM}/ops/equipment/orders`, payload),
+  equipmentOrderAdvance: (id, payload) =>
+    http.postJson(`${GYM}/ops/equipment/orders/${id}/advance`, payload),
+  equipmentOrderLogs: (id) => http.get(`${GYM}/ops/equipment/orders/${id}/logs`),
 };
 
 /* ============================================================
@@ -328,6 +340,24 @@ export const agentApi = {
   knowledgeDocs: (category) => http.get(`${AGENT}/knowledge/docs${qs({ category })}`),
   knowledgeDoc: (id) => http.get(`${AGENT}/knowledge/docs/${encodeURIComponent(id)}`),
   knowledgeSearch: (q, topK) => http.get(`${AGENT}/knowledge/search${qs({ q, topK })}`),
+
+  /* ---------- 运行观测（调用链路与聚合指标） ---------- */
+  observabilityOverview: (days) =>
+    http.get(`${AGENT}/observability/overview${qs({ days })}`),
+  observabilityTraces: (limit, intent, status) =>
+    http.get(`${AGENT}/observability/traces${qs({ limit, intent, status })}`),
+  observabilityRefreshDaily: (days) =>
+    http.postJson(`${AGENT}/observability/daily/refresh${qs({ days })}`, {}),
+
+  /* ---------- 知识回答反馈（会真实影响检索排序） ---------- */
+  feedbackSubmit: (payload) => http.postJson(`${AGENT}/knowledge/feedback`, payload, ownerHeaders()),
+  feedbackSummary: () => http.get(`${AGENT}/knowledge/feedback/summary`),
+
+  /* ---------- 训练计划执行（任务列表与打卡） ---------- */
+  planTasks: (from, to) => http.getWith(`${AGENT}/plan/tasks${qs({ from, to })}`, ownerHeaders()),
+  planCheckIn: (id, action, actualValue, note) =>
+    http.postJson(`${AGENT}/plan/tasks/${id}/checkin${qs({ action, actualValue, note })}`, {}, ownerHeaders()),
+  planAdherence: (days) => http.getWith(`${AGENT}/plan/adherence${qs({ days })}`, ownerHeaders()),
 };
 
 export default { gymApi, agentApi, pageOffset, clientId, ownerHeaders };
