@@ -46,7 +46,7 @@ figure.shot figcaption { font-size:12.5px; color:#444; margin-top:6px; text-alig
 </head>
 <body>
 <div class="layout">
-<nav id="toc"><div class="toc-head">目 录</div><a class="toc-l2" href="#h-0-文档说明">0. 文档说明</a><a class="toc-l3" href="#h-0-1-文档范围">0.1 文档范围</a><a class="toc-l3" href="#h-0-2-读者对象">0.2 读者对象</a><a class="toc-l3" href="#h-0-3-图表规范">0.3 图表规范</a><a class="toc-l2" href="#h-1-项目概述">1. 项目概述</a><a class="toc-l3" href="#h-1-1-项目背景">1.1 项目背景</a><a class="toc-l3" href="#h-1-2-系统目标">1.2 系统目标</a><a class="toc-l3" href="#h-1-3-设计原则">1.3 设计原则</a><a class="toc-l3" href="#h-1-4-技术选型">1.4 技术选型</a><a class="toc-l3" href="#h-1-5-交付物规模-实测">1.5 交付物规模（实测）</a><a class="toc-l2" href="#h-2-需求分析">2. 需求分析</a><a class="toc-l3" href="#h-2-1-核心业务流程-一句话充值闭环">2.1 核心业务流程：一句话充值闭环</a><a class="toc-l3" href="#h-2-2-用例图">2.2 用例图</a><a class="toc-l3" href="#h-2-3-关键用例规约">2.3 关键用例规约</a><a class="toc-l3" href="#h-2-4-角色功能矩阵">2.4 角色功能矩阵</a><a class="toc-l3" href="#h-2-5-非功能需求">2.5 非功能需求</a><a class="toc-l2" href="#h-3-系统总体设计">3. 系统总体设计</a><a class="toc-l3" href="#h-3-1-总体架构图">3.1 总体架构图</a><a class="toc-l3" href="#h-3-2-逻辑架构图-子系统划分">3.2 逻辑架构图（子系统划分）</a><a class="toc-l3" href="#h-3-3-技术架构图">3.3 技术架构图</a><a class="toc-l3" href="#h-3-4-数据架构图">3.4 数据架构图</a><a class="toc-l3" href="#h-3-5-安全架构图">3.5 安全架构图</a><a class="toc-l3" href="#h-3-6-部署架构图">3.6 部署架构图</a><a class="toc-l3" href="#h-3-7-前端组件图">3.7 前端组件图</a><a class="toc-l3" href="#h-3-8-包图">3.8 包图</a><a class="toc-l3" href="#h-3-9-智能体核心类图">3.9 智能体核心类图</a><a class="toc-l3" href="#h-3-10-业务桥接类图">3.10 业务桥接类图</a><a class="toc-l3" href="#h-3-11-数据流图-dfd">3.11 数据流图（DFD）</a><a class="toc-l3" href="#h-3-12-知识库与会话存储类图">3.12 知识库与会话存储类图</a><a class="toc-l2" href="#h-4-对话式智能体设计-fitness-agent">4. 对话式智能体设计（fitness-agent）</a><a class="toc-l3" href="#h-4-1-意图分类与路由">4.1 意图分类与路由</a><a class="toc-l3" href="#h-4-2-槽位抽取-chatslotextractor">4.2 槽位抽取（ChatSlotExtractor）</a><a class="toc-l3" href="#h-4-3-卡片协议-chatcard">4.3 卡片协议（ChatCard）</a><a class="toc-l3" href="#h-4-4-待办状态机-pendingaction">4.4 待办状态机（PendingAction）</a><a class="toc-l3" href="#h-4-5-降级链路-永不空手而归">4.5 降级链路（永不空手而归）</a><a class="toc-l3" href="#h-4-6-大模型配置注入">4.6 大模型配置注入</a><a class="toc-l3" href="#h-4-7-提示词工程">4.7 提示词工程</a><a class="toc-l3" href="#h-4-8-知识问答-检索-生成-兜底-rag-三段式">4.8 知识问答：检索 → 生成 → 兜底（RAG 三段式）</a><a class="toc-l3" href="#h-4-9-会话历史与归属隔离">4.9 会话历史与归属隔离</a><a class="toc-l2" href="#h-5-数据库设计">5. 数据库设计</a><a class="toc-l3" href="#h-5-1-数据库概况">5.1 数据库概况</a><a class="toc-l3" href="#h-5-2-实体关系总览">5.2 实体关系总览</a><a class="toc-l3" href="#h-5-3-各实体-er-图-逐实体单列">5.3 各实体 ER 图（逐实体单列）</a><a class="toc-l3" href="#h-5-4-订单语义-recharge-表的双重角色">5.4 订单语义：recharge 表的双重角色</a><a class="toc-l3" href="#h-5-5-索引与约束">5.5 索引与约束</a><a class="toc-l3" href="#h-5-6-数据字典-9-表全量">5.6 数据字典（9 表全量）</a><a class="toc-l3" href="#h-5-7-智能体自有库-fitness-ai-本轮新增">5.7 智能体自有库 fitness_ai（本轮新增）</a><a class="toc-l2" href="#h-6-接口设计">6. 接口设计</a><a class="toc-l3" href="#h-6-1-暴露拓扑">6.1 暴露拓扑</a><a class="toc-l3" href="#h-6-2-智能体接口-5-个-经-agent-api-反代">6.2 智能体接口（5 个，经 /agent-api 反代）</a><a class="toc-l3" href="#h-6-3-业务系统接口-原-61-个-零改动">6.3 业务系统接口（原 61 个，零改动）</a><a class="toc-l3" href="#h-6-4-桥接薄接口-本轮新增-3-个-agentbridge">6.4 桥接薄接口（本轮新增 3 个，/agentBridge）</a><a class="toc-l3" href="#h-6-5-智能体-业务系统的内部调用">6.5 智能体 → 业务系统的内部调用</a><a class="toc-l3" href="#h-6-6-会话历史接口-本轮新增-5-个-api-qa-sessions">6.6 会话历史接口（本轮新增 5 个，/api/qa/sessions）</a><a class="toc-l3" href="#h-6-7-知识库接口-本轮新增-4-个-api-knowledge">6.7 知识库接口（本轮新增 4 个，/api/knowledge）</a><a class="toc-l2" href="#h-7-关键流程设计">7. 关键流程设计</a><a class="toc-l3" href="#h-7-1-时序图-一句话充值闭环-核心">7.1 时序图：一句话充值闭环（核心）</a><a class="toc-l3" href="#h-7-2-时序图-健身计划生成-含降级">7.2 时序图：健身计划生成（含降级）</a><a class="toc-l3" href="#h-7-3-时序图-管理员边界-不猜会员">7.3 时序图：管理员边界（不猜会员）</a><a class="toc-l3" href="#h-7-4-状态图-充值订单生命周期">7.4 状态图：充值订单生命周期</a><a class="toc-l3" href="#h-7-5-状态图-会员卡等级">7.5 状态图：会员卡等级</a><a class="toc-l3" href="#h-7-6-活动图-会员对话主流程">7.6 活动图：会员对话主流程</a><a class="toc-l3" href="#h-7-7-活动图-支付页-手机端">7.7 活动图：支付页（手机端）</a><a class="toc-l3" href="#h-7-8-时序图-知识问答-rag-三段式">7.8 时序图：知识问答（RAG 三段式）</a><a class="toc-l3" href="#h-7-9-时序图-会话落库与归属隔离">7.9 时序图：会话落库与归属隔离</a><a class="toc-l2" href="#h-8-部署设计">8. 部署设计</a><a class="toc-l3" href="#h-8-1-容器清单">8.1 容器清单</a><a class="toc-l3" href="#h-8-2-网络与数据卷">8.2 网络与数据卷</a><a class="toc-l3" href="#h-8-3-环境变量">8.3 环境变量</a><a class="toc-l3" href="#h-8-4-启动与运维">8.4 启动与运维</a><a class="toc-l3" href="#h-8-5-访问入口">8.5 访问入口</a><a class="toc-l2" href="#h-9-安全设计">9. 安全设计</a><a class="toc-l3" href="#h-9-1-威胁与对策">9.1 威胁与对策</a><a class="toc-l3" href="#h-9-2-遗留风险-原系统自带-未在本轮范围">9.2 遗留风险（原系统自带，未在本轮范围）</a><a class="toc-l2" href="#h-10-测试与验证-2026-10-11-实测">10. 测试与验证（2026-10-11 实测）</a><a class="toc-l3" href="#h-10-1-意图识别测试-intent-test-py-16-单轮-多轮-边界">10.1 意图识别测试（intent_test.py，16 单轮 + 多轮 + 边界）</a><a class="toc-l3" href="#h-10-2-端到端截图验证-24-张-零-console-pageerror">10.2 端到端截图验证（24 张，零 console/pageerror）</a><a class="toc-l3" href="#h-10-3-数据核验-真实-count">10.3 数据核验（真实 COUNT）</a><a class="toc-l3" href="#h-10-4-资金闭环核验">10.4 资金闭环核验</a><a class="toc-l3" href="#h-10-5-知识检索质量与阈值标定-knowledge-test-py-34-项">10.5 知识检索质量与阈值标定（knowledge_test.py，34 项）</a><a class="toc-l3" href="#h-10-6-会话持久化与用户隔离-session-test-py-30-项">10.6 会话持久化与用户隔离（session_test.py，30 项）</a><a class="toc-l3" href="#h-10-7-回归汇总-三套-198-项断言-全绿">10.7 回归汇总（三套 198 项断言，全绿）</a><a class="toc-l2" href="#h-11-系统测试报告-黑盒-白盒">11. 系统测试报告（黑盒＋白盒）</a><a class="toc-l3" href="#h-11-1-测试概述">11.1 测试概述</a><a class="toc-l3" href="#h-11-2-测试环境">11.2 测试环境</a><a class="toc-l3" href="#h-11-3-测试策略与方法">11.3 测试策略与方法</a><a class="toc-l3" href="#h-11-4-黑盒测试用例与执行结果-44-条">11.4 黑盒测试用例与执行结果（44 条）</a><a class="toc-l3" href="#h-11-5-白盒测试用例与执行结果-17-条">11.5 白盒测试用例与执行结果（17 条）</a><a class="toc-l3" href="#h-11-6-缺陷与修复记录-8-项">11.6 缺陷与修复记录（8 项）</a><a class="toc-l3" href="#h-11-7-测试结论">11.7 测试结论</a><a class="toc-l2" href="#h-附录-a-需求-设计-实现追溯矩阵">附录 A：需求—设计—实现追溯矩阵</a><a class="toc-l2" href="#h-附录-b-已知缺陷与遗留风险">附录 B：已知缺陷与遗留风险</a><a class="toc-l3" href="#h-b-1-原系统自带-未在本轮修复范围">B.1 原系统自带（未在本轮修复范围）</a><a class="toc-l3" href="#h-b-2-本轮已踩过并修复的坑-工程记录">B.2 本轮已踩过并修复的坑（工程记录）</a><a class="toc-l3" href="#h-b-3-待办-下一轮候选">B.3 待办（下一轮候选）</a><a class="toc-l2" href="#h-附录-c-版本沿革">附录 C：版本沿革</a></nav>
+<nav id="toc"><div class="toc-head">目 录</div><a class="toc-l2" href="#h-0-文档说明">0. 文档说明</a><a class="toc-l3" href="#h-0-1-文档范围">0.1 文档范围</a><a class="toc-l3" href="#h-0-2-读者对象">0.2 读者对象</a><a class="toc-l3" href="#h-0-3-图表规范">0.3 图表规范</a><a class="toc-l2" href="#h-1-项目概述">1. 项目概述</a><a class="toc-l3" href="#h-1-1-项目背景">1.1 项目背景</a><a class="toc-l3" href="#h-1-2-系统目标">1.2 系统目标</a><a class="toc-l3" href="#h-1-3-设计原则">1.3 设计原则</a><a class="toc-l3" href="#h-1-4-技术选型">1.4 技术选型</a><a class="toc-l3" href="#h-1-5-交付物规模-实测">1.5 交付物规模（实测）</a><a class="toc-l2" href="#h-2-需求分析">2. 需求分析</a><a class="toc-l3" href="#h-2-1-核心业务流程-一句话充值闭环">2.1 核心业务流程：一句话充值闭环</a><a class="toc-l3" href="#h-2-2-用例图">2.2 用例图</a><a class="toc-l3" href="#h-2-3-关键用例规约">2.3 关键用例规约</a><a class="toc-l3" href="#h-2-4-角色功能矩阵">2.4 角色功能矩阵</a><a class="toc-l3" href="#h-2-5-非功能需求">2.5 非功能需求</a><a class="toc-l2" href="#h-3-系统总体设计">3. 系统总体设计</a><a class="toc-l3" href="#h-3-1-总体架构图">3.1 总体架构图</a><a class="toc-l3" href="#h-3-2-逻辑架构图-子系统划分">3.2 逻辑架构图（子系统划分）</a><a class="toc-l3" href="#h-3-3-技术架构图">3.3 技术架构图</a><a class="toc-l3" href="#h-3-4-数据架构图">3.4 数据架构图</a><a class="toc-l3" href="#h-3-5-安全架构图">3.5 安全架构图</a><a class="toc-l3" href="#h-3-6-部署架构图">3.6 部署架构图</a><a class="toc-l3" href="#h-3-7-前端组件图">3.7 前端组件图</a><a class="toc-l3" href="#h-3-8-包图">3.8 包图</a><a class="toc-l3" href="#h-3-9-智能体核心类图">3.9 智能体核心类图</a><a class="toc-l3" href="#h-3-10-业务桥接类图">3.10 业务桥接类图</a><a class="toc-l3" href="#h-3-11-数据流图-dfd">3.11 数据流图（DFD）</a><a class="toc-l3" href="#h-3-12-知识库与会话存储类图">3.12 知识库与会话存储类图</a><a class="toc-l2" href="#h-4-对话式智能体设计-fitness-agent">4. 对话式智能体设计（fitness-agent）</a><a class="toc-l3" href="#h-4-1-意图分类与路由">4.1 意图分类与路由</a><a class="toc-l3" href="#h-4-2-槽位抽取-chatslotextractor">4.2 槽位抽取（ChatSlotExtractor）</a><a class="toc-l3" href="#h-4-3-卡片协议-chatcard">4.3 卡片协议（ChatCard）</a><a class="toc-l3" href="#h-4-4-待办状态机-pendingaction">4.4 待办状态机（PendingAction）</a><a class="toc-l3" href="#h-4-5-降级链路-永不空手而归">4.5 降级链路（永不空手而归）</a><a class="toc-l3" href="#h-4-6-大模型配置注入">4.6 大模型配置注入</a><a class="toc-l3" href="#h-4-7-提示词工程">4.7 提示词工程</a><a class="toc-l3" href="#h-4-8-知识问答-检索-生成-兜底-rag-三段式">4.8 知识问答：检索 → 生成 → 兜底（RAG 三段式）</a><a class="toc-l3" href="#h-4-9-会话历史与归属隔离">4.9 会话历史与归属隔离</a><a class="toc-l3" href="#h-4-10-运行观测-让-黑盒推理-可解释">4.10 运行观测：让"黑盒推理"可解释</a><a class="toc-l3" href="#h-4-11-知识反馈闭环-让语料越用越准">4.11 知识反馈闭环：让语料越用越准</a><a class="toc-l3" href="#h-4-12-计划执行闭环与离线评测">4.12 计划执行闭环与离线评测</a><a class="toc-l2" href="#h-5-数据库设计">5. 数据库设计</a><a class="toc-l3" href="#h-5-1-数据库概况">5.1 数据库概况</a><a class="toc-l3" href="#h-5-2-实体关系总览">5.2 实体关系总览</a><a class="toc-l3" href="#h-5-3-各实体-er-图-逐实体单列">5.3 各实体 ER 图（逐实体单列）</a><a class="toc-l3" href="#h-5-4-订单语义-recharge-表的双重角色">5.4 订单语义：recharge 表的双重角色</a><a class="toc-l3" href="#h-5-5-索引与约束">5.5 索引与约束</a><a class="toc-l3" href="#h-5-6-数据字典-9-表全量">5.6 数据字典（9 表全量）</a><a class="toc-l3" href="#h-5-7-智能体自有库-fitness-ai-本轮扩展至-12-张表">5.7 智能体自有库 fitness_ai（本轮扩展至 12 张表）</a><a class="toc-l3" href="#h-5-8-会员智能运营中枢表-业务库新增-5-张">5.8 会员智能运营中枢表（业务库新增 5 张）</a><a class="toc-l2" href="#h-6-接口设计">6. 接口设计</a><a class="toc-l3" href="#h-6-1-暴露拓扑">6.1 暴露拓扑</a><a class="toc-l3" href="#h-6-2-智能体接口-5-个-经-agent-api-反代">6.2 智能体接口（5 个，经 /agent-api 反代）</a><a class="toc-l3" href="#h-6-3-业务系统接口-原-61-个-零改动">6.3 业务系统接口（原 61 个，零改动）</a><a class="toc-l3" href="#h-6-4-桥接薄接口-本轮新增-3-个-agentbridge">6.4 桥接薄接口（本轮新增 3 个，/agentBridge）</a><a class="toc-l3" href="#h-6-5-智能体-业务系统的内部调用">6.5 智能体 → 业务系统的内部调用</a><a class="toc-l3" href="#h-6-6-会话历史接口-本轮新增-5-个-api-qa-sessions">6.6 会话历史接口（本轮新增 5 个，/api/qa/sessions）</a><a class="toc-l3" href="#h-6-7-知识库接口-本轮新增-4-个-api-knowledge">6.7 知识库接口（本轮新增 4 个，/api/knowledge）</a><a class="toc-l3" href="#h-6-8-运行观测接口-本轮新增-3-个-api-observability">6.8 运行观测接口（本轮新增 3 个，/api/observability）</a><a class="toc-l3" href="#h-6-9-知识反馈接口-本轮新增-2-个-api-knowledge-feedback">6.9 知识反馈接口（本轮新增 2 个，/api/knowledge/feedback）</a><a class="toc-l3" href="#h-6-10-计划任务接口-本轮新增-3-个-api-plan">6.10 计划任务接口（本轮新增 3 个，/api/plan）</a><a class="toc-l3" href="#h-6-11-会员智能运营中枢接口-业务系统新增-7-个-ops">6.11 会员智能运营中枢接口（业务系统新增 7 个，/ops）</a><a class="toc-l2" href="#h-7-关键流程设计">7. 关键流程设计</a><a class="toc-l3" href="#h-7-1-时序图-一句话充值闭环-核心">7.1 时序图：一句话充值闭环（核心）</a><a class="toc-l3" href="#h-7-2-时序图-健身计划生成-含降级">7.2 时序图：健身计划生成（含降级）</a><a class="toc-l3" href="#h-7-3-时序图-管理员边界-不猜会员">7.3 时序图：管理员边界（不猜会员）</a><a class="toc-l3" href="#h-7-4-状态图-充值订单生命周期">7.4 状态图：充值订单生命周期</a><a class="toc-l3" href="#h-7-5-状态图-会员卡等级">7.5 状态图：会员卡等级</a><a class="toc-l3" href="#h-7-6-活动图-会员对话主流程">7.6 活动图：会员对话主流程</a><a class="toc-l3" href="#h-7-7-活动图-支付页-手机端">7.7 活动图：支付页（手机端）</a><a class="toc-l3" href="#h-7-8-时序图-知识问答-rag-三段式">7.8 时序图：知识问答（RAG 三段式）</a><a class="toc-l3" href="#h-7-9-时序图-会话落库与归属隔离">7.9 时序图：会话落库与归属隔离</a><a class="toc-l2" href="#h-8-部署设计">8. 部署设计</a><a class="toc-l3" href="#h-8-1-容器清单">8.1 容器清单</a><a class="toc-l3" href="#h-8-2-网络与数据卷">8.2 网络与数据卷</a><a class="toc-l3" href="#h-8-3-环境变量">8.3 环境变量</a><a class="toc-l3" href="#h-8-4-启动与运维">8.4 启动与运维</a><a class="toc-l3" href="#h-8-5-访问入口">8.5 访问入口</a><a class="toc-l2" href="#h-9-安全设计">9. 安全设计</a><a class="toc-l3" href="#h-9-1-威胁与对策">9.1 威胁与对策</a><a class="toc-l3" href="#h-9-2-遗留风险-原系统自带-未在本轮范围">9.2 遗留风险（原系统自带，未在本轮范围）</a><a class="toc-l2" href="#h-10-测试与验证-2026-10-11-实测">10. 测试与验证（2026-10-11 实测）</a><a class="toc-l3" href="#h-10-1-意图识别测试-intent-test-py-16-单轮-多轮-边界">10.1 意图识别测试（intent_test.py，16 单轮 + 多轮 + 边界）</a><a class="toc-l3" href="#h-10-2-端到端截图验证-24-张-零-console-pageerror">10.2 端到端截图验证（24 张，零 console/pageerror）</a><a class="toc-l3" href="#h-10-3-数据核验-真实-count">10.3 数据核验（真实 COUNT）</a><a class="toc-l3" href="#h-10-4-资金闭环核验">10.4 资金闭环核验</a><a class="toc-l3" href="#h-10-5-知识检索质量与阈值标定-knowledge-test-py-34-项">10.5 知识检索质量与阈值标定（knowledge_test.py，34 项）</a><a class="toc-l3" href="#h-10-6-会话持久化与用户隔离-session-test-py-30-项">10.6 会话持久化与用户隔离（session_test.py，30 项）</a><a class="toc-l3" href="#h-10-7-回归汇总-三套-198-项断言-全绿">10.7 回归汇总（三套 198 项断言，全绿）</a><a class="toc-l2" href="#h-11-系统测试报告-黑盒-白盒">11. 系统测试报告（黑盒＋白盒）</a><a class="toc-l3" href="#h-11-1-测试概述">11.1 测试概述</a><a class="toc-l3" href="#h-11-2-测试环境">11.2 测试环境</a><a class="toc-l3" href="#h-11-3-测试策略与方法">11.3 测试策略与方法</a><a class="toc-l3" href="#h-11-4-黑盒测试用例与执行结果-56-条">11.4 黑盒测试用例与执行结果（56 条）</a><a class="toc-l3" href="#h-11-5-白盒测试用例与执行结果-20-条">11.5 白盒测试用例与执行结果（20 条）</a><a class="toc-l3" href="#h-11-6-缺陷与修复记录-11-项">11.6 缺陷与修复记录（11 项）</a><a class="toc-l3" href="#h-11-7-测试结论">11.7 测试结论</a><a class="toc-l2" href="#h-附录-a-需求-设计-实现追溯矩阵">附录 A：需求—设计—实现追溯矩阵</a><a class="toc-l2" href="#h-附录-b-已知缺陷与遗留风险">附录 B：已知缺陷与遗留风险</a><a class="toc-l3" href="#h-b-1-原系统自带-未在本轮修复范围">B.1 原系统自带（未在本轮修复范围）</a><a class="toc-l3" href="#h-b-2-本轮已踩过并修复的坑-工程记录">B.2 本轮已踩过并修复的坑（工程记录）</a><a class="toc-l3" href="#h-b-3-待办-下一轮候选">B.3 待办（下一轮候选）</a><a class="toc-l2" href="#h-附录-c-版本沿革">附录 C：版本沿革</a></nav>
 <main>
 <h1 id="h-健身会员智慧管理系统-论文-第一版">健身会员智慧管理系统 — 论文（第一版）</h1>
 <blockquote>
@@ -2019,7 +2019,82 @@ flowchart LR
 <li><strong>存不上不阻断对话</strong>。存储不可用（库挂了、连不上）时容器照常启动（<code>initializationFailTimeout=-1</code>），本轮回答正常返回，只是 <code>sessionKey</code> 为空；恢复后自动续存（重试冷却 30s）。</li>
 </ol>
 <blockquote>
-<p>设计取舍：会话库<strong>自有 schema、不带 ORM、不带迁移框架</strong>。理由是只维护两张表、且是"附属存储"形态——引入 JPA/EntityManager 与 Flyway 带来的协调成本大于收益。建表由 <code>SchemaInitializer</code> 在启动时 <code>IF NOT EXISTS</code> 自举。</p>
+<p>设计取舍：会话库<strong>自有 schema、不带 ORM、不带迁移框架</strong>。理由是表数量有限、且是"附属存储"形态——引入 JPA/EntityManager 与 Flyway 带来的协调成本大于收益。建表由 <code>SchemaInitializer</code> 在启动时 <code>IF NOT EXISTS</code> 自举。</p>
+</blockquote>
+<h3 id="h-4-10-运行观测-让-黑盒推理-可解释">4.10 运行观测：让"黑盒推理"可解释</h3>
+<p>大模型应用最容易陷入的困境是：出了问题时只能靠猜。回答不对，是没检索到资料？是提示词写得不好？还是模型根本没被调用？没有数据时，这些假设无法区分，优化也就无从谈起。</p>
+<p>本系统为此内置了一套<strong>链路埋点</strong>：一次对话产生一条 <code>llm_trace</code>，处理过程中的每个阶段产生一条 <code>llm_span</code>，记录阶段名、类型、<strong>起点偏移</strong>与<strong>耗时</strong>。前端据此直接画出调用瀑布图——哪一段慢、哪一段没走到，一眼可见。</p>
+<div class="diagram"><div class="diagram-title">图 21</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+flowchart LR
+  A[&quot;chat.total&lt;br/&gt;（根阶段，全程）&quot;] --&gt; B[&quot;knowledge.search&lt;br/&gt;检索&quot;]
+  B --&gt; C[&quot;llm.chat&lt;br/&gt;大模型&quot;]
+  C --&gt; D[&quot;db.append&lt;br/&gt;落库&quot;]
+  D --&gt; E[(&quot;llm_trace + llm_span&quot;)]
+  E --&gt; F[&quot;/observability/overview&lt;br/&gt;聚合指标&quot;]
+  E --&gt; G[&quot;/observability/traces&lt;br/&gt;流水 + 瀑布图&quot;]
+</pre></div>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>类型</th>
+<th>记录时机</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>chat.total</code></td>
+<td>total</td>
+<td>根阶段，覆盖一次对话全程</td>
+</tr>
+<tr>
+<td><code>knowledge.search</code></td>
+<td>retrieve</td>
+<td>知识库检索；detail 记录命中篇目与最高分</td>
+</tr>
+<tr>
+<td><code>llm.chat</code></td>
+<td>llm</td>
+<td>大模型调用；detail 记录模型与 token</td>
+</tr>
+<tr>
+<td><code>db.append</code></td>
+<td>db</td>
+<td>会话消息落库</td>
+</tr>
+</tbody>
+</table>
+<p>三条设计约束，缺一不可：</p>
+<ol>
+<li><strong>埋点代码零侵入</strong>。<code>TraceContext</code> 用 <code>ThreadLocal</code> 承载，各层直接"从当前线程取"，不必层层透传 traceId；<code>Span</code> 实现 <code>AutoCloseable</code>，埋点写成 <code>try (Span s = span(...))</code> 即可自动计时。没有开 trace 时返回<strong>空实现而非 null</strong>，因此调用方不必判空，也不会漏判出 NPE。</li>
+<li><strong>观测不允许拖垮业务</strong>。落库走独立单线程守护线程池异步执行，异常在观测层内部消化；连续失败 20 次后熔断停写，对话功能完全不受影响。</li>
+<li><strong>必须在 finally 里 clear()</strong>。Tomcat 线程是复用的，不清理会让下一次请求读到上一次的 trace，指标全部串味。</li>
+</ol>
+<blockquote>
+<p><strong>踩坑记录</strong>：最初只在"调用大模型"和"检索"两处埋点，结果澄清询问、欢迎语这类<strong>不调模型的请求</strong>留下了一条 spans 为空的记录——瀑布图上一片空白，延迟分位还被这些 0ms 样本拉偏。修法是在入口补一个覆盖全程的根阶段，让<strong>任何一条 trace 至少有一个阶段</strong>。</p>
+</blockquote>
+<h3 id="h-4-11-知识反馈闭环-让语料越用越准">4.11 知识反馈闭环：让语料越用越准</h3>
+<p>检索排序若只靠算法，遇到"资料里有但排不上来"就束手无策。本系统把<strong>用户反馈接回排序</strong>：回答下方的好评/差评会写入 <code>knowledge_feedback</code>，聚合成文档权重，再乘进检索得分。</p>
+<p>权重换算刻意做成<strong>不对称</strong>的：</p>
+<p>$$w = \text{clamp}(1.0 + 0.12 \times n_{up} - 0.18 \times n_{down},\; 0.4,\; 2.0)$$</p>
+<p>一次差评的惩罚（-0.18）大于一次好评的奖励（+0.12）。理由很直接：<strong>答错一次的代价远大于答对一次的收益</strong>——用户不会因为答对一次就信任系统，但答错一次就可能不再使用。权重上下限（0.4 / 2.0）保证单篇文档的口碑再极端也不会彻底消失或一家独大。</p>
+<p>实测：初始 1.00 → 一次好评 1.12；连续差评 0.82 → 0.64 → 0.46，真实参与下一次检索排序。</p>
+<blockquote>
+<p>权重<strong>只影响排序，不删除语料</strong>。差评是"这篇排得不该这么靠前"，不是"这篇不该存在"——证据仍在，只是不再优先。这样既吸收了用户判断，又保留了可追溯性。</p>
+</blockquote>
+<h3 id="h-4-12-计划执行闭环与离线评测">4.12 计划执行闭环与离线评测</h3>
+<p>生成计划只是起点，<strong>计划是否被执行</strong>才是价值所在。本系统把计划自动展开成一周的每日任务（节律为固定的「练二休一」，牺牲所谓最优解换取可解释——用户能一眼看懂为什么今天休息），会员端可逐条打卡（完成 / 跳过），系统据此算出<strong>依从率</strong>。</p>
+<div class="diagram"><div class="diagram-title">图 22</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+flowchart LR
+  P[&quot;生成计划&quot;] --&gt; M[&quot;materialize 展开&lt;br/&gt;→ plan_task&quot;]
+  M --&gt; C[&quot;会员打卡&lt;br/&gt;DONE / SKIP&quot;]
+  C --&gt; L[&quot;plan_task_log&lt;br/&gt;留痕&quot;]
+  C --&gt; A[&quot;依从率统计&quot;]
+  A --&gt; E[&quot;评测集 eval_case&lt;br/&gt;→ eval_result&quot;]
+</pre></div>
+<p>同时内置<strong>离线评测框架</strong>：<code>eval_case</code> 存放问句、期望意图与期望关键词，<code>/eval/run</code> 可一键跑完全集并落 <code>eval_result</code>，给出意图命中率与关键词命中率。关键设计是 <strong><code>withLlm=false</code> 模式</strong>——只跑意图路由与检索，不消耗 token，因此可以在每次改动后廉价地反复执行，作为"改坏了没有"的第一道闸门。同一评测集重复执行结果一致（WB-19 断言此性质）。</p>
+<blockquote>
+<p>评测框架在接入当轮就证明了价值：它立刻暴露出「高血压能练吗」被判为未知意图——知识库里明明有相关文档（得分 46.75，远超阈值），但意图路由的词表没覆盖"高血压/慢性病"，根本没把请求送进知识问答。这类"资料齐备但入口不通"的缺陷，靠人工抽样极难发现。</p>
 </blockquote>
 <hr />
 <h2 id="h-5-数据库设计">5. 数据库设计</h2>
@@ -2056,7 +2131,7 @@ flowchart LR
 </table>
 <h3 id="h-5-2-实体关系总览">5.2 实体关系总览</h3>
 <p>只画实体与关系连线，不塞属性；属性在 5.3 逐实体单列。</p>
-<div class="diagram"><div class="diagram-title">图 21</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 23</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   MEMBER ||--o{ CHECKIN : &quot;产生签到&quot;
   MEMBER ||--o{ RECHARGE : &quot;拥有订单&quot;
@@ -2068,7 +2143,7 @@ erDiagram
 </pre></div>
 <h3 id="h-5-3-各实体-er-图-逐实体单列">5.3 各实体 ER 图（逐实体单列）</h3>
 <h4>5.3.1 member（会员）</h4>
-<div class="diagram"><div class="diagram-title">图 22</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 24</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   MEMBER {
     int memberNo PK &quot;会员编号 自增&quot;
@@ -2091,7 +2166,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.2 recharge（充值流水 / 充值订单）</h4>
-<div class="diagram"><div class="diagram-title">图 23</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 25</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   RECHARGE {
     int rechargeNo PK &quot;流水号 即订单号 自增&quot;
@@ -2103,7 +2178,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.3 register（报名订单）</h4>
-<div class="diagram"><div class="diagram-title">图 24</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 26</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   REGISTER {
     int registerNo PK &quot;报名编号&quot;
@@ -2112,7 +2187,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.4 course（课程）</h4>
-<div class="diagram"><div class="diagram-title">图 25</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 27</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   COURSE {
     int courseNo PK &quot;课程编号&quot;
@@ -2127,7 +2202,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.5 employee（员工）</h4>
-<div class="diagram"><div class="diagram-title">图 26</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 28</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   EMPLOYEE {
     int employeeNo PK &quot;员工编号&quot;
@@ -2141,7 +2216,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.6 manager（经理）</h4>
-<div class="diagram"><div class="diagram-title">图 27</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 29</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   MANAGER {
     int managerNo PK &quot;经理编号&quot;
@@ -2149,7 +2224,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.7 checkin（签到）</h4>
-<div class="diagram"><div class="diagram-title">图 28</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 30</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   CHECKIN {
     int checkNo PK &quot;签到编号&quot;
@@ -2158,7 +2233,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.8 equipment（器材）</h4>
-<div class="diagram"><div class="diagram-title">图 29</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 31</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   EQUIPMENT {
     int equipmentNo PK &quot;器材编号&quot;
@@ -2170,7 +2245,7 @@ erDiagram
   }
 </pre></div>
 <h4>5.3.9 admin（管理员）</h4>
-<div class="diagram"><div class="diagram-title">图 30</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 32</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   ADMIN {
     int adminNo PK &quot;管理员编号&quot;
@@ -2325,9 +2400,52 @@ erDiagram
 </tbody>
 </table>
 <p>字段明细见 5.3 各实体图（类型、主外键、语义均已标注），此处不重复展开。</p>
-<h3 id="h-5-7-智能体自有库-fitness-ai-本轮新增">5.7 智能体自有库 fitness_ai（本轮新增）</h3>
-<p>会话历史<strong>不写业务库</strong>——业务库是"会员资产"的事实来源，聊天记录属于智能体自身的运行数据，两者生命周期与备份策略都不同，混在一起会互相牵连。因此智能体在<strong>同一个 MySQL 实例</strong>上另建 schema <code>fitness_ai</code>，只放两张表，启动时由 <code>SchemaInitializer</code> 自举（<code>CREATE ... IF NOT EXISTS</code>），不参与业务的初始化脚本。</p>
-<div class="diagram"><div class="diagram-title">图 31</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<h3 id="h-5-7-智能体自有库-fitness-ai-本轮扩展至-12-张表">5.7 智能体自有库 fitness_ai（本轮扩展至 12 张表）</h3>
+<p>会话历史<strong>不写业务库</strong>——业务库是"会员资产"的事实来源，聊天记录属于智能体自身的运行数据，两者生命周期与备份策略都不同，混在一起会互相牵连。因此智能体在<strong>同一个 MySQL 实例</strong>上另建 schema <code>fitness_ai</code>，目前共 <strong>12</strong> 张表，启动时由 <code>SchemaInitializer</code> 自举（<code>CREATE ... IF NOT EXISTS</code>），不参与业务的初始化脚本。</p>
+<table>
+<thead>
+<tr>
+<th>归类</th>
+<th>表</th>
+<th>张数</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>会话存储</td>
+<td><code>chat_session</code>、<code>chat_message</code></td>
+<td>2</td>
+<td>历史持久化与归属隔离（4.9）</td>
+</tr>
+<tr>
+<td>运行观测</td>
+<td><code>llm_trace</code>、<code>llm_span</code>、<code>agent_daily_metric</code></td>
+<td>3</td>
+<td>链路流水、阶段耗时、按天聚合（4.10）</td>
+</tr>
+<tr>
+<td>知识反馈</td>
+<td><code>knowledge_feedback</code>、<code>knowledge_doc_weight</code></td>
+<td>2</td>
+<td>原始反馈流水与聚合权重（4.11）</td>
+</tr>
+<tr>
+<td>计划执行</td>
+<td><code>plan_task</code>、<code>plan_task_log</code></td>
+<td>2</td>
+<td>每日任务与打卡留痕（4.12）</td>
+</tr>
+<tr>
+<td>离线评测</td>
+<td><code>eval_case</code>、<code>eval_run</code>、<code>eval_result</code></td>
+<td>3</td>
+<td>评测集、运行批次、逐条结果（4.12）</td>
+</tr>
+</tbody>
+</table>
+<p>其中<strong>只有</strong> <code>chat_session</code> 与 <code>chat_message</code> 承载业务事实，其余 10 张均为运行期观测/优化数据——它们可以整体清空而不影响任何会员资产，这也是拆库的核心收益。</p>
+<div class="diagram"><div class="diagram-title">图 33</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 erDiagram
   CHAT_SESSION ||--o{ CHAT_MESSAGE : &quot;一对多 · session_key&quot;
   CHAT_SESSION {
@@ -2385,10 +2503,87 @@ erDiagram
 <blockquote>
 <p>索引：<code>chat_session</code> (owner_type, owner_id, updated_at) 支持"列出我的会话"；<code>chat_message</code> (session_key, seq) 支持"按序回放"。</p>
 </blockquote>
+<h3 id="h-5-8-会员智能运营中枢表-业务库新增-5-张">5.8 会员智能运营中枢表（业务库新增 5 张）</h3>
+<p>运营中枢落在<strong>业务库</strong> <code>gym_management</code>，因为它读写的都是业务事实（会员、签到、充值、器材）。新增 5 张表，<strong>全部为派生结果表</strong>——它们不承载任何原始事实，删掉后可以完整重算。</p>
+<div class="diagram"><div class="diagram-title">图 34</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+flowchart LR
+  SRC[&quot;原始业务表&lt;br/&gt;member / checkin / recharge / equipment&lt;br/&gt;（只读）&quot;] --&gt; RFM[&quot;member_segment&lt;br/&gt;RFM 分层结果&quot;]
+  RFM --&gt; SIG[&quot;member_churn_signal&lt;br/&gt;流失信号&quot;]
+  SRC --&gt; SNAP[&quot;ops_daily_snapshot&lt;br/&gt;按天经营快照&quot;]
+  SRC --&gt; ORD[&quot;equipment_maintenance&lt;br/&gt;器材维护工单&quot;]
+  ORD --&gt; LOG[&quot;equipment_maintenance_log&lt;br/&gt;工单流转日志&quot;]
+</pre></div>
+<table>
+<thead>
+<tr>
+<th>表</th>
+<th>内容</th>
+<th>重算方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>member_segment</code></td>
+<td>每会员的 R（距最近签到天数）/ F（近 90 天签到次数）/ M（近 90 天充值额）与分层结果、综合得分</td>
+<td><code>POST /ops/refresh</code> 全量重算</td>
+</tr>
+<tr>
+<td><code>member_churn_signal</code></td>
+<td>流失信号明细：类型、权重、人类可读说明</td>
+<td>同上，先删后建</td>
+</tr>
+<tr>
+<td><code>ops_daily_snapshot</code></td>
+<td>按天经营快照：新增会员、签到人次、充值金额、课程上座率</td>
+<td>同上，按 <code>snapshot_date</code> 幂等 upsert</td>
+</tr>
+<tr>
+<td><code>equipment_maintenance</code></td>
+<td>器材维护工单（例行保养 / 故障维修）与状态机</td>
+<td>人工建单与推进</td>
+</tr>
+<tr>
+<td><code>equipment_maintenance_log</code></td>
+<td>工单每次状态变更的留痕</td>
+<td>随状态推进自动追加</td>
+</tr>
+</tbody>
+</table>
+<p><strong>分层规则</strong>（阈值写死在常量里，便于审计与调整）：</p>
+<table>
+<thead>
+<tr>
+<th>层</th>
+<th>判据</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>HIGH_VALUE</code> 高价值</td>
+<td>最近到店 ≤ 14 天，且近 90 天签到 ≥ 8 次</td>
+</tr>
+<tr>
+<td><code>GROWING</code> 成长</td>
+<td>最近到店 ≤ 30 天</td>
+</tr>
+<tr>
+<td><code>SLEEPING</code> 沉睡</td>
+<td>最近到店 &gt; 60 天且近 90 天无充值</td>
+</tr>
+<tr>
+<td><code>CHURN_RISK</code> 流失风险</td>
+<td>长期未到店<strong>但近期有充值</strong>（充了钱却没来，比单纯沉睡更值得干预）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>流失信号权重</strong>：从未到店 50；&gt; 60 天未到店 40；&gt; 30 天未到店 25；近 90 天无有效充值 20。同一会员的多个信号累加成风险分，用于排序。</p>
+<blockquote>
+<p>设计取舍：流失预警输出的是<strong>可核实的信号</strong>（多少天没来、多久没充值），而不是一个"流失概率"分数。后者无法验证对错，也就无法据此行动；前者可以让运营直接打电话前先看看系统说的原因是否成立。</p>
+</blockquote>
 <hr />
 <h2 id="h-6-接口设计">6. 接口设计</h2>
 <h3 id="h-6-1-暴露拓扑">6.1 暴露拓扑</h3>
-<div class="diagram"><div class="diagram-title">图 32</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 35</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 flowchart LR
   FE[&quot;前端 api.js&quot;] --&gt;|&quot;/api/** 剥前缀&quot;| GYM[&quot;gym-backend :9090&lt;br/&gt;61 + 3 个接口&quot;]
   FE --&gt;|&quot;/agent-api/** 剥前缀&quot;| AG[&quot;fitness-agent :9091&lt;br/&gt;5 + 4 + 6 个接口&quot;]
@@ -2669,6 +2864,152 @@ flowchart LR
 </tbody>
 </table>
 <p>知识库接口是<strong>只读</strong>的，既是产品能力（前端浏览页），也是运维探针（检索调试）。</p>
+<h3 id="h-6-8-运行观测接口-本轮新增-3-个-api-observability">6.8 运行观测接口（本轮新增 3 个，/api/observability）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>入参</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/api/observability/overview</td>
+<td>days（1–90，默认 7）</td>
+<td>调用量、失败率、降级率、Token、P50/P95/P99、意图与状态分布</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/observability/traces</td>
+<td>limit（1–200）、intent?、status?</td>
+<td>最近调用流水，<strong>含各阶段耗时</strong>（瀑布图数据源）</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/observability/daily/refresh</td>
+<td>days（默认 30）</td>
+<td>手工刷新按天聚合表</td>
+</tr>
+</tbody>
+</table>
+<p>三个接口<strong>全部只读</strong>（<code>daily/refresh</code> 只重算聚合，不改原始记录）。写入完全由 <code>TraceRecorder</code> 在调用链路上自动完成——不允许外部直接往 trace 表写数据，否则指标就可以被随意粉饰了。</p>
+<h3 id="h-6-9-知识反馈接口-本轮新增-2-个-api-knowledge-feedback">6.9 知识反馈接口（本轮新增 2 个，/api/knowledge/feedback）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>入参</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/api/knowledge/feedback</td>
+<td>query、docId、docTitle、vote（UP/DOWN）、score?、traceId?、comment?</td>
+<td>提交一次反馈</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/knowledge/feedback/summary</td>
+<td>—</td>
+<td>反馈汇总：总条数、好评/差评数、各文档权重</td>
+</tr>
+</tbody>
+</table>
+<p><code>docId</code> 为必填——没有指向文档的反馈无法回流到排序，直接 400 拒绝（BB-50 断言此行为）。</p>
+<h3 id="h-6-10-计划任务接口-本轮新增-3-个-api-plan">6.10 计划任务接口（本轮新增 3 个，/api/plan）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>入参</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>/api/plan/tasks</td>
+<td>归属请求头、date?</td>
+<td>我的训练任务清单</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/plan/tasks/{id}/checkin</td>
+<td>action（DONE / SKIP / UNDO）</td>
+<td>打卡</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/plan/adherence</td>
+<td>days（默认 30）</td>
+<td>依从率统计</td>
+</tr>
+</tbody>
+</table>
+<p>打卡与任务清单<strong>均带归属条件</strong>：换一个 <code>X-Client-Id</code> 给同一任务打卡，<code>affected=0</code>，不产生任何效果（BB-53 断言此行为）。</p>
+<h3 id="h-6-11-会员智能运营中枢接口-业务系统新增-7-个-ops">6.11 会员智能运营中枢接口（业务系统新增 7 个，/ops）</h3>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>路径</th>
+<th>入参</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>/ops/refresh</td>
+<td>days（默认 90）</td>
+<td>重算分层、流失信号、当日快照</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/ops/overview</td>
+<td>days（默认 30）</td>
+<td>运营概览：分层分布 + 风险榜 + 近期快照</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/ops/segments</td>
+<td>segment?、limit?</td>
+<td>分层会员名单</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/ops/equipment/orders</td>
+<td>equipmentNo、planType、title…</td>
+<td>建维护工单</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/ops/equipment/orders/{id}/advance</td>
+<td>to（ASSIGNED/DONE/VERIFIED）</td>
+<td>推进工单状态</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/ops/equipment/orders</td>
+<td>status?、limit?</td>
+<td>工单列表</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/ops/equipment/orders/{id}/logs</td>
+<td>—</td>
+<td>工单流转日志</td>
+</tr>
+</tbody>
+</table>
+<p>工单状态机为 <code>PLANNED → ASSIGNED → DONE → VERIFIED</code>，<strong>只允许逐级推进</strong>：跳级或回退返回 400，每次变更写入 <code>equipment_maintenance_log</code>（BB-55、BB-56 断言此行为）。</p>
 <hr />
 <h2 id="h-7-关键流程设计">7. 关键流程设计</h2>
 <h3 id="h-7-1-时序图-一句话充值闭环-核心">7.1 时序图：一句话充值闭环（核心）</h3>
@@ -2686,7 +3027,7 @@ flowchart LR
 </figure>
 <!--/SHOT-->
 
-<div class="diagram"><div class="diagram-title">图 33</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 36</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 sequenceDiagram
   autonumber
   actor M as 会员
@@ -2722,7 +3063,7 @@ sequenceDiagram
   W--&gt;&gt;M: 回执卡「充值成功 · 余额已更新」
 </pre></div>
 <h3 id="h-7-2-时序图-健身计划生成-含降级">7.2 时序图：健身计划生成（含降级）</h3>
-<div class="diagram"><div class="diagram-title">图 34</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 37</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 sequenceDiagram
   autonumber
   actor U as 用户
@@ -2753,7 +3094,7 @@ sequenceDiagram
 </figure>
 <!--/SHOT-->
 
-<div class="diagram"><div class="diagram-title">图 35</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 38</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 sequenceDiagram
   autonumber
   actor AD as 管理员
@@ -2764,7 +3105,7 @@ sequenceDiagram
   Note over A: 绝不猜测目标会员，杜绝代查代充
 </pre></div>
 <h3 id="h-7-4-状态图-充值订单生命周期">7.4 状态图：充值订单生命周期</h3>
-<div class="diagram"><div class="diagram-title">图 36</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 39</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 stateDiagram-v2
   direction LR
   [*] --&gt; 待支付 : 对话确认充值，建单 status=0
@@ -2775,7 +3116,7 @@ stateDiagram-v2
   已取消 --&gt; [*]
 </pre></div>
 <h3 id="h-7-5-状态图-会员卡等级">7.5 状态图：会员卡等级</h3>
-<div class="diagram"><div class="diagram-title">图 37</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 40</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 stateDiagram-v2
   direction LR
   [*] --&gt; 未开卡
@@ -2785,7 +3126,7 @@ stateDiagram-v2
   已过期 --&gt; 普通会员卡 : 续费充值
 </pre></div>
 <h3 id="h-7-6-活动图-会员对话主流程">7.6 活动图：会员对话主流程</h3>
-<div class="diagram"><div class="diagram-title">图 38</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 41</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 flowchart TD
   A([开始]) --&gt; B{已登录?}
   B -- 否 --&gt; C[&quot;手机号 + 密码登录&quot;]
@@ -2808,7 +3149,7 @@ flowchart TD
   M --&gt; N
 </pre></div>
 <h3 id="h-7-7-活动图-支付页-手机端">7.7 活动图：支付页（手机端）</h3>
-<div class="diagram"><div class="diagram-title">图 39</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 42</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 flowchart TD
   A([扫码进入 /pay/订单号]) --&gt; B[&quot;公开路由放行（无登录态）&quot;]
   B --&gt; C[&quot;读取订单&quot;]
@@ -2825,7 +3166,7 @@ flowchart TD
 </pre></div>
 <h3 id="h-7-8-时序图-知识问答-rag-三段式">7.8 时序图：知识问答（RAG 三段式）</h3>
 <p>一次"深蹲膝盖疼怎么办"的完整链路：意图未命中 → 检索命中 → 生成（含越界退化）→ 落库 → 带来源卡返回。</p>
-<div class="diagram"><div class="diagram-title">图 40</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 43</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 sequenceDiagram
   autonumber
   participant FE as 前端
@@ -2858,7 +3199,7 @@ sequenceDiagram
   end
 </pre></div>
 <h3 id="h-7-9-时序图-会话落库与归属隔离">7.9 时序图：会话落库与归属隔离</h3>
-<div class="diagram"><div class="diagram-title">图 41</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
+<div class="diagram"><div class="diagram-title">图 44</div><pre class="mermaid-src">%%{init: {'theme':'neutral','themeVariables':{'primaryColor':'#ffffff','primaryBorderColor':'#000000','lineColor':'#000000','primaryTextColor':'#000000','secondaryColor':'#ffffff','tertiaryColor':'#f5f5f5','fontFamily':'PingFang SC, Microsoft YaHei, sans-serif'}}}%%
 sequenceDiagram
   autonumber
   participant FE as 前端
@@ -3564,12 +3905,12 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <tbody>
 <tr>
 <td>知识库文档总数</td>
-<td>63</td>
+<td>64</td>
 <td>GET /agent-api/knowledge/stats</td>
 </tr>
 <tr>
 <td>正文字数 / 章节数</td>
-<td>26341 / 349</td>
+<td>27138 / 354</td>
 <td>同上</td>
 </tr>
 <tr>
@@ -3589,7 +3930,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 </tr>
 <tr>
 <td>会话 / 消息行数</td>
-<td>52 / 116</td>
+<td>101 / 220</td>
 <td>同上</td>
 </tr>
 </tbody>
@@ -3662,7 +4003,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <blockquote>
 <p>编号规则：<code>BB-xx</code> 为黑盒用例，<code>WB-xx</code> 为白盒用例；编号即执行顺序。全部用例由 <code>tools/test_suite_v21.py</code> 执行，原始记录见 <code>docs/test-report-data.json</code>。</p>
 </blockquote>
-<h3 id="h-11-4-黑盒测试用例与执行结果-44-条">11.4 黑盒测试用例与执行结果（44 条）</h3>
+<h3 id="h-11-4-黑盒测试用例与执行结果-56-条">11.4 黑盒测试用例与执行结果（56 条）</h3>
 <h4>11.4.1 黑盒执行汇总</h4>
 <table>
 <thead>
@@ -3725,9 +4066,37 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>全部通过</td>
 </tr>
 <tr>
+<td>运行观测</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>全部通过</td>
+</tr>
+<tr>
+<td>知识反馈</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>全部通过</td>
+</tr>
+<tr>
+<td>计划执行</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>全部通过</td>
+</tr>
+<tr>
+<td>运营中枢</td>
+<td>3</td>
+<td>3</td>
+<td>0</td>
+<td>全部通过</td>
+</tr>
+<tr>
 <td><strong>合计</strong></td>
-<td><strong>44</strong></td>
-<td><strong>44</strong></td>
+<td><strong>56</strong></td>
+<td><strong>56</strong></td>
 <td><strong>0</strong></td>
 <td><strong>通过率 100.0%</strong></td>
 </tr>
@@ -3757,7 +4126,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>BB-02</td>
 <td><strong>口语化余额查询</strong><br>前置：会员已登录<br>步骤：发送「我卡里还有多少钱」</td>
 <td>回复含余额数值，不出现确认卡</td>
-<td>HTTP 200，reply=你卡里还有 ¥2229。</td>
+<td>HTTP 200，reply=你卡里还有 ¥3129。</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -3842,35 +4211,35 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>BB-12</td>
 <td><strong>确认后生成订单与支付二维码</strong><br>前置：上一步已拿到 CONFIRM 待办<br>步骤：回传 pending 后发送「好」</td>
 <td>生成订单，返回 PAY 卡且含 orderNo 与二维码</td>
-<td>HTTP 200，orderNo=21，字段=['amount', 'orderNo', 'qrPath']</td>
+<td>HTTP 200，orderNo=36，字段=['amount', 'orderNo', 'qrPath']</td>
 <td>通过</td>
 </tr>
 <tr>
 <td>BB-13</td>
 <td><strong>订单状态可轮询</strong><br>前置：已存在一个订单号<br>步骤：GET /qa/pay/{orderNo}</td>
 <td>返回 status 与金额、会员编号</td>
-<td>HTTP 200，orderNo=22，status=PENDING</td>
+<td>HTTP 200，orderNo=37，status=PENDING</td>
 <td>通过</td>
 </tr>
 <tr>
 <td>BB-14</td>
 <td><strong>支付入账使余额真实增加</strong><br>前置：会员余额已知<br>步骤：建单 → 支付 → 比对余额</td>
 <td>支付后余额 = 支付前 + 金额（差值精确等于金额）</td>
-<td>HTTP 200，余额 2229.0 → 2329.0（Δ=100.0）</td>
+<td>HTTP 200，余额 3129.0 → 3229.0（Δ=100.0）</td>
 <td>通过</td>
 </tr>
 <tr>
 <td>BB-15</td>
 <td><strong>重复支付幂等（不重复加钱）</strong><br>前置：已支付订单号<br>步骤：对同一订单再次调支付</td>
 <td>余额不再增加，返回已支付状态</td>
-<td>订单 24：首付后=2429.0，重复支付后=2429.0</td>
+<td>订单 39：首付后=3329.0，重复支付后=3329.0</td>
 <td>通过</td>
 </tr>
 <tr>
 <td>BB-16</td>
 <td><strong>支付页读取已支付订单</strong><br>前置：已支付订单号<br>步骤：GET /qa/pay/{orderNo}</td>
 <td>status=PAID 且返回当前余额</td>
-<td>HTTP 200，status=PAID，balance=2529</td>
+<td>HTTP 200，status=PAID，balance=3429</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -3941,7 +4310,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>BB-44</td>
 <td><strong>计划只读，不产生任何资金动作</strong><br>前置：会员已登录<br>步骤：生成计划前后比对余额</td>
 <td>余额完全不变</td>
-<td>余额 2529.0 → 2529.0</td>
+<td>余额 3429.0 → 3429.0</td>
 <td>通过</td>
 </tr>
 </tbody>
@@ -4013,7 +4382,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>BB-29</td>
 <td><strong>列表能查到自己的会话</strong><br>前置：上一步已建会话<br>步骤：GET /qa/sessions</td>
 <td>列表含该 sessionKey</td>
-<td>HTTP 200，会话数=2，命中=True</td>
+<td>HTTP 200，会话数=5，命中=True</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -4127,7 +4496,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>BB-41</td>
 <td><strong>不存在的订单返回 404</strong><br>前置：订单号不存在<br>步骤：GET /qa/pay/99999999</td>
 <td>404 且返回结构化错误体</td>
-<td>HTTP 404，body={"timestamp": "2026-10-11T02:07:18.484983511+08:00", "status</td>
+<td>HTTP 404，body={"timestamp": "2026-10-12T15:23:59.238270759+08:00", "status</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -4141,12 +4510,12 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>BB-43</td>
 <td><strong>四容器健康检查</strong><br>前置：全栈已启动<br>步骤：docker compose ps</td>
 <td>四个容器均为 Up</td>
-<td>Up 容器 4/4：fitness-agent=Up 6 minutes (healthy); fitness-web=Up 57 minutes (healthy); gym-backend=Up 57 minutes; gym-mysql=Up 4 hours (healthy)</td>
+<td>Up 容器 4/4：fitness-agent=Up 11 minutes (healthy); fitness-web=Up 27 minutes (healthy); gym-backend=Up 33 minutes; gym-mysql=Up About an hour (healthy)</td>
 <td>通过</td>
 </tr>
 </tbody>
 </table>
-<h3 id="h-11-5-白盒测试用例与执行结果-17-条">11.5 白盒测试用例与执行结果（17 条）</h3>
+<h3 id="h-11-5-白盒测试用例与执行结果-20-条">11.5 白盒测试用例与执行结果（20 条）</h3>
 <h4>11.5.1 白盒执行汇总</h4>
 <table>
 <thead>
@@ -4272,15 +4641,36 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>全部通过</td>
 </tr>
 <tr>
+<td>可观测性（静态）</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>全部通过</td>
+</tr>
+<tr>
+<td>离线评测（动态）</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>全部通过</td>
+</tr>
+<tr>
+<td>运营中枢（动态）</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>全部通过</td>
+</tr>
+<tr>
 <td><strong>合计</strong></td>
-<td><strong>17</strong></td>
-<td><strong>17</strong></td>
+<td><strong>20</strong></td>
+<td><strong>20</strong></td>
 <td><strong>0</strong></td>
 <td><strong>通过率 100.0%</strong></td>
 </tr>
 </tbody>
 </table>
-<h4>11.5.2 静态白盒：源码级约束审查（6 条）</h4>
+<h4>11.5.2 静态白盒：源码级约束审查（7 条）</h4>
 <p>静态用例断言的是「设计里承诺的约束在代码里确实存在，且没有例外」。例如归属条件不能只在主流程写、在删除分支漏掉。</p>
 <table>
 <thead>
@@ -4304,7 +4694,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>WB-02</td>
 <td><strong>SchemaInitializer 全部 DDL 带 IF NOT EXISTS</strong><br>前置：已取得 SchemaInitializer 源码<br>步骤：统计 DDL 语句与 IF NOT EXISTS 出现次数</td>
 <td>建库与两张表均为 IF NOT EXISTS，重复执行无副作用</td>
-<td>CREATE TABLE IF NOT EXISTS × 2，CREATE DATABASE IF NOT EXISTS × 1</td>
+<td>CREATE TABLE IF NOT EXISTS × 12（裸 × 0），CREATE DATABASE IF NOT EXISTS × 1（裸 × 0）</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -4335,9 +4725,16 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>版本={'PLAN_VERSION': 'plan-v2', 'FALLBACK_VERSION': 'fallback-v1', 'KNOWLEDGE_VERSION': 'kb-v1'}；定义处=PLAN_VERSION@PromptLibrary.java；FALLBACK_VERSION@PromptLibrary.java；KNOWLEDGE_VERSION@PromptLibrary.java；定义唯一=True；引用文件数=5</td>
 <td>通过</td>
 </tr>
+<tr>
+<td>WB-18</td>
+<td><strong>链路埋点覆盖三类调用</strong><br>前置：源码可读<br>步骤：统计 TraceContext.span 的埋点位置</td>
+<td>至少覆盖 llm / retrieve / db 三种 kind</td>
+<td>埋点 kind 集合=['db', 'llm', 'retrieve', 'total']</td>
+<td>通过</td>
+</tr>
 </tbody>
 </table>
-<h4>11.5.3 动态白盒：运行期结构验证（11 条）</h4>
+<h4>11.5.3 动态白盒：运行期结构验证（13 条）</h4>
 <p>动态用例给出可复现的客观证据：执行计划里的索引名、数据库行数比对、探针容器的健康状态、索引重建前后的文档总数。</p>
 <table>
 <thead>
@@ -4354,7 +4751,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>WB-03</td>
 <td><strong>重复执行建表语句无副作用</strong><br>前置：会话表已存在<br>步骤：对已存在的库表再执行一次 CREATE TABLE IF NOT EXISTS</td>
 <td>不报错，表数量与行数不变</td>
-<td>建表输出=mysql: [Warning] Using a password on the，行数 42 mysql: [Warning] Using a password on the command line interface can be insecure. → 42 mysql: [Warning] Using a password on the command line interface can be insecure.</td>
+<td>建表输出=mysql: [Warning] Using a password on the，行数 114 → 114</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -4375,21 +4772,21 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>WB-07</td>
 <td><strong>虚字查询低于阈值（答不上来）</strong><br>前置：分词器已过滤虚字<br>步骤：分别查询「什么时候」「的了吗」「然后呢」</td>
 <td>三者最高分均低于命中阈值，即拒答</td>
-<td>阈值=12.0；什么时候→0.0分/0篇；的了吗→0.0分/0篇；然后呢→2.91分/0篇</td>
+<td>阈值=12.0；什么时候→0.0分/0篇；的了吗→0.0分/0篇；然后呢→2.92分/0篇</td>
 <td>通过</td>
 </tr>
 <tr>
 <td>WB-08</td>
 <td><strong>标题命中得分显著高于正文命中</strong><br>前置：语料含标题命中与仅正文命中的文档<br>步骤：查询「平板支撑」，比较 plank 与 side_plank 得分</td>
 <td>标题命中的 plank 得分 &gt; 正文命中的 side_plank 得分 × 2</td>
-<td>plank=51.82（标题命中） &gt; side_plank=14.3（正文命中）</td>
+<td>plank=52.1（标题命中） &gt; side_plank=14.43（正文命中）</td>
 <td>通过</td>
 </tr>
 <tr>
 <td>WB-09</td>
 <td><strong>问句原句命中得分高于裸词命中</strong><br>前置：文档带有示例问法<br>步骤：比较「蛋白质吃多少合适」与「蛋白质」对同一文档的得分</td>
 <td>问句得分 &gt; 裸词得分</td>
-<td>问句=62.17 &gt; 裸词=58.02</td>
+<td>问句=62.46 &gt; 裸词=58.24</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -4410,7 +4807,7 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>WB-15</td>
 <td><strong>越权写入不改变他人数据行数</strong><br>前置：已有一条他人会话<br>步骤：以访客身份对该会话写一轮，比对消息行数</td>
 <td>目标会话消息行数完全不变</td>
-<td>目标会话消息数 2 mysql: [Warning] Using a password on the command line interface can be insecure. → 2 mysql: [Warning] Using a password on the command line interface can be insecure.</td>
+<td>目标会话消息数 2 → 2</td>
 <td>通过</td>
 </tr>
 <tr>
@@ -4424,13 +4821,27 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>WB-17</td>
 <td><strong>新增文档后索引自动重建</strong><br>前置：reload-seconds=60<br>步骤：写入一篇临时文档 → 等索引刷新 → 删除 → 再等刷新</td>
 <td>总数 63 → 64 → 63，且期间无需重启容器</td>
-<td>总数 63 → 写入后 64（等待 20s）→ 已删除</td>
+<td>总数 64 → 写入后 65（等待 30s）→ 已删除</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>WB-19</td>
+<td><strong>同一评测集重复执行结果一致</strong><br>前置：eval_case 已初始化<br>步骤：连续跑两次评测，比较通过数</td>
+<td>两次 total 与 passed 完全相同</td>
+<td>第一次 total=13/passed=11，第二次 total=13/passed=11</td>
+<td>通过</td>
+</tr>
+<tr>
+<td>WB-20</td>
+<td><strong>原始业务表未被写入</strong><br>前置：refresh 已执行过<br>步骤：记录 member 表条数 → 再跑一次 refresh → 再次记录</td>
+<td>两次条数一致（运算只写结果表，不改原始流水）</td>
+<td>refresh 前 12003 人 → refresh 后 12003 人</td>
 <td>通过</td>
 </tr>
 </tbody>
 </table>
-<h3 id="h-11-6-缺陷与修复记录-8-项">11.6 缺陷与修复记录（8 项）</h3>
-<p>本轮共记录 <strong>8</strong> 项缺陷。其中 <strong>D-01 ~ D-04</strong> 由开发过程中的自查与回归发现，<strong>D-05 ~ D-07</strong> 是本次测试新发现的功能缺陷，<strong>D-08</strong> 属「保留不修改、记录在案」的可观测性行为。除 D-08 外均已修复，并在修复后重跑用例确认闭环。</p>
+<h3 id="h-11-6-缺陷与修复记录-11-项">11.6 缺陷与修复记录（11 项）</h3>
+<p>本轮共记录 <strong>11</strong> 项缺陷。其中 <strong>D-01 ~ D-04</strong> 由开发过程中的自查与回归发现，<strong>D-05 ~ D-07</strong> 是本次测试新发现的功能缺陷，<strong>D-08</strong> 属「保留不修改、记录在案」的可观测性行为。除 D-08 外均已修复，并在修复后重跑用例确认闭环。</p>
 <table>
 <thead>
 <tr>
@@ -4507,13 +4918,37 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td>保留诚实上报，不做掩盖；在文档中明确该行为的含义，测试判据改为以业务端点可用性为准</td>
 <td>已知特性，记录在案</td>
 </tr>
+<tr>
+<td>D-09</td>
+<td>表结构与实体不同步</td>
+<td>评测结果查询报「Unknown column 'keyword_total'」，评测接口不可用</td>
+<td><code>eval_result</code> 的建表 DDL 漏定义了 <code>keyword_total</code> 列，而实体与插入语句都已包含该字段；缺陷只在「跑过一次评测之后」才暴露，属于典型的「定义与实现分叉」</td>
+<td>补 ALTER 语句修复既有库，并同步修 DDL 常量，使全新环境同样正确</td>
+<td>已修复并回归</td>
+</tr>
+<tr>
+<td>D-10</td>
+<td>可观测性 / 埋点覆盖</td>
+<td>澄清询问、欢迎语这类请求留下的链路记录 spans 为空</td>
+<td>只在「调用大模型」与「知识检索」两处埋点，不走模型的早退路径完全没被覆盖；后果是瀑布图上一片空白，且这些 0ms 样本会把延迟分位整体拉偏</td>
+<td>在入口补一个覆盖全程的根阶段 <code>chat.total</code>，保证任何一条 trace 至少有一个阶段；欢迎语路径（无用户发言）直接不落库——那不算一次智能体调用</td>
+<td>已修复并回归</td>
+</tr>
+<tr>
+<td>D-11</td>
+<td>测试脚本（非产品缺陷）</td>
+<td>回归脚本查询业务表时报「No database selected」，随后 int() 解析失败</td>
+<td><code>mysql()</code> 辅助函数未带 <code>-D</code>，且 <code>sh()</code> 会把 stderr 合并进返回值，导致 MySQL 的命令行密码警告混进结果、破坏数值解析</td>
+<td><code>mysql()</code> 增加默认库参数并在命令末尾丢弃 stderr，返回值恢复为纯数据</td>
+<td>已修复并回归</td>
+</tr>
 </tbody>
 </table>
 <blockquote>
 <p>三个新发现缺陷的共同点值得记录：<strong>它们都不是「功能没写」，而是「边界条件下的行为与承诺不一致」</strong>——接口在异常分支返回了不该有的状态码、多轮对话在「最后一句不含意图词」时失忆、事务在依赖不可用时把降级变成了报错。这类问题只靠人工点击很难发现，必须靠「构造异常环境 + 断言承诺」的白盒用例才能压出来。</p>
 </blockquote>
 <h3 id="h-11-7-测试结论">11.7 测试结论</h3>
-<p><strong>结论：通过。</strong> 本轮共执行 <strong>61</strong> 条用例（黑盒 44、白盒 17），通过 <strong>61</strong> 条，失败 <strong>0</strong> 条，通过率 <strong>100.0%</strong>。</p>
+<p><strong>结论：通过。</strong> 本轮共执行 <strong>76</strong> 条用例（黑盒 56、白盒 20），通过 <strong>76</strong> 条，失败 <strong>0</strong> 条，通过率 <strong>100.0%</strong>。</p>
 <table>
 <thead>
 <tr>
@@ -4603,7 +5038,6 @@ docker compose down              # 停止（-v 连数据卷一起删）
 </table>
 <hr />
 <!--THESIS-TEST-END-->
-
 <h2 id="h-附录-a-需求-设计-实现追溯矩阵">附录 A：需求—设计—实现追溯矩阵</h2>
 <table>
 <thead>
@@ -4755,7 +5189,10 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <li><strong>同文件并行编辑</strong>：多 Edit 并发互相覆盖，须串行；</li>
 <li><strong>Javadoc 里的 <code>*/</code> 提前闭合注释</strong>：<code>KnowledgeLoader</code> 的文档注释写了通配路径 <code>knowledge/**/*.md</code>，其中 <code>*/</code> 被当成块注释结束符，后面的中文标点被判为"非法字符"。注释里出现路径通配符要留意；</li>
 <li><strong>中文二元组的虚字噪声</strong>：bigram 会把「什么/么时/时候」也切成 token，这类纯虚字组合在语料里罕见 → IDF 偏高 → 垃圾查询误命中。解法是在分词层过滤虚字后再切；</li>
-<li><strong>语料正文里的英文双引号</strong>：用 Python 字符串承载中文语料时，正文里嵌 <code>"…"</code> 会截断字面量导致语法错误 → 中文引号统一用「」。</li>
+<li><strong>语料正文里的英文双引号</strong>：用 Python 字符串承载中文语料时，正文里嵌 <code>"…"</code> 会截断字面量导致语法错误 → 中文引号统一用「」；</li>
+<li><strong>DDL 与实体字段分叉</strong>：<code>eval_result</code> 建表语句漏了 <code>keyword_total</code> 列，而实体与 INSERT 都带该字段 → 缺陷直到「跑过一次评测」才暴露。教训是新增表时<strong>必须用同一份字段清单驱动 DDL 与实体</strong>，不能各写一遍；</li>
+<li><strong>异步埋点的覆盖盲区</strong>：链路落库是异步的，而埋点只覆盖了调模型与检索两条路径，早退路径留下空 spans 记录。教训是<strong>观测指标要考虑"没走到"的情形</strong>，而不只是"走到了耗时多少"；</li>
+<li><strong>测试脚本把 stderr 当数据</strong>：<code>sh()</code> 合并 stdout 与 stderr，MySQL 的命令行密码警告因此混进查询结果，让 <code>int()</code> 直接炸掉。教训是<strong>取数通道要只返回数据</strong>，告警与错误信息另走一路。</li>
 </ol>
 <h3 id="h-b-3-待办-下一轮候选">B.3 待办（下一轮候选）</h3>
 <ul>
@@ -4763,8 +5200,11 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <li>签到对话化（CHECKIN 意图已预留）；</li>
 <li>支付接入真实支付渠道（当前为演示模拟支付）；</li>
 <li>接口级鉴权拦截与防爆破；</li>
-<li>知识库规模化：超过约 200 篇后，词法检索的召回可能不足，届时评估引入 embedding + 重排（当前 63 篇实测裕度充足，不做过度设计）；</li>
-<li>会话保留策略落地：<code>retentionDays</code> 已支持，但需要产品定保留期（当前 0 = 永久）。</li>
+<li>知识库规模化：超过约 200 篇后，词法检索的召回可能不足，届时评估引入 embedding + 重排（当前 64 篇实测裕度充足，不做过度设计）；</li>
+<li>会话保留策略落地：<code>retentionDays</code> 已支持，但需要产品定保留期（当前 0 = 永久）；</li>
+<li>依从率反馈到计划生成：打卡数据已能统计，但尚未用于自动降低/提高下次计划强度；</li>
+<li>评测集扩充：当前 13 条用例偏少，覆盖不到长尾问法，宜扩至 50 条以上并纳入 CI；</li>
+<li>反馈防刷：同一标识对同一文档重复投票未做限制，公开部署前需加幂等与频次控制。</li>
 </ul>
 <h2 id="h-附录-c-版本沿革">附录 C：版本沿革</h2>
 <table>
@@ -4787,9 +5227,14 @@ docker compose down              # 停止（-v 连数据卷一起删）
 <td><strong>全平台</strong>：业务系统 + 对话式智能体 + 统一前端 + 充值闭环</td>
 </tr>
 <tr>
-<td><strong>v2.1（本版）</strong></td>
+<td>v2.1</td>
 <td>2026-10-11</td>
 <td>在 v2.0 基础上新增：<strong>轻量知识库</strong>（63 篇 Markdown + 内存 BM25 检索 + RAG 三段式降级）、<strong>对话历史持久化</strong>（智能体自有 schema <code>fitness_ai</code>）、<strong>用户数据隔离</strong>（token 验签归属 + SQL 层强制过滤）；配套 2 套新回归测试与前端知识库浏览页</td>
+</tr>
+<tr>
+<td><strong>v2.2（本版）</strong></td>
+<td>2026-10-12</td>
+<td>在 v2.1 基础上新增：<strong>运行观测</strong>（链路埋点 + 阶段瀑布 + 按天聚合 + 熔断）、<strong>知识反馈闭环</strong>（好评/差评 → 文档权重 → 检索排序）、<strong>计划执行闭环</strong>（计划自动展开每日任务 + 打卡 + 依从率）、<strong>离线评测框架</strong>（13 条评测集，支持免 token 重复执行）、<strong>会员智能运营中枢</strong>（业务侧 RFM 分层 + 流失预警 + 经营快照 + 器材维护工单）；<code>fitness_ai</code> 由 2 张表扩至 12 张，业务库新增 5 张派生结果表；回归套件扩至 <strong>76 条（黑盒 56 + 白盒 20）并首次全绿</strong></td>
 </tr>
 </tbody>
 </table></main>

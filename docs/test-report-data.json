@@ -1,37 +1,37 @@
 {
   "meta": {
-    "generatedAt": "2026-10-11 02:12:27",
+    "generatedAt": "2026-10-12 15:26:35",
     "target": "http://localhost:8088",
     "knowledge": {
       "enabled": true,
       "dir": "/app/knowledge",
-      "total": 63,
+      "total": 64,
       "byCategory": {
         "exercise": 30,
         "nutrition": 8,
         "plan": 8,
-        "safety": 6,
+        "safety": 7,
         "training": 11
       },
-      "chars": 26341,
-      "sections": 349,
+      "chars": 27138,
+      "sections": 354,
       "minScore": 12.0,
-      "loadedAt": 1791655866118,
+      "loadedAt": 1791789540758,
       "reloadSeconds": 60
     },
     "storage": {
-      "sessions": 52,
+      "sessions": 101,
       "available": true,
       "reason": "",
       "historyLimit": 200,
       "retentionDays": 0,
-      "messages": 116
+      "messages": 220
     },
     "containers": [
-      "fitness-agent=Up 11 minutes (healthy)",
-      "fitness-web=Up About an hour (healthy)",
-      "gym-backend=Up About an hour",
-      "gym-mysql=Up 4 hours (healthy)"
+      "fitness-agent=Up 7 minutes (healthy)",
+      "fitness-web=Up 23 minutes (healthy)",
+      "gym-backend=Up 29 minutes",
+      "gym-mysql=Up About an hour (healthy)"
     ]
   },
   "blackbox": [
@@ -53,7 +53,7 @@
       "pre": "会员已登录",
       "steps": "发送「我卡里还有多少钱」",
       "expect": "回复含余额数值，不出现确认卡",
-      "actual": "HTTP 200，reply=你卡里还有 ¥2229。",
+      "actual": "HTTP 200，reply=你卡里还有 ¥3129。",
       "ok": true,
       "seconds": 0.0
     },
@@ -99,7 +99,7 @@
       "expect": "返回能力清单卡（NOTICE），不猜测执行业务",
       "actual": "HTTP 200，cards=['NOTICE']",
       "ok": true,
-      "seconds": 1.5
+      "seconds": 0.7
     },
     {
       "id": "BB-07",
@@ -163,7 +163,7 @@
       "pre": "上一步已拿到 CONFIRM 待办",
       "steps": "回传 pending 后发送「好」",
       "expect": "生成订单，返回 PAY 卡且含 orderNo 与二维码",
-      "actual": "HTTP 200，orderNo=21，字段=['amount', 'orderNo', 'qrPath']",
+      "actual": "HTTP 200，orderNo=36，字段=['amount', 'orderNo', 'qrPath']",
       "ok": true,
       "seconds": 0.0
     },
@@ -174,7 +174,7 @@
       "pre": "已存在一个订单号",
       "steps": "GET /qa/pay/{orderNo}",
       "expect": "返回 status 与金额、会员编号",
-      "actual": "HTTP 200，orderNo=22，status=PENDING",
+      "actual": "HTTP 200，orderNo=37，status=PENDING",
       "ok": true,
       "seconds": 0.0
     },
@@ -185,9 +185,9 @@
       "pre": "会员余额已知",
       "steps": "建单 → 支付 → 比对余额",
       "expect": "支付后余额 = 支付前 + 金额（差值精确等于金额）",
-      "actual": "HTTP 200，余额 2229.0 → 2329.0（Δ=100.0）",
+      "actual": "HTTP 200，余额 3129.0 → 3229.0（Δ=100.0）",
       "ok": true,
-      "seconds": 0.0
+      "seconds": 0.1
     },
     {
       "id": "BB-15",
@@ -196,7 +196,7 @@
       "pre": "已支付订单号",
       "steps": "对同一订单再次调支付",
       "expect": "余额不再增加，返回已支付状态",
-      "actual": "订单 24：首付后=2429.0，重复支付后=2429.0",
+      "actual": "订单 39：首付后=3329.0，重复支付后=3329.0",
       "ok": true,
       "seconds": 0.0
     },
@@ -207,7 +207,7 @@
       "pre": "已支付订单号",
       "steps": "GET /qa/pay/{orderNo}",
       "expect": "status=PAID 且返回当前余额",
-      "actual": "HTTP 200，status=PAID，balance=2529",
+      "actual": "HTTP 200，status=PAID，balance=3429",
       "ok": true,
       "seconds": 0.0
     },
@@ -242,7 +242,7 @@
       "expect": "status=OK 且返回计划对象，不追问",
       "actual": "HTTP 200，status=OK，plan=有，slots={'性别': '女', '年龄': '18 岁', '身高': '175 cm', '体重': '60 kg', '目标': '减脂'}",
       "ok": true,
-      "seconds": 9.1
+      "seconds": 10.6
     },
     {
       "id": "BB-20",
@@ -264,7 +264,7 @@
       "expect": "本轮直接产出计划（不要求用户重说诉求）",
       "actual": "HTTP 200，status=OK，plan=有，cards=[]",
       "ok": true,
-      "seconds": 10.1
+      "seconds": 10.5
     },
     {
       "id": "BB-22",
@@ -275,7 +275,7 @@
       "expect": "返回结构化计划且字段齐全",
       "actual": "HTTP 200，字段=['elapsedMs', 'message', 'metrics', 'plan', 'promptVersion', 'status']",
       "ok": true,
-      "seconds": 12.1
+      "seconds": 11.7
     },
     {
       "id": "BB-23",
@@ -286,7 +286,18 @@
       "expect": "正文出现与 metrics 一致的关键数值",
       "actual": "HTTP 200，指标数值=['2943', '140', '2643']，正文命中=['2943', '140']",
       "ok": true,
-      "seconds": 9.8
+      "seconds": 10.3
+    },
+    {
+      "id": "BB-44",
+      "module": "计划生成",
+      "title": "计划只读，不产生任何资金动作",
+      "pre": "会员已登录",
+      "steps": "生成计划前后比对余额",
+      "expect": "余额完全不变",
+      "actual": "余额 3429.0 → 3429.0",
+      "ok": true,
+      "seconds": 22.4
     },
     {
       "id": "BB-24",
@@ -297,7 +308,7 @@
       "expect": "回复非空且附 SOURCE 来源卡",
       "actual": "HTTP 200，cards=['SOURCE']",
       "ok": true,
-      "seconds": 2.2
+      "seconds": 3.0
     },
     {
       "id": "BB-25",
@@ -308,7 +319,7 @@
       "expect": "返回能力清单兜底，不编造答案",
       "actual": "HTTP 200，cards=['NOTICE']",
       "ok": true,
-      "seconds": 0.9
+      "seconds": 1.0
     },
     {
       "id": "BB-26",
@@ -319,7 +330,7 @@
       "expect": "回复或来源卡中出现命中文档标题",
       "actual": "HTTP 200，来源=['营养 · 蛋白质摄入 · 相关', '营养 · 碳水化合物 · 相关', '营养 · 热量与热量缺口 · 相关']",
       "ok": true,
-      "seconds": 3.0
+      "seconds": 2.7
     },
     {
       "id": "BB-27",
@@ -330,7 +341,7 @@
       "expect": "不返回 SOURCE 卡",
       "actual": "HTTP 200，cards=['NOTICE']",
       "ok": true,
-      "seconds": 0.7
+      "seconds": 0.8
     },
     {
       "id": "BB-28",
@@ -341,7 +352,7 @@
       "expect": "响应含非空 sessionKey",
       "actual": "HTTP 200，sessionKey=有",
       "ok": true,
-      "seconds": 13.3
+      "seconds": 11.6
     },
     {
       "id": "BB-29",
@@ -350,9 +361,9 @@
       "pre": "上一步已建会话",
       "steps": "GET /qa/sessions",
       "expect": "列表含该 sessionKey",
-      "actual": "HTTP 200，会话数=2，命中=True",
+      "actual": "HTTP 200，会话数=5，命中=True",
       "ok": true,
-      "seconds": 11.2
+      "seconds": 9.5
     },
     {
       "id": "BB-30",
@@ -363,7 +374,7 @@
       "expect": "消息按 seq 升序，首条为本次提问",
       "actual": "HTTP 200，消息数=4，seq=[1, 2, 3, 4]",
       "ok": true,
-      "seconds": 4.8
+      "seconds": 5.7
     },
     {
       "id": "BB-31",
@@ -385,7 +396,7 @@
       "expect": "列表中的标题变为新标题",
       "actual": "标题='减脂方案讨论'",
       "ok": true,
-      "seconds": 11.6
+      "seconds": 11.7
     },
     {
       "id": "BB-33",
@@ -396,7 +407,7 @@
       "expect": "列表中消失，消息接口返回 404",
       "actual": "删除 HTTP 200，列表已移除=True，回放 HTTP 404",
       "ok": true,
-      "seconds": 11.2
+      "seconds": 13.6
     },
     {
       "id": "BB-34",
@@ -407,7 +418,7 @@
       "expect": "两次归属互不相同且都能建会话",
       "actual": "会员1=1 key=有；会员3=3 key=有",
       "ok": true,
-      "seconds": 20.7
+      "seconds": 22.1
     },
     {
       "id": "BB-35",
@@ -418,7 +429,7 @@
       "expect": "返回 404，不泄露内容",
       "actual": "HTTP 404",
       "ok": true,
-      "seconds": 2.0
+      "seconds": 3.5
     },
     {
       "id": "BB-36",
@@ -429,7 +440,7 @@
       "expect": "标题保持不变",
       "actual": "越权请求 HTTP 404，会员1 的标题仍为 '我想减脂'",
       "ok": true,
-      "seconds": 11.6
+      "seconds": 10.0
     },
     {
       "id": "BB-37",
@@ -451,7 +462,7 @@
       "expect": "返回 404",
       "actual": "HTTP 404",
       "ok": true,
-      "seconds": 11.2
+      "seconds": 10.6
     },
     {
       "id": "BB-39",
@@ -462,7 +473,7 @@
       "expect": "双方均 404",
       "actual": "访客读会员=404，会员读访客=404",
       "ok": true,
-      "seconds": 22.7
+      "seconds": 23.6
     },
     {
       "id": "BB-40",
@@ -482,7 +493,7 @@
       "pre": "订单号不存在",
       "steps": "GET /qa/pay/99999999",
       "expect": "404 且返回结构化错误体",
-      "actual": "HTTP 404，body={\"timestamp\": \"2026-10-11T02:07:18.484983511+08:00\", \"status",
+      "actual": "HTTP 404，body={\"timestamp\": \"2026-10-12T15:23:59.238270759+08:00\", \"status",
       "ok": true,
       "seconds": 0.0
     },
@@ -504,20 +515,141 @@
       "pre": "全栈已启动",
       "steps": "docker compose ps",
       "expect": "四个容器均为 Up",
-      "actual": "Up 容器 4/4：fitness-agent=Up 6 minutes (healthy); fitness-web=Up 57 minutes (healthy); gym-backend=Up 57 minutes; gym-mysql=Up 4 hours (healthy)",
+      "actual": "Up 容器 4/4：fitness-agent=Up 11 minutes (healthy); fitness-web=Up 27 minutes (healthy); gym-backend=Up 33 minutes; gym-mysql=Up About an hour (healthy)",
       "ok": true,
       "seconds": 0.2
     },
     {
-      "id": "BB-44",
-      "module": "计划生成",
-      "title": "计划只读，不产生任何资金动作",
-      "pre": "会员已登录",
-      "steps": "生成计划前后比对余额",
-      "expect": "余额完全不变",
-      "actual": "余额 2529.0 → 2529.0",
+      "id": "BB-45",
+      "module": "运行观测",
+      "title": "概览返回聚合指标",
+      "pre": "已产生至少一次对话",
+      "steps": "GET /observability/overview?days=7",
+      "expect": "available=true 且含 calls/errors/degraded/tokens/p95 等字段",
+      "actual": "HTTP 200，字段齐全=True，calls=164, p95=13602",
       "ok": true,
-      "seconds": 20.8
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-46",
+      "module": "运行观测",
+      "title": "调用流水含阶段耗时",
+      "pre": "已有链路记录",
+      "steps": "GET /observability/traces?limit=20",
+      "expect": "每条含 spans 且 span 有 start_ms / duration_ms",
+      "actual": "HTTP 200，记录数=20，首条阶段=[chat.total,knowledge.search,llm.chat,db.append]",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-47",
+      "module": "运行观测",
+      "title": "意图过滤生效",
+      "pre": "已有链路记录",
+      "steps": "GET /observability/traces?intent=FITNESS_PLAN",
+      "expect": "返回结果的 intent 全为 FITNESS_PLAN",
+      "actual": "HTTP 200，命中 20 条，全部匹配=True",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-48",
+      "module": "知识反馈",
+      "title": "好评提升文档权重",
+      "pre": "feedback 表可用",
+      "steps": "POST /knowledge/feedback vote=UP（连续 1 次）",
+      "expect": "weight 高于 1.0",
+      "actual": "权重=1.6（应 > 1.0）",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-49",
+      "module": "知识反馈",
+      "title": "差评降低文档权重",
+      "pre": "feedback 表可用",
+      "steps": "POST /knowledge/feedback vote=DOWN",
+      "expect": "weight 低于 1.0",
+      "actual": "权重=0.4（应 < 1.0）",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-50",
+      "module": "知识反馈",
+      "title": "缺少 docId 被拒",
+      "pre": "接口可用",
+      "steps": "POST /knowledge/feedback（不带 docId）",
+      "expect": "ok=false 且给出原因",
+      "actual": "HTTP 200，ok=False，reason=缺少 docId：无法定位被评价的文档",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-51",
+      "module": "计划执行",
+      "title": "计划自动展开为每日任务",
+      "pre": "已生成过一份计划",
+      "steps": "GET /plan/tasks",
+      "expect": "返回 7 条任务，day_index 1..7",
+      "actual": "HTTP 200，任务数=7，天序号=[1, 2, 3, 4, 5, 6, 7]",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-52",
+      "module": "计划执行",
+      "title": "打卡成功并计入依从率",
+      "pre": "存在待完成任务",
+      "steps": "POST /plan/tasks/{id}/checkin?action=DONE",
+      "expect": "affected=1 且依从率统计中 done 增加",
+      "actual": "HTTP 200，affected=1，已打卡任务 5",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-53",
+      "module": "计划执行",
+      "title": "越权打卡不生效",
+      "pre": "存在他人任务",
+      "steps": "用另一个 clientId 打卡同一任务",
+      "expect": "affected=0 且 ok=false",
+      "actual": "HTTP 200，越权 affected=0（应为 0）",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-54",
+      "module": "运营中枢",
+      "title": "概览返回分层分布",
+      "pre": "已执行过 refresh",
+      "steps": "GET /api/ops/overview?days=30",
+      "expect": "available=true 且 segmentCounts 非空",
+      "actual": "HTTP 200，层级 2 类，合计 12003 人",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-55",
+      "module": "运营中枢",
+      "title": "器材工单建单与推进",
+      "pre": "equipment 表有数据",
+      "steps": "POST 建单 → 推进为 ASSIGNED",
+      "expect": "建单返回 orderId，推进 affected=1",
+      "actual": "工单 #7 建单 HTTP 200，推进 affected=1",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "BB-56",
+      "module": "运营中枢",
+      "title": "工单流转日志可追溯",
+      "pre": "工单已有推进记录",
+      "steps": "GET /api/ops/equipment/orders/{id}/logs",
+      "expect": "含 CREATE 与 ASSIGNED 两条记录",
+      "actual": "HTTP 200，日志动作=['CREATE', 'ASSIGNED']",
+      "ok": true,
+      "seconds": 0.0
     }
   ],
   "whitebox": [
@@ -539,7 +671,7 @@
       "pre": "已取得 SchemaInitializer 源码",
       "steps": "统计 DDL 语句与 IF NOT EXISTS 出现次数",
       "expect": "建库与两张表均为 IF NOT EXISTS，重复执行无副作用",
-      "actual": "CREATE TABLE IF NOT EXISTS × 2，CREATE DATABASE IF NOT EXISTS × 1",
+      "actual": "CREATE TABLE IF NOT EXISTS × 12（裸 × 0），CREATE DATABASE IF NOT EXISTS × 1（裸 × 0）",
       "ok": true,
       "seconds": 0.0
     },
@@ -550,9 +682,9 @@
       "pre": "会话表已存在",
       "steps": "对已存在的库表再执行一次 CREATE TABLE IF NOT EXISTS",
       "expect": "不报错，表数量与行数不变",
-      "actual": "建表输出=mysql: [Warning] Using a password on the，行数 42\nmysql: [Warning] Using a password on the command line interface can be insecure. → 42\nmysql: [Warning] Using a password on the command line interface can be insecure.",
+      "actual": "建表输出=mysql: [Warning] Using a password on the，行数 114 → 114",
       "ok": true,
-      "seconds": 0.2
+      "seconds": 0.1
     },
     {
       "id": "WB-04",
@@ -594,7 +726,7 @@
       "pre": "分词器已过滤虚字",
       "steps": "分别查询「什么时候」「的了吗」「然后呢」",
       "expect": "三者最高分均低于命中阈值，即拒答",
-      "actual": "阈值=12.0；什么时候→0.0分/0篇；的了吗→0.0分/0篇；然后呢→2.91分/0篇",
+      "actual": "阈值=12.0；什么时候→0.0分/0篇；的了吗→0.0分/0篇；然后呢→2.92分/0篇",
       "ok": true,
       "seconds": 0.0
     },
@@ -605,7 +737,7 @@
       "pre": "语料含标题命中与仅正文命中的文档",
       "steps": "查询「平板支撑」，比较 plank 与 side_plank 得分",
       "expect": "标题命中的 plank 得分 > 正文命中的 side_plank 得分 × 2",
-      "actual": "plank=51.82（标题命中） > side_plank=14.3（正文命中）",
+      "actual": "plank=52.1（标题命中） > side_plank=14.43（正文命中）",
       "ok": true,
       "seconds": 0.0
     },
@@ -616,7 +748,7 @@
       "pre": "文档带有示例问法",
       "steps": "比较「蛋白质吃多少合适」与「蛋白质」对同一文档的得分",
       "expect": "问句得分 > 裸词得分",
-      "actual": "问句=62.17 > 裸词=58.02",
+      "actual": "问句=62.46 > 裸词=58.24",
       "ok": true,
       "seconds": 0.0
     },
@@ -651,7 +783,7 @@
       "expect": "0 条命中越界模式",
       "actual": "检查 6 条回答，越界=无",
       "ok": true,
-      "seconds": 12.9
+      "seconds": 14.8
     },
     {
       "id": "WB-13",
@@ -662,7 +794,7 @@
       "expect": "版本常量各一份，且没有散落在其他类中",
       "actual": "版本={'PLAN_VERSION': 'plan-v2', 'FALLBACK_VERSION': 'fallback-v1', 'KNOWLEDGE_VERSION': 'kb-v1'}；定义处=PLAN_VERSION@PromptLibrary.java；FALLBACK_VERSION@PromptLibrary.java；KNOWLEDGE_VERSION@PromptLibrary.java；定义唯一=True；引用文件数=5",
       "ok": true,
-      "seconds": 0.1
+      "seconds": 0.0
     },
     {
       "id": "WB-14",
@@ -673,7 +805,7 @@
       "expect": "退出码 0 且报「校验通过」，无错误/警告字样",
       "actual": "退出码=0，校验通过=True，存在错误告警=False，摘要= / 校验通过。",
       "ok": true,
-      "seconds": 0.2
+      "seconds": 0.1
     },
     {
       "id": "WB-15",
@@ -682,9 +814,9 @@
       "pre": "已有一条他人会话",
       "steps": "以访客身份对该会话写一轮，比对消息行数",
       "expect": "目标会话消息行数完全不变",
-      "actual": "目标会话消息数 2\nmysql: [Warning] Using a password on the command line interface can be insecure. → 2\nmysql: [Warning] Using a password on the command line interface can be insecure.",
+      "actual": "目标会话消息数 2 → 2",
       "ok": true,
-      "seconds": 13.6
+      "seconds": 12.9
     },
     {
       "id": "WB-16",
@@ -695,7 +827,7 @@
       "expect": "接口正常响应、对话有回复，且不返回 sessionKey（降级为不落库）",
       "actual": "5s 就绪=True（health=DOWN，如实报告依赖故障）；对话 HTTP 200 有回复=True，sessionKey 为空=True",
       "ok": true,
-      "seconds": 8.6
+      "seconds": 12.1
     },
     {
       "id": "WB-17",
@@ -704,20 +836,53 @@
       "pre": "reload-seconds=60",
       "steps": "写入一篇临时文档 → 等索引刷新 → 删除 → 再等刷新",
       "expect": "总数 63 → 64 → 63，且期间无需重启容器",
-      "actual": "总数 63 → 写入后 64（等待 20s）→ 已删除",
+      "actual": "总数 64 → 写入后 65（等待 30s）→ 已删除",
       "ok": true,
-      "seconds": 81.3
+      "seconds": 81.4
+    },
+    {
+      "id": "WB-18",
+      "module": "可观测性（静态）",
+      "title": "链路埋点覆盖三类调用",
+      "pre": "源码可读",
+      "steps": "统计 TraceContext.span 的埋点位置",
+      "expect": "至少覆盖 llm / retrieve / db 三种 kind",
+      "actual": "埋点 kind 集合=['db', 'llm', 'retrieve', 'total']",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-19",
+      "module": "离线评测（动态）",
+      "title": "同一评测集重复执行结果一致",
+      "pre": "eval_case 已初始化",
+      "steps": "连续跑两次评测，比较通过数",
+      "expect": "两次 total 与 passed 完全相同",
+      "actual": "第一次 total=13/passed=11，第二次 total=13/passed=11",
+      "ok": true,
+      "seconds": 0.0
+    },
+    {
+      "id": "WB-20",
+      "module": "运营中枢（动态）",
+      "title": "原始业务表未被写入",
+      "pre": "refresh 已执行过",
+      "steps": "记录 member 表条数 → 再跑一次 refresh → 再次记录",
+      "expect": "两次条数一致（运算只写结果表，不改原始流水）",
+      "actual": "refresh 前 12003 人 → refresh 后 12003 人",
+      "ok": true,
+      "seconds": 33.9
     }
   ],
   "summary": {
     "blackbox": {
-      "total": 44,
-      "pass": 44,
+      "total": 56,
+      "pass": 56,
       "fail": 0
     },
     "whitebox": {
-      "total": 17,
-      "pass": 17,
+      "total": 20,
+      "pass": 20,
       "fail": 0
     }
   }

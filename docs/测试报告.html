@@ -46,9 +46,9 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
       <div>被测版本：v2.1</div>
       <div>被测系统：fitness-web + fitness-agent + gym-backend + MySQL 8</div>
       <div>测试类型：黑盒（功能）＋ 白盒（结构）</div>
-      <div>用例总数：61（黑盒 44 + 白盒 17）</div>
+      <div>用例总数：76（黑盒 56 + 白盒 20）</div>
       <div>执行结论：全部通过</div>
-      <div>测试日期：2026-10-11 02:12:27</div>
+      <div>测试日期：2026-10-12 15:26:35</div>
     </div>
   </div>
 </section>
@@ -120,13 +120,13 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
 <table>
   <thead><tr><th style="width:26%">观测项</th><th style="width:22%">取值</th><th>来源</th></tr></thead>
   <tbody>
-    <tr><td>知识库文档总数</td><td class="num">63</td><td>GET /agent-api/knowledge/stats</td></tr>
-    <tr><td>正文字数 / 章节数</td><td class="num">26341 / 349</td><td>同上</td></tr>
+    <tr><td>知识库文档总数</td><td class="num">64</td><td>GET /agent-api/knowledge/stats</td></tr>
+    <tr><td>正文字数 / 章节数</td><td class="num">27138 / 354</td><td>同上</td></tr>
     <tr><td>命中阈值 minScore</td><td class="num">12.0</td><td>同上（标定值见 5.3）</td></tr>
     <tr><td>热更新周期</td><td class="num">60 秒</td><td>同上</td></tr>
     <tr><td>会话存储可用性</td><td>可用</td><td>GET /agent-api/qa/sessions/_storage</td></tr>
-    <tr><td>会话 / 消息行数</td><td class="num">52 / 116</td><td>同上</td></tr>
-    <tr><td>容器状态</td><td>fitness-agent=Up 11 minutes (healthy)；fitness-web=Up About an hour (he</td><td>docker compose ps</td></tr>
+    <tr><td>会话 / 消息行数</td><td class="num">101 / 220</td><td>同上</td></tr>
+    <tr><td>容器状态</td><td>fitness-agent=Up 7 minutes (healthy)；fitness-web=Up 23 minutes (health</td><td>docker compose ps</td></tr>
   </tbody>
 </table>
 
@@ -145,7 +145,7 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
 <table>
   <thead><tr><th style="width:16%">维度</th><th style="width:40%">取值</th><th>说明</th></tr></thead>
   <tbody>
-    <tr><td>覆盖维度</td><td>取值</td><td>说明</td></tr><tr><td>接口</td><td>REST / JSON（/agent-api/**、/api/**）</td><td>黑盒只经接口，不依赖内部实现</td></tr><tr><td>字符集</td><td>UTF-8（含中文口语、中文数字）</td><td>验证中文分词与中文数字解析</td></tr><tr><td>金额边界</td><td>0 / 1 / 100 / 300 / 10000 / 10001</td><td>等价类 + 边界值</td></tr><tr><td>身份</td><td>会员 A、会员 B、访客、管理员</td><td>权限矩阵与越权</td></tr><tr><td>知识库</td><td>63 篇（动作 30 / 训练 11 / 计划 8 / 营养 8 / 安全 6）</td><td>正样本命中 + 负样本拒答</td></tr><tr><td>会话存储</td><td>52 会话 / 116 消息（运行期快照）</td><td>持久化与隔离</td></tr>
+    <tr><td>覆盖维度</td><td>取值</td><td>说明</td></tr><tr><td>接口</td><td>REST / JSON（/agent-api/**、/api/**）</td><td>黑盒只经接口，不依赖内部实现</td></tr><tr><td>字符集</td><td>UTF-8（含中文口语、中文数字）</td><td>验证中文分词与中文数字解析</td></tr><tr><td>金额边界</td><td>0 / 1 / 100 / 300 / 10000 / 10001</td><td>等价类 + 边界值</td></tr><tr><td>身份</td><td>会员 A、会员 B、访客、管理员</td><td>权限矩阵与越权</td></tr><tr><td>知识库</td><td>64 篇（动作 30 / 训练 11 / 计划 8 / 营养 8 / 安全 7）</td><td>正样本命中 + 负样本拒答</td></tr><tr><td>会话存储</td><td>101 会话 / 220 消息（运行期快照）</td><td>持久化与隔离</td></tr>
   </tbody>
 </table>
 
@@ -201,7 +201,11 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
 <tr><td>会话持久化</td><td class="num">6</td><td class="num">6</td><td class="num">0</td><td class="ok">全部通过</td></tr>
 <tr><td>用户隔离</td><td class="num">6</td><td class="num">6</td><td class="num">0</td><td class="ok">全部通过</td></tr>
 <tr><td>接口与异常</td><td class="num">4</td><td class="num">4</td><td class="num">0</td><td class="ok">全部通过</td></tr>
-<tr class="total"><td>合计</td><td class="num">44</td><td class="num">44</td><td class="num">0</td><td class="ok">通过率 100.0%</td></tr>
+<tr><td>运行观测</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td class="ok">全部通过</td></tr>
+<tr><td>知识反馈</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td class="ok">全部通过</td></tr>
+<tr><td>计划执行</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td class="ok">全部通过</td></tr>
+<tr><td>运营中枢</td><td class="num">3</td><td class="num">3</td><td class="num">0</td><td class="ok">全部通过</td></tr>
+<tr class="total"><td>合计</td><td class="num">56</td><td class="num">56</td><td class="num">0</td><td class="ok">通过率 100.0%</td></tr>
   </tbody>
 </table>
 
@@ -218,7 +222,7 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
   </tr></thead>
   <tbody>
 <tr><td class="cid">BB-01</td><td>充值记录判定为查询而非发起充值<div class="sub">前置：会员已登录（memberId=1）</div><div class="sub">步骤：发送「充值记录」</div></td><td class="exp">返回 LIST 卡（充值记录），不出现 CONFIRM/PAY 卡</td><td class="act">HTTP 200，卡片=[&#x27;LIST&#x27;]</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-02</td><td>口语化余额查询<div class="sub">前置：会员已登录</div><div class="sub">步骤：发送「我卡里还有多少钱」</div></td><td class="exp">回复含余额数值，不出现确认卡</td><td class="act">HTTP 200，reply=你卡里还有 ¥2229。</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-02</td><td>口语化余额查询<div class="sub">前置：会员已登录</div><div class="sub">步骤：发送「我卡里还有多少钱」</div></td><td class="exp">回复含余额数值，不出现确认卡</td><td class="act">HTTP 200，reply=你卡里还有 ¥3129。</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-03</td><td>积分查询<div class="sub">前置：会员已登录</div><div class="sub">步骤：发送「我有多少积分」</div></td><td class="exp">回复含积分数值或积分说明</td><td class="act">HTTP 200，reply=你目前有 100 积分。</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-04</td><td>课程报名查询<div class="sub">前置：会员已登录</div><div class="sub">步骤：发送「我报了哪些课」</div></td><td class="exp">返回课程相关回复（列表卡或文本）</td><td class="act">HTTP 200，cards=[&#x27;LIST&#x27;]，reply=你已报名 1 门课程：</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-05</td><td>中文数字金额「充两百」解析为 200<div class="sub">前置：会员已登录</div><div class="sub">步骤：发送「充两百」</div></td><td class="exp">确认卡金额 = 200</td><td class="act">HTTP 200，确认卡金额=200</td><td class="ok">通过</td></tr>
@@ -264,11 +268,11 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
   </tr></thead>
   <tbody>
 <tr><td class="cid">BB-11</td><td>发起充值需先确认（金额原样展示）<div class="sub">前置：会员已登录</div><div class="sub">步骤：发送「我要充值300」</div></td><td class="exp">返回 CONFIRM 卡，amount=300，status=ASK</td><td class="act">HTTP 200，status=ASK，amount=300</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-12</td><td>确认后生成订单与支付二维码<div class="sub">前置：上一步已拿到 CONFIRM 待办</div><div class="sub">步骤：回传 pending 后发送「好」</div></td><td class="exp">生成订单，返回 PAY 卡且含 orderNo 与二维码</td><td class="act">HTTP 200，orderNo=21，字段=[&#x27;amount&#x27;, &#x27;orderNo&#x27;, &#x27;qrPath&#x27;]</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-13</td><td>订单状态可轮询<div class="sub">前置：已存在一个订单号</div><div class="sub">步骤：GET /qa/pay/{orderNo}</div></td><td class="exp">返回 status 与金额、会员编号</td><td class="act">HTTP 200，orderNo=22，status=PENDING</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-14</td><td>支付入账使余额真实增加<div class="sub">前置：会员余额已知</div><div class="sub">步骤：建单 → 支付 → 比对余额</div></td><td class="exp">支付后余额 = 支付前 + 金额（差值精确等于金额）</td><td class="act">HTTP 200，余额 2229.0 → 2329.0（Δ=100.0）</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-15</td><td>重复支付幂等（不重复加钱）<div class="sub">前置：已支付订单号</div><div class="sub">步骤：对同一订单再次调支付</div></td><td class="exp">余额不再增加，返回已支付状态</td><td class="act">订单 24：首付后=2429.0，重复支付后=2429.0</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-16</td><td>支付页读取已支付订单<div class="sub">前置：已支付订单号</div><div class="sub">步骤：GET /qa/pay/{orderNo}</div></td><td class="exp">status=PAID 且返回当前余额</td><td class="act">HTTP 200，status=PAID，balance=2529</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-12</td><td>确认后生成订单与支付二维码<div class="sub">前置：上一步已拿到 CONFIRM 待办</div><div class="sub">步骤：回传 pending 后发送「好」</div></td><td class="exp">生成订单，返回 PAY 卡且含 orderNo 与二维码</td><td class="act">HTTP 200，orderNo=36，字段=[&#x27;amount&#x27;, &#x27;orderNo&#x27;, &#x27;qrPath&#x27;]</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-13</td><td>订单状态可轮询<div class="sub">前置：已存在一个订单号</div><div class="sub">步骤：GET /qa/pay/{orderNo}</div></td><td class="exp">返回 status 与金额、会员编号</td><td class="act">HTTP 200，orderNo=37，status=PENDING</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-14</td><td>支付入账使余额真实增加<div class="sub">前置：会员余额已知</div><div class="sub">步骤：建单 → 支付 → 比对余额</div></td><td class="exp">支付后余额 = 支付前 + 金额（差值精确等于金额）</td><td class="act">HTTP 200，余额 3129.0 → 3229.0（Δ=100.0）</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-15</td><td>重复支付幂等（不重复加钱）<div class="sub">前置：已支付订单号</div><div class="sub">步骤：对同一订单再次调支付</div></td><td class="exp">余额不再增加，返回已支付状态</td><td class="act">订单 39：首付后=3329.0，重复支付后=3329.0</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-16</td><td>支付页读取已支付订单<div class="sub">前置：已支付订单号</div><div class="sub">步骤：GET /qa/pay/{orderNo}</div></td><td class="exp">status=PAID 且返回当前余额</td><td class="act">HTTP 200，status=PAID，balance=3429</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-17</td><td>中途取消清空待办<div class="sub">前置：已进入充值确认待办</div><div class="sub">步骤：发送「算了」</div></td><td class="exp">待办被清空，不再生成订单</td><td class="act">HTTP 200，pending=None，cards=[]</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-18</td><td>超范围金额被拒绝<div class="sub">前置：会员已登录</div><div class="sub">步骤：通过桥接接口建单，金额 10001 / 0</div></td><td class="exp">服务端二次校验拒绝，不产生订单</td><td class="act">10001→HTTP 400；0→HTTP 400</td><td class="ok">通过</td></tr>
   </tbody>
@@ -327,7 +331,7 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
 <tr><td class="cid">BB-21</td><td>多轮补齐身体数据后续接为计划<div class="sub">前置：上文含计划诉求，本轮仅补身体数据</div><div class="sub">步骤：「我想减脂」→ 追问 → 「身高175体重80年龄30性别男」</div></td><td class="exp">本轮直接产出计划（不要求用户重说诉求）</td><td class="act">HTTP 200，status=OK，plan=有，cards=[]</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-22</td><td>表单式计划接口<div class="sub">前置：绕过对话，直接调用表单接口</div><div class="sub">步骤：POST /qa/fitness-plan（枚举用大写取值）</div></td><td class="exp">返回结构化计划且字段齐全</td><td class="act">HTTP 200，字段=[&#x27;elapsedMs&#x27;, &#x27;message&#x27;, &#x27;metrics&#x27;, &#x27;plan&#x27;, &#x27;promptVersion&#x27;, &#x27;status&#x27;]</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-23</td><td>计划正文引用规则引擎算出的数值（证据链）<div class="sub">前置：规则引擎已产出目标热量/蛋白质</div><div class="sub">步骤：比对计划正文与 metrics 中的数值</div></td><td class="exp">正文出现与 metrics 一致的关键数值</td><td class="act">HTTP 200，指标数值=[&#x27;2943&#x27;, &#x27;140&#x27;, &#x27;2643&#x27;]，正文命中=[&#x27;2943&#x27;, &#x27;140&#x27;]</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-44</td><td>计划只读，不产生任何资金动作<div class="sub">前置：会员已登录</div><div class="sub">步骤：生成计划前后比对余额</div></td><td class="exp">余额完全不变</td><td class="act">余额 2529.0 → 2529.0</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-44</td><td>计划只读，不产生任何资金动作<div class="sub">前置：会员已登录</div><div class="sub">步骤：生成计划前后比对余额</div></td><td class="exp">余额完全不变</td><td class="act">余额 3429.0 → 3429.0</td><td class="ok">通过</td></tr>
   </tbody>
 </table>
 
@@ -383,7 +387,7 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
   </tr></thead>
   <tbody>
 <tr><td class="cid">BB-28</td><td>对话返回 sessionKey<div class="sub">前置：带访客客户端标识</div><div class="sub">步骤：发送一句话</div></td><td class="exp">响应含非空 sessionKey</td><td class="act">HTTP 200，sessionKey=有</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-29</td><td>列表能查到自己的会话<div class="sub">前置：上一步已建会话</div><div class="sub">步骤：GET /qa/sessions</div></td><td class="exp">列表含该 sessionKey</td><td class="act">HTTP 200，会话数=2，命中=True</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-29</td><td>列表能查到自己的会话<div class="sub">前置：上一步已建会话</div><div class="sub">步骤：GET /qa/sessions</div></td><td class="exp">列表含该 sessionKey</td><td class="act">HTTP 200，会话数=5，命中=True</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-30</td><td>消息回放顺序与内容一致<div class="sub">前置：已建会话</div><div class="sub">步骤：回放消息</div></td><td class="exp">消息按 seq 升序，首条为本次提问</td><td class="act">HTTP 200，消息数=4，seq=[1, 2, 3, 4]</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-31</td><td>新建空会话<div class="sub">前置：带访客标识</div><div class="sub">步骤：POST /qa/sessions</div></td><td class="exp">返回新 sessionKey 且出现在列表中</td><td class="act">HTTP 200，sessionKey=有</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-32</td><td>会话改名<div class="sub">前置：已建会话</div><div class="sub">步骤：POST /qa/sessions/{key}/rename</div></td><td class="exp">列表中的标题变为新标题</td><td class="act">标题=&#x27;减脂方案讨论&#x27;</td><td class="ok">通过</td></tr>
@@ -430,13 +434,93 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
   </tr></thead>
   <tbody>
 <tr><td class="cid">BB-40</td><td>能力元数据接口<div class="sub">前置：服务已启动</div><div class="sub">步骤：GET /qa/metadata</div></td><td class="exp">返回目标/性别选项与 LLM 配置状态</td><td class="act">HTTP 200，字段=[&#x27;activityLevels&#x27;, &#x27;age&#x27;, &#x27;bodyFat&#x27;, &#x27;genders&#x27;, &#x27;goals&#x27;, &#x27;height&#x27;]</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-41</td><td>不存在的订单返回 404<div class="sub">前置：订单号不存在</div><div class="sub">步骤：GET /qa/pay/99999999</div></td><td class="exp">404 且返回结构化错误体</td><td class="act">HTTP 404，body={&quot;timestamp&quot;: &quot;2026-10-11T02:07:18.484983511+08:00&quot;, &quot;status</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-41</td><td>不存在的订单返回 404<div class="sub">前置：订单号不存在</div><div class="sub">步骤：GET /qa/pay/99999999</div></td><td class="exp">404 且返回结构化错误体</td><td class="act">HTTP 404，body={&quot;timestamp&quot;: &quot;2026-10-12T15:23:59.238270759+08:00&quot;, &quot;status</td><td class="ok">通过</td></tr>
 <tr><td class="cid">BB-42</td><td>空消息不报错（返回问候）<div class="sub">前置：会员已登录</div><div class="sub">步骤：POST 空 messages</div></td><td class="exp">200 且返回问候语</td><td class="act">HTTP 200，reply=你好，我是健身助手。你现在可以直接跟我说话，我能查账、也能帮</td><td class="ok">通过</td></tr>
-<tr><td class="cid">BB-43</td><td>四容器健康检查<div class="sub">前置：全栈已启动</div><div class="sub">步骤：docker compose ps</div></td><td class="exp">四个容器均为 Up</td><td class="act">Up 容器 4/4：fitness-agent=Up 6 minutes (healthy); fitness-web=Up 57 minutes (healthy); gym-backend=Up 57 minutes; gym-mysql=Up 4 hours (healthy)</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-43</td><td>四容器健康检查<div class="sub">前置：全栈已启动</div><div class="sub">步骤：docker compose ps</div></td><td class="exp">四个容器均为 Up</td><td class="act">Up 容器 4/4：fitness-agent=Up 11 minutes (healthy); fitness-web=Up 27 minutes (healthy); gym-backend=Up 33 minutes; gym-mysql=Up About an hour (healthy)</td><td class="ok">通过</td></tr>
   </tbody>
 </table>
 
-<h3>4.9　后台与兜底入口（截图证据）</h3>
+<h3>4.9　运行观测（3 条）</h3>
+
+<p>观测接口要证明的不是「有数据」，而是「数据能定位问题」：概览给出延迟分位，流水给出每个阶段的起点偏移与耗时——否则瀑布图无从画起。</p>
+
+
+<table class="cases">
+  <thead><tr>
+    <th style="width:8%">用例编号</th>
+    <th style="width:34%">用例名称 / 前置条件 / 操作步骤</th>
+    <th style="width:19%">预期结果</th>
+    <th style="width:31%">实际结果</th>
+    <th style="width:8%">结论</th>
+  </tr></thead>
+  <tbody>
+<tr><td class="cid">BB-45</td><td>概览返回聚合指标<div class="sub">前置：已产生至少一次对话</div><div class="sub">步骤：GET /observability/overview?days=7</div></td><td class="exp">available=true 且含 calls/errors/degraded/tokens/p95 等字段</td><td class="act">HTTP 200，字段齐全=True，calls=164, p95=13602</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-46</td><td>调用流水含阶段耗时<div class="sub">前置：已有链路记录</div><div class="sub">步骤：GET /observability/traces?limit=20</div></td><td class="exp">每条含 spans 且 span 有 start_ms / duration_ms</td><td class="act">HTTP 200，记录数=20，首条阶段=[chat.total,knowledge.search,llm.chat,db.append]</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-47</td><td>意图过滤生效<div class="sub">前置：已有链路记录</div><div class="sub">步骤：GET /observability/traces?intent=FITNESS_PLAN</div></td><td class="exp">返回结果的 intent 全为 FITNESS_PLAN</td><td class="act">HTTP 200，命中 20 条，全部匹配=True</td><td class="ok">通过</td></tr>
+  </tbody>
+</table>
+
+<h3>4.10　知识反馈（3 条）</h3>
+
+<p>反馈闭环的关键在于「反馈真的改变了下一次排序」，而不是只把投票存起来。本组直接比对投票前后的文档权重。</p>
+
+
+<table class="cases">
+  <thead><tr>
+    <th style="width:8%">用例编号</th>
+    <th style="width:34%">用例名称 / 前置条件 / 操作步骤</th>
+    <th style="width:19%">预期结果</th>
+    <th style="width:31%">实际结果</th>
+    <th style="width:8%">结论</th>
+  </tr></thead>
+  <tbody>
+<tr><td class="cid">BB-48</td><td>好评提升文档权重<div class="sub">前置：feedback 表可用</div><div class="sub">步骤：POST /knowledge/feedback vote=UP（连续 1 次）</div></td><td class="exp">weight 高于 1.0</td><td class="act">权重=1.6（应 &gt; 1.0）</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-49</td><td>差评降低文档权重<div class="sub">前置：feedback 表可用</div><div class="sub">步骤：POST /knowledge/feedback vote=DOWN</div></td><td class="exp">weight 低于 1.0</td><td class="act">权重=0.4（应 &lt; 1.0）</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-50</td><td>缺少 docId 被拒<div class="sub">前置：接口可用</div><div class="sub">步骤：POST /knowledge/feedback（不带 docId）</div></td><td class="exp">ok=false 且给出原因</td><td class="act">HTTP 200，ok=False，reason=缺少 docId：无法定位被评价的文档</td><td class="ok">通过</td></tr>
+  </tbody>
+</table>
+
+<h3>4.11　计划执行（3 条）</h3>
+
+<p>计划执行闭环覆盖「生成 → 展开 → 打卡 → 统计」，并验证越权打卡不生效——任务归属与会话归属共用同一套隔离约束。</p>
+
+
+<table class="cases">
+  <thead><tr>
+    <th style="width:8%">用例编号</th>
+    <th style="width:34%">用例名称 / 前置条件 / 操作步骤</th>
+    <th style="width:19%">预期结果</th>
+    <th style="width:31%">实际结果</th>
+    <th style="width:8%">结论</th>
+  </tr></thead>
+  <tbody>
+<tr><td class="cid">BB-51</td><td>计划自动展开为每日任务<div class="sub">前置：已生成过一份计划</div><div class="sub">步骤：GET /plan/tasks</div></td><td class="exp">返回 7 条任务，day_index 1..7</td><td class="act">HTTP 200，任务数=7，天序号=[1, 2, 3, 4, 5, 6, 7]</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-52</td><td>打卡成功并计入依从率<div class="sub">前置：存在待完成任务</div><div class="sub">步骤：POST /plan/tasks/{id}/checkin?action=DONE</div></td><td class="exp">affected=1 且依从率统计中 done 增加</td><td class="act">HTTP 200，affected=1，已打卡任务 5</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-53</td><td>越权打卡不生效<div class="sub">前置：存在他人任务</div><div class="sub">步骤：用另一个 clientId 打卡同一任务</div></td><td class="exp">affected=0 且 ok=false</td><td class="act">HTTP 200，越权 affected=0（应为 0）</td><td class="ok">通过</td></tr>
+  </tbody>
+</table>
+
+<h3>4.12　运营中枢（3 条）</h3>
+
+<p>运营中枢读业务库、只写派生结果表。本组除功能外，还断言 refresh 前后原始业务表行数不变（WB-20）。</p>
+
+
+<table class="cases">
+  <thead><tr>
+    <th style="width:8%">用例编号</th>
+    <th style="width:34%">用例名称 / 前置条件 / 操作步骤</th>
+    <th style="width:19%">预期结果</th>
+    <th style="width:31%">实际结果</th>
+    <th style="width:8%">结论</th>
+  </tr></thead>
+  <tbody>
+<tr><td class="cid">BB-54</td><td>概览返回分层分布<div class="sub">前置：已执行过 refresh</div><div class="sub">步骤：GET /api/ops/overview?days=30</div></td><td class="exp">available=true 且 segmentCounts 非空</td><td class="act">HTTP 200，层级 2 类，合计 12003 人</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-55</td><td>器材工单建单与推进<div class="sub">前置：equipment 表有数据</div><div class="sub">步骤：POST 建单 → 推进为 ASSIGNED</div></td><td class="exp">建单返回 orderId，推进 affected=1</td><td class="act">工单 #7 建单 HTTP 200，推进 affected=1</td><td class="ok">通过</td></tr>
+<tr><td class="cid">BB-56</td><td>工单流转日志可追溯<div class="sub">前置：工单已有推进记录</div><div class="sub">步骤：GET /api/ops/equipment/orders/{id}/logs</div></td><td class="exp">含 CREATE 与 ASSIGNED 两条记录</td><td class="act">HTTP 200，日志动作=[&#x27;CREATE&#x27;, &#x27;ASSIGNED&#x27;]</td><td class="ok">通过</td></tr>
+  </tbody>
+</table>
+
+<h3>4.13　后台与兜底入口（截图证据）</h3>
 <p>本轮新增能力不应影响原有业务系统。下列页面用于确认后台各台账与会员中心仍正常渲染。</p>
 
 <figure class="shot">
@@ -497,11 +581,14 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
 <tr><td>越权防护（动态）</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="ok">全部通过</td></tr>
 <tr><td>可用性降级（动态）</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="ok">全部通过</td></tr>
 <tr><td>知识库热更新（动态）</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="ok">全部通过</td></tr>
-<tr class="total"><td>合计</td><td class="num">17</td><td class="num">17</td><td class="num">0</td><td class="ok">通过率 100.0%</td></tr>
+<tr><td>可观测性（静态）</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="ok">全部通过</td></tr>
+<tr><td>离线评测（动态）</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="ok">全部通过</td></tr>
+<tr><td>运营中枢（动态）</td><td class="num">1</td><td class="num">1</td><td class="num">0</td><td class="ok">全部通过</td></tr>
+<tr class="total"><td>合计</td><td class="num">20</td><td class="num">20</td><td class="num">0</td><td class="ok">通过率 100.0%</td></tr>
   </tbody>
 </table>
 
-<h3>5.2　静态白盒：源码级约束审查（6 条）</h3>
+<h3>5.2　静态白盒：源码级约束审查（7 条）</h3>
 <p>静态用例断言的是"设计里承诺的约束在代码里确实存在，且没有例外"。
 例如归属条件不能只在主流程写、在删除分支漏掉。</p>
 
@@ -515,15 +602,16 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
   </tr></thead>
   <tbody>
 <tr><td class="cid">WB-01</td><td>ChatStore 面向单归属的方法都带归属条件<div class="sub">前置：已取得 ChatStore 源码</div><div class="sub">步骤：逐个方法检查 SQL 是否含 owner_type/owner_id 或 owned() 前置校验</div></td><td class="exp">8 个方法全部满足（无一处裸查）</td><td class="act">检查 8 个方法，不满足=无</td><td class="ok">通过</td></tr>
-<tr><td class="cid">WB-02</td><td>SchemaInitializer 全部 DDL 带 IF NOT EXISTS<div class="sub">前置：已取得 SchemaInitializer 源码</div><div class="sub">步骤：统计 DDL 语句与 IF NOT EXISTS 出现次数</div></td><td class="exp">建库与两张表均为 IF NOT EXISTS，重复执行无副作用</td><td class="act">CREATE TABLE IF NOT EXISTS × 2，CREATE DATABASE IF NOT EXISTS × 1</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-02</td><td>SchemaInitializer 全部 DDL 带 IF NOT EXISTS<div class="sub">前置：已取得 SchemaInitializer 源码</div><div class="sub">步骤：统计 DDL 语句与 IF NOT EXISTS 出现次数</div></td><td class="exp">建库与两张表均为 IF NOT EXISTS，重复执行无副作用</td><td class="act">CREATE TABLE IF NOT EXISTS × 12（裸 × 0），CREATE DATABASE IF NOT EXISTS × 1（裸 × 0）</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-04</td><td>连接池启动不快速失败<div class="sub">前置：已取得 ChatDbConfig 源码</div><div class="sub">步骤：检查 initializationFailTimeout 取值</div></td><td class="exp">值为 -1（DB 不可用不阻碍应用启动）</td><td class="act">initializationFailTimeout = -1</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-10</td><td>运行期阈值与配置、标定区间一致<div class="sub">前置：yml 与运行时配置一致</div><div class="sub">步骤：比对 application.yml 与 /knowledge/stats 的 minScore</div></td><td class="exp">两者相等且落在实测标定安全区间（8.93, 16.06）内</td><td class="act">yml=12.0，运行期=12.0，安全区间=(8.93, 16.06)</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-11</td><td>知识问答后置校验规则齐备<div class="sub">前置：已取得 KnowledgeAnswerService 源码</div><div class="sub">步骤：检查越界正则与长度上限是否存在</div></td><td class="exp">存在冒充执行、编造数据、markdown、长度上限四类判据</td><td class="act">齐备=[&#x27;冒充已执行&#x27;, &#x27;编造业务数据&#x27;, &#x27;markdown&#x27;, &#x27;长度上限&#x27;]，缺失=无</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-13</td><td>三份提示词版本常量齐备且集中在唯一来源<div class="sub">前置：已取得 PromptLibrary 源码</div><div class="sub">步骤：检查三个版本常量与集中定义</div></td><td class="exp">版本常量各一份，且没有散落在其他类中</td><td class="act">版本={&#x27;PLAN_VERSION&#x27;: &#x27;plan-v2&#x27;, &#x27;FALLBACK_VERSION&#x27;: &#x27;fallback-v1&#x27;, &#x27;KNOWLEDGE_VERSION&#x27;: &#x27;kb-v1&#x27;}；定义处=PLAN_VERSION@PromptLibrary.java；FALLBACK_VERSION@PromptLibrary.java；KNOWLEDGE_VERSION@PromptLibrary.java；定义唯一=True；引用文件数=5</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-18</td><td>链路埋点覆盖三类调用<div class="sub">前置：源码可读</div><div class="sub">步骤：统计 TraceContext.span 的埋点位置</div></td><td class="exp">至少覆盖 llm / retrieve / db 三种 kind</td><td class="act">埋点 kind 集合=[&#x27;db&#x27;, &#x27;llm&#x27;, &#x27;retrieve&#x27;, &#x27;total&#x27;]</td><td class="ok">通过</td></tr>
   </tbody>
 </table>
 
-<h3>5.3　动态白盒：运行期结构验证（11 条）</h3>
+<h3>5.3　动态白盒：运行期结构验证（13 条）</h3>
 <p>动态用例给出可复现的客观证据：执行计划里的索引名、数据库行数比对、
 探针容器的健康状态、索引重建前后的文档总数。</p>
 
@@ -536,33 +624,32 @@ figcaption { font-size: 8.5pt; color: var(--soft); margin-top: 3pt; text-align: 
     <th style="width:8%">结论</th>
   </tr></thead>
   <tbody>
-<tr><td class="cid">WB-03</td><td>重复执行建表语句无副作用<div class="sub">前置：会话表已存在</div><div class="sub">步骤：对已存在的库表再执行一次 CREATE TABLE IF NOT EXISTS</div></td><td class="exp">不报错，表数量与行数不变</td><td class="act">建表输出=mysql: [Warning] Using a password on the，行数 42
-mysql: [Warning] Using a password on the command line interface can be insecure. → 42
-mysql: [Warning] Using a password on the command line interface can be insecure.</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-03</td><td>重复执行建表语句无副作用<div class="sub">前置：会话表已存在</div><div class="sub">步骤：对已存在的库表再执行一次 CREATE TABLE IF NOT EXISTS</div></td><td class="exp">不报错，表数量与行数不变</td><td class="act">建表输出=mysql: [Warning] Using a password on the，行数 114 → 114</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-05</td><td>会话列表查询命中归属索引<div class="sub">前置：idx_owner_updated 已建</div><div class="sub">步骤：EXPLAIN 会话列表查询</div></td><td class="exp">possible_keys/key 使用 idx_owner_updated</td><td class="act">EXPLAIN key 列命中 idx_owner_updated=True</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-06</td><td>消息回放命中会话序号唯一索引<div class="sub">前置：uk_session_seq 已建</div><div class="sub">步骤：EXPLAIN 按 session_key 取消息</div></td><td class="exp">key 使用 uk_session_seq</td><td class="act">EXPLAIN 命中会话相关索引=True</td><td class="ok">通过</td></tr>
-<tr><td class="cid">WB-07</td><td>虚字查询低于阈值（答不上来）<div class="sub">前置：分词器已过滤虚字</div><div class="sub">步骤：分别查询「什么时候」「的了吗」「然后呢」</div></td><td class="exp">三者最高分均低于命中阈值，即拒答</td><td class="act">阈值=12.0；什么时候→0.0分/0篇；的了吗→0.0分/0篇；然后呢→2.91分/0篇</td><td class="ok">通过</td></tr>
-<tr><td class="cid">WB-08</td><td>标题命中得分显著高于正文命中<div class="sub">前置：语料含标题命中与仅正文命中的文档</div><div class="sub">步骤：查询「平板支撑」，比较 plank 与 side_plank 得分</div></td><td class="exp">标题命中的 plank 得分 &gt; 正文命中的 side_plank 得分 × 2</td><td class="act">plank=51.82（标题命中） &gt; side_plank=14.3（正文命中）</td><td class="ok">通过</td></tr>
-<tr><td class="cid">WB-09</td><td>问句原句命中得分高于裸词命中<div class="sub">前置：文档带有示例问法</div><div class="sub">步骤：比较「蛋白质吃多少合适」与「蛋白质」对同一文档的得分</div></td><td class="exp">问句得分 &gt; 裸词得分</td><td class="act">问句=62.17 &gt; 裸词=58.02</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-07</td><td>虚字查询低于阈值（答不上来）<div class="sub">前置：分词器已过滤虚字</div><div class="sub">步骤：分别查询「什么时候」「的了吗」「然后呢」</div></td><td class="exp">三者最高分均低于命中阈值，即拒答</td><td class="act">阈值=12.0；什么时候→0.0分/0篇；的了吗→0.0分/0篇；然后呢→2.92分/0篇</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-08</td><td>标题命中得分显著高于正文命中<div class="sub">前置：语料含标题命中与仅正文命中的文档</div><div class="sub">步骤：查询「平板支撑」，比较 plank 与 side_plank 得分</div></td><td class="exp">标题命中的 plank 得分 &gt; 正文命中的 side_plank 得分 × 2</td><td class="act">plank=52.1（标题命中） &gt; side_plank=14.43（正文命中）</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-09</td><td>问句原句命中得分高于裸词命中<div class="sub">前置：文档带有示例问法</div><div class="sub">步骤：比较「蛋白质吃多少合适」与「蛋白质」对同一文档的得分</div></td><td class="exp">问句得分 &gt; 裸词得分</td><td class="act">问句=62.46 &gt; 裸词=58.24</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-12</td><td>知识回答零越界（后置校验生效）<div class="sub">前置：知识库已加载</div><div class="sub">步骤：连续取 6 条知识回答，逐条扫冒充执行/编造业务数据</div></td><td class="exp">0 条命中越界模式</td><td class="act">检查 6 条回答，越界=无</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-14</td><td>知识库语料规范校验零错零警<div class="sub">前置：corpus 与 knowledge 已就绪</div><div class="sub">步骤：运行 validate_knowledge.py</div></td><td class="exp">退出码 0 且报「校验通过」，无错误/警告字样</td><td class="act">退出码=0，校验通过=True，存在错误告警=False，摘要= / 校验通过。</td><td class="ok">通过</td></tr>
-<tr><td class="cid">WB-15</td><td>越权写入不改变他人数据行数<div class="sub">前置：已有一条他人会话</div><div class="sub">步骤：以访客身份对该会话写一轮，比对消息行数</div></td><td class="exp">目标会话消息行数完全不变</td><td class="act">目标会话消息数 2
-mysql: [Warning] Using a password on the command line interface can be insecure. → 2
-mysql: [Warning] Using a password on the command line interface can be insecure.</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-15</td><td>越权写入不改变他人数据行数<div class="sub">前置：已有一条他人会话</div><div class="sub">步骤：以访客身份对该会话写一轮，比对消息行数</div></td><td class="exp">目标会话消息行数完全不变</td><td class="act">目标会话消息数 2 → 2</td><td class="ok">通过</td></tr>
 <tr><td class="cid">WB-16</td><td>存储不可用时容器仍可启动并完成对话<div class="sub">前置：构造一个连不上数据库的实例（探针容器）</div><div class="sub">步骤：启动探针 → 等就绪 → 提问 → 销毁</div></td><td class="exp">接口正常响应、对话有回复，且不返回 sessionKey（降级为不落库）</td><td class="act">5s 就绪=True（health=DOWN，如实报告依赖故障）；对话 HTTP 200 有回复=True，sessionKey 为空=True</td><td class="ok">通过</td></tr>
-<tr><td class="cid">WB-17</td><td>新增文档后索引自动重建<div class="sub">前置：reload-seconds=60</div><div class="sub">步骤：写入一篇临时文档 → 等索引刷新 → 删除 → 再等刷新</div></td><td class="exp">总数 63 → 64 → 63，且期间无需重启容器</td><td class="act">总数 63 → 写入后 64（等待 20s）→ 已删除</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-17</td><td>新增文档后索引自动重建<div class="sub">前置：reload-seconds=60</div><div class="sub">步骤：写入一篇临时文档 → 等索引刷新 → 删除 → 再等刷新</div></td><td class="exp">总数 63 → 64 → 63，且期间无需重启容器</td><td class="act">总数 64 → 写入后 65（等待 30s）→ 已删除</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-19</td><td>同一评测集重复执行结果一致<div class="sub">前置：eval_case 已初始化</div><div class="sub">步骤：连续跑两次评测，比较通过数</div></td><td class="exp">两次 total 与 passed 完全相同</td><td class="act">第一次 total=13/passed=11，第二次 total=13/passed=11</td><td class="ok">通过</td></tr>
+<tr><td class="cid">WB-20</td><td>原始业务表未被写入<div class="sub">前置：refresh 已执行过</div><div class="sub">步骤：记录 member 表条数 → 再跑一次 refresh → 再次记录</div></td><td class="exp">两次条数一致（运算只写结果表，不改原始流水）</td><td class="act">refresh 前 12003 人 → refresh 后 12003 人</td><td class="ok">通过</td></tr>
   </tbody>
 </table>
 
 <h2>6　缺陷与修复记录</h2>
-<p>本轮共记录 <b>8</b> 项缺陷，其中 <b>D-01 ~ D-04</b> 由开发过程中的自查与回归发现，
-<b>D-05 ~ D-07</b> 是本次测试新发现的功能缺陷，<b>D-08</b> 属"保留不修改、记录在案"的可观测性行为。
+<p>本轮共记录 <b>11</b> 项缺陷，其中 <b>D-01 ~ D-04</b> 由开发过程中的自查与回归发现，
+<b>D-05 ~ D-07</b> 是本次测试新发现的功能缺陷，<b>D-08</b> 属「保留不修改、记录在案」的可观测性行为，
+<b>D-09 ~ D-10</b> 由本轮新增能力的回归测试暴露，<b>D-11</b> 属回归脚本自身缺陷（非产品问题）。
 除 D-08 外均已修复，并在修复后重跑用例确认闭环。</p>
 <table>
   <thead><tr><th style="width:7%">编号</th><th style="width:11%">类型</th><th style="width:21%">现象</th>
     <th style="width:25%">根因</th><th style="width:26%">修复 / 处置</th><th style="width:10%">状态</th></tr></thead>
   <tbody>
-    <tr><td class="cid">D-01</td><td>检索误命中</td><td>「这个月的会员卡什么时候到期」被知识库命中</td><td>中文二元组把「什么/么时/时候」这类纯虚字组合当成词，罕见垃圾词拿到高 IDF</td><td>在分词层过滤虚字后再切；阈值重新标定为 12.0</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-02</td><td>回答信息不全</td><td>问「训练前要热身多久」，回答称「资料里没写时长」</td><td>上下文只注入命中段落，未注入该文档要点</td><td>上下文改为「要点 + 段落」，并放宽注入字数上限</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-03</td><td>构建失败</td><td>fitness-agent 编译报「非法字符」</td><td>Javadoc 中写了通配路径 knowledge/**/*.md，其中 */ 提前闭合了块注释</td><td>改写注释措辞，避免出现 */ 序列</td><td class="ok">已修复</td></tr><tr><td class="cid">D-04</td><td>语料语法错误</td><td>语料生成脚本无法解析</td><td>Python 字符串承载的中文正文里嵌了英文双引号，截断了字面量</td><td>中文引号统一改用「」</td><td class="ok">已修复</td></tr><tr><td class="cid">D-05</td><td>接口契约 / 交互</td><td>GET /qa/pay/不存在订单 返回 HTTP 200</td><td>业务系统对「订单不存在」是 200 + 响应体 code=404 的老写法，智能体原样透传；支付页因此拿不到 404，把不存在的订单渲染成「待支付」页并可点击支付</td><td>在智能体层统一规整：订单不存在即抛 NotFoundException，按本系统错误契约返回 404</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-06</td><td>功能 / 多轮对话</td><td>「我想减脂」→ 追问 → 回「175/80/30/男」，不生成计划</td><td>意图路由只看最后一句，而最后一句是纯身体数据，不含任何诉求词</td><td>新增续接判定：上文出现过计划诉求、且本轮内容是身体数据时，按健身计划处理</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-07</td><td>可用性 / 事务边界</td><td>会话库不可用时，对话接口返回 HTTP 500</td><td>@Transactional 由代理在**方法体外**开启事务，取连接失败（CannotGetJdbcConnectionException）发生在方法体的 try/catch 之外，直接冒泡为 500，违背「存储不可用不阻断对话」的设计承诺</td><td>改用 TransactionTemplate 在方法体内显式开启事务，使取连接失败落入同一段 catch 并降级</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-08</td><td>可观测性（不修改）</td><td>数据库不可用时 /actuator/health 报 DOWN</td><td>健康检查会如实聚合数据库依赖状态——这是「诚实上报」，不是缺陷；但与「降级后仍可用」的定位并列时容易误读</td><td>保留诚实上报，不做掩盖；在文档中明确该行为的含义，测试判据改为以业务端点可用性为准</td><td class="ok">已知特性，记录在案</td></tr>
+    <tr><td class="cid">D-01</td><td>检索误命中</td><td>「这个月的会员卡什么时候到期」被知识库命中</td><td>中文二元组把「什么/么时/时候」这类纯虚字组合当成词，罕见垃圾词拿到高 IDF</td><td>在分词层过滤虚字后再切；阈值重新标定为 12.0</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-02</td><td>回答信息不全</td><td>问「训练前要热身多久」，回答称「资料里没写时长」</td><td>上下文只注入命中段落，未注入该文档要点</td><td>上下文改为「要点 + 段落」，并放宽注入字数上限</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-03</td><td>构建失败</td><td>fitness-agent 编译报「非法字符」</td><td>Javadoc 中写了通配路径 knowledge/**/*.md，其中 */ 提前闭合了块注释</td><td>改写注释措辞，避免出现 */ 序列</td><td class="ok">已修复</td></tr><tr><td class="cid">D-04</td><td>语料语法错误</td><td>语料生成脚本无法解析</td><td>Python 字符串承载的中文正文里嵌了英文双引号，截断了字面量</td><td>中文引号统一改用「」</td><td class="ok">已修复</td></tr><tr><td class="cid">D-05</td><td>接口契约 / 交互</td><td>GET /qa/pay/不存在订单 返回 HTTP 200</td><td>业务系统对「订单不存在」是 200 + 响应体 code=404 的老写法，智能体原样透传；支付页因此拿不到 404，把不存在的订单渲染成「待支付」页并可点击支付</td><td>在智能体层统一规整：订单不存在即抛 NotFoundException，按本系统错误契约返回 404</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-06</td><td>功能 / 多轮对话</td><td>「我想减脂」→ 追问 → 回「175/80/30/男」，不生成计划</td><td>意图路由只看最后一句，而最后一句是纯身体数据，不含任何诉求词</td><td>新增续接判定：上文出现过计划诉求、且本轮内容是身体数据时，按健身计划处理</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-07</td><td>可用性 / 事务边界</td><td>会话库不可用时，对话接口返回 HTTP 500</td><td>@Transactional 由代理在**方法体外**开启事务，取连接失败（CannotGetJdbcConnectionException）发生在方法体的 try/catch 之外，直接冒泡为 500，违背「存储不可用不阻断对话」的设计承诺</td><td>改用 TransactionTemplate 在方法体内显式开启事务，使取连接失败落入同一段 catch 并降级</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-08</td><td>可观测性（不修改）</td><td>数据库不可用时 /actuator/health 报 DOWN</td><td>健康检查会如实聚合数据库依赖状态——这是「诚实上报」，不是缺陷；但与「降级后仍可用」的定位并列时容易误读</td><td>保留诚实上报，不做掩盖；在文档中明确该行为的含义，测试判据改为以业务端点可用性为准</td><td class="ok">已知特性，记录在案</td></tr><tr><td class="cid">D-09</td><td>表结构与实体不同步</td><td>评测结果查询报「Unknown column &#x27;keyword_total&#x27;」，评测接口不可用</td><td>`eval_result` 的建表 DDL 漏定义了 `keyword_total` 列，而实体与 INSERT 都已包含该字段；缺陷只在「跑过一次评测之后」才暴露，属于典型的「定义与实现分叉」</td><td>补 ALTER 语句修复既有库，并同步修 DDL 常量，使全新环境同样正确</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-10</td><td>可观测性 / 埋点覆盖</td><td>澄清询问、欢迎语这类请求留下的链路记录 spans 为空</td><td>只在「调用大模型」与「知识检索」两处埋点，不走模型的早退路径完全没被覆盖；后果是瀑布图上一片空白，且这些 0ms 样本会把延迟分位整体拉偏</td><td>在入口补一个覆盖全程的根阶段 `chat.total`，保证任何一条 trace 至少有一个阶段；欢迎语路径（无用户发言）直接不落库——那不算一次智能体调用</td><td class="ok">已修复并回归</td></tr><tr><td class="cid">D-11</td><td>测试脚本（非产品缺陷）</td><td>回归脚本查询业务表时报「No database selected」，随后 int() 解析失败</td><td>`mysql()` 辅助函数未带 `-D`，且 `sh()` 会把 stderr 合并进返回值，导致 MySQL 的命令行密码警告混进结果、破坏数值解析</td><td>`mysql()` 增加默认库参数并在命令末尾丢弃 stderr，返回值恢复为纯数据</td><td class="ok">已修复并回归</td></tr>
   </tbody>
 </table>
 <p>三个新发现缺陷的共同点值得记录：<b>它们都不是"功能没写"，而是"边界条件下的行为与承诺不一致"</b>——
@@ -573,8 +660,8 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 <h2>7　测试结论</h2>
 <div class="note">
 <p><b>结论： 通过。</b>
-本轮共执行 <b>61</b> 条用例（黑盒 44、白盒 17），
-通过 <b>61</b> 条，失败 <b>0</b> 条，通过率 <b>100.0%</b>。</p>
+本轮共执行 <b>76</b> 条用例（黑盒 56、白盒 20），
+通过 <b>76</b> 条，失败 <b>0</b> 条，通过率 <b>100.0%</b>。</p>
 </div>
 <p>逐项结论（下表状态由本轮实际用例结果计算）：</p>
 <table>
@@ -586,6 +673,9 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 <tr><td>原有功能回归</td><td class="ok">通过（24/24）</td><td>四类查询、充值闭环（含幂等）、计划生成全部正常，新能力未造成破坏。</td></tr>
 <tr><td>可用性降级</td><td class="ok">通过（2/2）</td><td>故意配错数据库地址后，容器仍可响应、对话有回复，仅不落库——与设计承诺一致。</td></tr>
 <tr><td>可维护性</td><td class="ok">通过（2/2）</td><td>新增知识文档后索引在一分钟内自动重建，无需重启容器或重建镜像。</td></tr>
+<tr><td>运行观测与反馈闭环</td><td class="ok">通过（7/7）</td><td>概览给出延迟分位，流水给出各阶段起点与耗时；好评/差评真实改变文档权重。</td></tr>
+<tr><td>计划执行闭环</td><td class="ok">通过（3/3）</td><td>计划自动展开为每日任务并可打卡；越权打卡不改变任何数据。</td></tr>
+<tr><td>会员智能运营中枢</td><td class="ok">通过（4/4）</td><td>分层与流失预警正确产出；refresh 前后原始业务表行数不变。</td></tr>
   </tbody>
 </table>
 <p>遗留事项（不影响本轮结论）：访客隔离是浏览器本地标识层面的隔离，
